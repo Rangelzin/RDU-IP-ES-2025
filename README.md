@@ -1,4 +1,4 @@
-## Repositório Privado Sobre GOlang
+## Repositório - RDU - Rastreio de câncer
 
 Repositório referente ao grupo 8 - RDU - Rastreio de câncer para matéria de Introdução à Programação da turma de Engenharia de Software 2025.1.
 
