@@ -1,0 +1,33 @@
+# Binários compilados
+/backend/backend  # se gerar executável aqui
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Diretórios do Go build
+/bin/
+/obj/
+
+# Arquivos temporários do editor
+*.swp
+*~
+.vscode/
+.idea/
+
+# Diretórios do Docker (se gerar arquivos locais)
+**/docker-compose.override.yml
+
+# Dados do banco persistidos no volume docker (não versionar)
+/pgdata/
+
+# Arquivos de ambiente (variáveis sensíveis)
+#.env
+
+# Log files
+*.log
+
+# Arquivos específicos do sistema
+.DS_Store
+Thumbs.db

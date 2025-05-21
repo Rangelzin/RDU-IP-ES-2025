@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Sistema de Rastreamento</title>
+</head>
+<body>
+    <h1>Bem-vindo ao Sistema de Rastreamento</h1>
+    <script>
+        fetch('/api/ping')
+            .then(res => res.json())
+            .then(data => alert(data.message));
+    </script>
+</body>
+</html>

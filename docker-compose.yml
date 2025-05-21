@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:17.5-bookworm
+    container_name: DB_postgres
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: DB_Rastreio-CCU
+      POSTGRES_USER: RDUpostgres
+      POSTGRES_PASSWORD: RDUpostgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
