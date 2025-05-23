@@ -1,2 +1,9 @@
-@charset "UTF-8";
 @import "tailwindcss";
+
+:root {
+    --color-primary: #563A94;
+    --color-secondary: #9464C4;
+    --color-tertiary: #7D59AB;
+    --color-quaternary: #D3C7E1;
+    --color-fifth: #F9F4FF;
+}
