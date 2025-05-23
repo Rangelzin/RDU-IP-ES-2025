@@ -31,3 +31,8 @@
 # Arquivos específicos do sistema
 .DS_Store
 Thumbs.db
+
+# Arquivos node
+frontend/node_modules
+frontend/package-lock.json
+frontend/package.json
