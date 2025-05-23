@@ -7,23 +7,49 @@
     <link href="../assets/css/output.css" rel="stylesheet">
 </head>
 <body>
-    <main class="bg-black h-screen flex flex-col md:flex-row ">
-           <div class="flex flex-col md:flex-row items-center justify-center h-24 md:h-screen w-screen md:w-1/2 bg-[#563A94]">
-                <div class="flex flex-col items-center justify-center">
-                    <img class="h-20 w-20 md:h-75 md:w-75 lg:h-125 lg:w-125" src="../assets/img/Logo.svg" alt="">
-                </div>
-           </div> 
-           <div class="flex items-center justify-center h-screen w-screen md:w-1/2 bg-[#D3C7E1]">
-               <div class="w-96 h-150 md:h-150 md:w-96 lg:h-162 lg:w-162 bg-[#F9F4FF] shadow-[0_0px_40px_rgba(0,0,0,0.10)] lg:shadow-[0_0px_40px_rgba(0,0,0,0.25)]  rounded-2xl">
-                    <div class="flex mt-8 flex-col items-center justify-center">
-                        <img class="h-38 w-38 lg:h-50 lg:w-50" src="../assets/img/Woman.svg" alt="">
-                        <h1 class="mt-5 font-extrabold text-3xl md:text-4xl text-[#563A94]">Login</h1>
-                    </div>
-                    <form>
-
-                    </form>
-               </div>
+    <!-- Página de Login-->
+    <main class="bg-black h-screen flex flex-col lg:flex-row ">
+        <!-- div com a logo -->
+        <div class="flex flex-col lg:flex-row items-center justify-center h-24 md:h-48 w-screen lg:h-screen lg:w-1/2 bg-[#563A94]">
+             <!-- Logo -->
+            <div class="flex flex-col items-center justify-center">
+                <img class="h-20 w-20 md:h-30 md:w-30 lg:h-125 lg:w-125" src="../assets/img/Logo.svg" alt="">
             </div>
+        </div> 
+
+        <!-- div com o formulário de login -->
+        <div class="flex items-center justify-center h-screen w-screen lg:w-1/2 bg-[#D3C7E1]">
+            <!-- Formulário de Login -->
+            <div class="w-86 h-140 md:h-170 md:w-140 lg:h-162 lg:w-150 bg-[#F9F4FF] shadow-[0_0px_40px_rgba(0,0,0,0.10)] lg:shadow-[0_0px_40px_rgba(0,0,0,0.25)]  rounded-2xl">
+                 <!-- ícone e h1 -->
+                <div class="flex mt-8 flex-col items-center justify-center">
+                    <img class="h-38 w-38 md:h-44 md:w-44 lg:h-50 lg:w-50" src="../assets/img/Woman.svg" alt="">
+                    <h1 class="mt-5 font-extrabold text-3xl md:text-4xl text-[#563A94]">Login</h1>
+                </div>
+                <!-- Formulário -->
+                <form action="" method="post" class="mx-5 md:mx-15 lg:mx-25">
+                    <!-- Input do login -->
+                    <div class="mt-3">
+                        <label for="login" class="px-3 text-start font-extrabold text-sm text-[#7D59AB]" >E-mail ou CPF</label>
+                        <div class="flex items-center justify-start bg-[#D9D9D9] rounded-2xl mt-1">
+                            <img src="../assets/img/person.svg" alt="" class="p-1 h-10 md:h-12">
+                            <input type="text" name="login" id="login" class="w-full text-xl placeholder:text-lg py-3 outline-none focus:ring-0" placeholder="Digite seu Login" required>
+                        </div>
+                    </div> 
+                    <!-- Input da Senha -->
+                    <div class="mt-5">
+                        <label for="senha" class="px-3 text-start font-extrabold text-sm text-[#7D59AB]" >Senha</label>
+                        <div class="flex items-center justify-start bg-[#D9D9D9] rounded-2xl mt-1">
+                            <img src="../assets/img/lock.svg" alt="" class="p-1 h-10 md:h-12">
+                            <input type="password" name="senha" id="senha" class="w-full text-xl placeholder:text-lg py-3 outline-none focus:ring-0" placeholder="Digite sua Senha" required>
+                        </div>
+                        <label for="senha" class="px-3 text-start text-sm text-[#9464C4]">Esqueceu sua senha?</label>
+                    </div>
+                    <!-- Input do botão de Aceesar -->
+                    <input type="submit" name="submit" id="submit" class="mt-5 text-white font-extrabold w-full text-xl py-3 bg-[#563A94] rounded-2xl hover:bg-[#9375B9] cursor-pointer" value="Acessar" >
+                </form>
+            </div>
+        </div>
     </main>
 </body>
 </html>
