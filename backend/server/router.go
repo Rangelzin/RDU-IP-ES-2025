@@ -25,6 +25,7 @@ func SetupRouter () *gin.Engine {
 	routes.LoginRoutes(rg)
 
 	// ERROR Pages
+	r.NoRoute(func(c *gin.Context) {c.File("../frontend/public/pages/404.html")})
 
 	return r
 }
