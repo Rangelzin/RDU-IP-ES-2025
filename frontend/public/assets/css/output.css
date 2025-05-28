@@ -264,7 +264,7 @@
     height: calc(var(--spacing) * 300);
   }
   .h-screen {
-    height: 100vh;
+    height: 90.7vh;
   }
   .w-1 {
     width: calc(var(--spacing) * 1);
