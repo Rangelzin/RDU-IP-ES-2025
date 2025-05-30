@@ -233,12 +233,9 @@
   .h-36 {
     height: calc(var(--spacing) * 36);
   }
-<<<<<<< HEAD
   .h-50 {
     height: calc(var(--spacing) * 50);
   }
-=======
->>>>>>> 7297db758d457fc7d21873fbb469ce5ed525e9bb
   .h-135 {
     height: calc(var(--spacing) * 135);
   }
@@ -308,6 +305,9 @@
   }
   .bg-\(--color-quaternary\) {
     background-color: var(--color-quaternary);
+  }
+  .bg-\(--color-secondary\) {
+    background-color: var(--color-secondary);
   }
   .bg-\[\#D9D9D9\] {
     background-color: #D9D9D9;
@@ -401,13 +401,10 @@
     transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
     transition-duration: var(--tw-duration, var(--default-transition-duration));
   }
-<<<<<<< HEAD
-=======
   .duration-500 {
     --tw-duration: 500ms;
     transition-duration: 500ms;
   }
->>>>>>> 7297db758d457fc7d21873fbb469ce5ed525e9bb
   .outline-none {
     --tw-outline-style: none;
     outline-style: none;
@@ -418,7 +415,6 @@
       line-height: var(--tw-leading, var(--text-lg--line-height));
     }
   }
-<<<<<<< HEAD
   .hover\:h-55 {
     &:hover {
       @media (hover: hover) {
@@ -430,12 +426,13 @@
     &:hover {
       @media (hover: hover) {
         width: calc(var(--spacing) * 80);
-=======
+      }
+    }
+  }
   .hover\:bg-\(--color-secondary\) {
     &:hover {
       @media (hover: hover) {
         background-color: var(--color-secondary);
->>>>>>> 7297db758d457fc7d21873fbb469ce5ed525e9bb
       }
     }
   }
