@@ -1,42 +1,56 @@
- <!DOCTYPE html>
- <html lang="pt-br">
- <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Página Inicial - Sistema de Rastreamento</title>
-    <link href="../assets/css/output.css" rel="stylesheet">
- </head>
- <body>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Página Inicial - Sistema de Rastreamento</title>
+  <link href="../assets/css/output.css" rel="stylesheet" />
+</head>
+<body class="w-screen h-screen flex flex-col">
 
-<div class= "flex-col">
-   
-    <div class =" flex flex-row bg-(--color-secondary) h-20 w-screen" >
-      <img class = "flex items-center h-18 w-18 mt-0.75 ml-15" src="../assets/img/Logo.svg" alt="">
-      <div class = " font-sans flex items-center ml-5 text-3xl text-(--color-fifth)">Página Inicial</div>
-     
-    </div>
+  <!-- Header -->
+  <header class="flex items-center bg-[var(--color-secondary)] h-20 px-4">
+    <img class="h-18 w-18 mr-4" src="../assets/img/Logo.svg" alt="Logo" />
+    <h1 class="text-3xl font-sans text-[var(--color-fifth)]">Página Inicial</h1>
+  </header>
 
-    <div class="flex ">
-    <div class="flex flex-row h-60 w-300 ml-auto mt-auto mb-auto justify-between">
-         <div class="h-50 w-75 bg-(--color-quaternary) rounded-xl">
-            <div class="h-12 w-75 rounded-t-xl bg-(--color-tertiary)"></div>
-         </div>
-         <div class="h-50 w-75 bg-(--color-quaternary) rounded-xl">
-            <div class="h-12 w-75 rounded-t-xl bg-(--color-tertiary)"></div>
-         </div>
-         <div class="h-50 w-75 bg-(--color-quaternary) rounded-xl">
-            <div class="h-12 w-75 rounded-t-xl bg-(--color-tertiary)"></div>
-         </div>
+  <!-- Main Content -->
+  <main class="flex flex-1">
+    
+    <!-- Ações do Usuário -->
+    <section class="flex flex-col flex-1 p-6">
+      <h2 class="underline text-xl font-semibold text-[var(--color-tertiary)] mb-6">Ações do usuário</h2>
 
-    </div>
+      <div class="ml-auto mr-auto mt-auto mb-auto flex justify-between gap-20">
+        <!-- Card 1 -->
+        <div class="w-75 h-50 bg-[var(--color-quaternary)] rounded-xl hover:w-80 hover:h-55 transition-all">
+          <div class="h-12 bg-[var(--color-tertiary)] rounded-t-xl">
+            <h3 class="text-xl pt-3 pl-5 font-semibold text-[var(--color-fifth)] ">Buscar paciente</h3>
+          </div>
+          <img class="mb-auto ml-auto mt-4 mr-auto" src="../assets/img/woman2.svg" alt="mulher">
+        </div>
 
-    <div class = " flex ml-auto mr-0 bg-(--color-secondary) h-screen w-20 " ></div>
-   </div>
-   
-</div>
+        <!-- Card 2 -->
+        <div class="w-75 h-50 bg-[var(--color-quaternary)] rounded-xl hover:w-80 hover:h-55 transition-all">
+          <div class="h-12 bg-[var(--color-tertiary)] rounded-t-xl">
+              <h3 class="text-xl pt-3 pl-5 font-semibold text-[var(--color-fifth)] ">Cadastrar nova ficha</h3>
+          </div>
+          <img class="mb-auto ml-auto mt-4 mr-auto" src="../assets/img/doctorfiles.svg" alt="Ficha">
+        </div>
 
-   </body>
-    </html>
- 
- 
- 
+        <!-- Card 3 -->
+        <div class="w-75 h-50 bg-[var(--color-quaternary)] rounded-xl hover:w-80 hover:h-55 transition-all">
+          <div class="h-12 bg-[var(--color-tertiary)] rounded-t-xl">
+              <h3 class="text-xl pt-3 pl-5 font-semibold text-[var(--color-fifth)] ">Buscar exame</h3>
+          </div>
+          <img class="mb-auto ml-auto mt-4 mr-auto" src="../assets/img/Magnifyingglass.svg" alt="Lupa">
+        </div>
+      </div>
+    </section>
+
+    <!-- Sidebar -->
+    <aside class="w-20 bg-[var(--color-secondary)]"></aside>
+  </main>
+
+</body>
+</html>
