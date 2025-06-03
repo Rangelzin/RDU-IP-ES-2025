@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../assets/css/examPage-starterInfo.css"/>
+    <script src="../assets/js/examPage-starterInfo.js" defer></script>
+</head>
+<body>
+    <div class="body-left">
+        <div class="profile">
+            <img class="profile-img" src="https://img.freepik.com/fotos-premium/mulher-beleza-e-cabelo-pensando-em-cosmeticos-para-brilho-e-bem-estar-com-cuidados-com-a-pele-isolados-em-fundo-branco-reflexao-sobre-tratamento-de-salao-cuidados-com-o-cabelo-e-pele-saudavel-brilho-no-estudio-para-o-autocuidado_590464-289417.jpg?semt=ais_hybrid&w=740" alt="">
+            <h2 class="profile-name" id="profile-name">Isabel Cristina Leopoldina Augusta Micaela Gabriela Rafaela Gonzaga de Bragança e Bourbon</h2>
+        </div>
+        <div class="ubs-info"> 
+            <h2 class="ubs-name">TRS TERAPIA RENAL SUBSTITUTIVA	</h2>
+            <h3 class="ubs-addres">R. 1-A, 305 - St. Aeroporto, Goiânia - GO, 74075-070</h3>
+        </div>
+    </div>
+    <div class="body-mid">
+        <div class="exm-page">
+            <div class="header">
+                <div class="h-title">
+                    <h1 class="title">Ministério da saúde</h1>
+                    <h1 class="title">Requisição de exame citopatológico - Colo de útero</h1>
+                </div>
+                <h2 class="sub-title">Programa nacional de controle do câncer do colo de útero</h2>
+            </div>
+            <form action="" method="post">
+                <div class ="ln">
+                    <div class="input-uf">
+                        <label for="uf">UF</label>
+                        <input maxlength="2" autocomplete="off" name="uf" id="uf" type="text" value="GO" disabled>
+                    </div>
+                    <div class="input-cnes">
+                        <label for="cnes ">CNES da unidade de Saúde</label>
+                        <input autocomplete="off" name="cnes" id="cnes" type="text" value="6423434" disabled>
+                    </div>
+                    <div class="input-n-protocolo">
+                        <label for="n-protocolo">N° Protocolo</label>
+                        <div>
+                            <input autocomplete="off" name="n-protocolo" id="n-protocolo" type="text" maxlength="14">
+                            <label for="n-protocolo ">(n° gerado automaticamente pelo SISCAN)</label>
+                        </div>
+                    </div>
+                </div>
+                <div class ="ln">
+                    <div class="input-unidade-de-saude">
+                        <label for="unidade-de-saude ">Unidade de Saúde</label>
+                        <input autocomplete="off" name="unidade-de-saude" id="unidade-de-saude" type="text" value="TRS TERAPIA RENAL SUBSTITUTIVA" disabled>
+                    </div>
+                </div>
+                <div class ="ln">
+                    <div class="input-municipio">
+                        <label for="municipio ">Município</label>
+                        <input autocomplete="off" name="municipio" id="municipio" type="text" value="Goiânia" disabled>
+                    </div>
+                    <div class="input-prontuario">
+                        <label for="prontuario ">Prontuário</label>
+                        <input autocomplete="off" name="prontuario" id="prontuario" type="text" maxlength="10">
+                    </div>
+                </div>
+                <div class="box-div">
+                    <h2 class="box-div-title">INFORMAÇÕES PESSOAIS</h2>
+                </div> 
+                <div class="ln">
+                    <div class="input-cart-sus">
+                        <label for="cart-sus ">Cartão SUS</label>
+                        <input autocomplete="off" name="cart-sus" id="cart-sus" type="text" required>
+                    </div>
+                </div>
+                <div class="ln">
+                    <div class="input-nome-completo">
+                        <label for="nome-completo">Nome Completo da Mulher</label>
+                        <input autocomplete="off" name="nome-completo" id="nome-completo" type="text" required>
+                    </div>
+                </div>
+                <div class="ln">
+                    <div class="input-nome-mae">
+                        <label for="nome-mae">Nome Completo da mãe</label>
+                        <input autocomplete="off" name="nome-mae" id="nome-mae" type="text" required>
+                    </div>
+                    <div class="input-apelido-mulher">
+                        <label for="apelido-mulher">Apelido da Mulher</label>
+                        <input autocomplete="off" name="apelido-mulher" id="apelido-mulher" type="text">
+                    </div>
+                </div>
+                <div class="ln">
+                    <div class="input-cpf">
+                        <label for="cpf ">CPF</label>
+                        <input autocomplete="off" name="cpf" id="cpf" type="text" required>
+                    </div>
+                    <div class="input-nacionalidade">
+                        <label for="nacionalidade">nacionalidade</label>
+                        <input autocomplete="off" name="nacionalidade" id="nacionalidade" type="text">
+                    </div>
+                </div>
+                <div class="ln">
+                    <div class="input-data-nascimento">
+                        <label for="date">Data de Nascimento</label>
+                        <input autocomplete="off" name="date" id="date" type="text" required>
+                    </div>
+                    <div class="input-idade">
+                        <label for="idade">Idade</label>
+                        <input autocomplete="off" name="idade" id="idade" type="text" disabled>
+                    </div>
+                    <fieldset class="fieldset-raca-cor" id="fieldset-raca-cor">
+                        <legend>Raça/Cor</legend>
+                        <div class="input-raca-cor">
+                            <input autocomplete="off" id="radio-branca" name="raça-cor" type="radio" value="branca">
+                            <label for="radio-branca">Branca</label>
+
+                            <input autocomplete="off" id="radio-preta" name="raça-cor" type="radio" value="preta">
+                            <label for="radio-preta">Preta</label>
+
+                            <input autocomplete="off" id="radio-parda" name="raça-cor" type="radio" value="parda">
+                            <label for="radio-parda">Parda</label>
+
+                            <input autocomplete="off" id="radio-amarela" name="raça-cor" type="radio" value="amarela">
+                            <label for="radio-amarela">Amarela</label>
+
+                            <input autocomplete="off" id="radio-indigena-etinia" name="raça-cor" type="radio" value="indigena-etinia">
+                            <label for="radio-indigena-etinia">Indígena/Etinia</label>
+
+                            <input autocomplete="off" id="input-text" name="raça-cor" type="text" disabled>
+                        </div>
+                    </fieldset>
+                </div>
+                <div class="line-div">
+                    <h2 class="line-div-title">Dados Residenciais</h2>
+                </div>
+                <div class="ln">
+                    <div class="input-cep">
+                        <label for="cep">CEP</label>
+                        <input autocomplete="off" name="cep" id="cep" type="cep">
+                    </div>
+                    <div class="input-uf-mulher">
+                        <label for="uf-mulher">UF</label>
+                        <input autocomplete="off" name="uf-mulher" id="uf-mulher" type="text" maxlength="2">
+                    </div>
+                    <div class="input-municipio-mulher">
+                        <label for="municipio-mulher">Município</label>
+                        <input autocomplete="off" name="municipio-mulher" id="municipio-mulher" type="text">
+                    </div>
+                    <div class="input-codigo-municipio">
+                        <label for="codigo-municipio">Código do Município</label>
+                        <input autocomplete="off" name="codigo-municipio" id="codigo-municipio" type="text">
+                    </div>
+                </div>
+                <div class="ln">
+                    <div class="input-logradouro">
+                        <label for="logradouro">Logradouro</label>
+                        <input autocomplete="off" id="logradouro" name="logradouro" type="text">
+                    </div>
+                </div>
+                <div class="ln">
+                    <div class="input-complemento">
+                        <label for="complemento">Complemento</label>
+                        <input autocomplete="off" id="complemento" name="complemento" type="text">
+                    </div>
+                    <div class="input-numero">
+                        <label for="numero">Número</label>
+                        <input autocomplete="off" id="numero" name="numero" type="text">
+                    </div>
+                </div>
+                <div class="ln">
+                    <div class="input-bairro">
+                        <label for="bairro">Bairro</label>
+                        <input autocomplete="off" id="bairro" name="bairro" type="text">
+                    </div>
+                    <div class="input-ddd">
+                        <label for="ddd">DDD</label>
+                        <input autocomplete="off" id="ddd" name="ddd" type="text">
+                    </div>
+                    <div class="input-telefone-celular">
+                        <label for="telefone-celular">Telefone/Celular</label>
+                        <input autocomplete="off" id="telefone-celular" name="telefone-celular" type="tel">
+                    </div>
+                </div>
+                <div class="ln">
+                    <div class="input-ponto-referencia">
+                        <label for="ponto-referencia">Ponto de Referência</label>
+                        <input autocomplete="off" id="ponto-referencia" name="ponto-referencia" type="text">
+                    </div>
+                </div>
+                <div class="ln">
+                    <fieldset class="fieldset-escolariedade">
+                        <legend>Escolariedade:</legend>
+                        <div class="input-escolariedade">
+                            <input autocomplete="off" id="radio-analfabeto" name="escolariedade" type="radio" value="analfabeto">
+                            <label for="radio-analfabeto">Analfabeto</label>
+
+                            <input autocomplete="off" id="radio-ens-fund-incom" name="escolariedade" type="radio" value="ensino-fundamental-incompleto">
+                            <label for="radio-ens-fund-incom">Ensino Fundamental Incompleto</label>
+
+                            <input autocomplete="off" id="radio-ens-fund-compl" name="escolariedade" type="radio" value="ensino-fundamental-completo">
+                            <label for="radio-ens-fund-compl">Ensino Fundamental Completo</label>
+
+                            <input autocomplete="off" id="radio-ens-medi-compl" name="escolariedade" type="radio" value="ensino-medio-completo">
+                            <label for="radio-ens-medi-compl">Ensino Médio Completo</label>
+
+                            <input autocomplete="off" id="radio-ens-super-compl" name="escolariedade" type="radio" value="ensino-superior-completo">
+                            <label for="radio-ens-super-compl">Ensino Superior Completo</label>
+                        </div>
+                    </fieldset>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="body-right">
+        <h2 class="n-protocolo" id="text-n-protocolo">00000000000000</h2>
+        <div class="btn-download">
+            <img src="https://www.freeiconspng.com/uploads/white-download-icon-png-32.png" alt="xxxx">
+        </div>
+        <div class="btn-next">
+            <img src="https://images.emojiterra.com/microsoft/fluent-emoji/15.1/1024px/27a1_color.png" alt="xxxx">
+        </div>
+    </div>
+</body>
+</html>
+<!-- 
+       __
+      {0O}
+      \__/
+      /^/
+     ( (        
+    /  \_____
+   (_________)
+  (___________)Oo
+
+ -->

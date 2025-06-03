@@ -1,0 +1,436 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wdth,wght@0,62.5..100,100..900;1,62.5..100,100..900&display=swap');
+
+:root {
+    --font-color: #FFFFFF;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    /* overflow: hidden; */
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #7D59AB;
+    font-family: "Noto Sans", sans-serif;
+    display: flex;
+    width: 100vw;
+    height: 100dvh;
+    color: var(--font-color);
+}
+
+/* left side */
+.body-left {
+    width: 20vw;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: center;
+}
+.profile-img {
+    border-radius: 100%;
+    width: 50%;
+    margin-top: 10%;
+}
+.profile-name {
+    margin: 0 5%;
+    font-size: 1.2vw;
+    text-align: center;
+}
+
+.ubs-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 10% 5%;
+}
+.ubs-info > h2, h3{
+    font-size: 0.6vw;
+    margin: 0;
+}
+.ubs-info > h2 {
+    font-weight: 900;
+}
+.ubs-info > h3 {
+    font-weight: 100;
+}
+
+
+
+/* mid side */
+.body-mid > h1, h2, label, input, legend {
+    margin: 0;
+}
+.body-mid {
+    width: 72vw;
+    height: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+.body-mid::-webkit-scrollbar {
+    display: none;
+}
+
+.exm-page {
+    background-color: #F9F4FF;
+    min-height: 98%;
+    margin: 0;
+    margin-top: 2%;
+    padding-bottom: 2%;
+    color: #F867A0;
+}
+
+.header {
+    width: 98%;
+    margin: 0 1%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.h-title {
+    margin-top: 1%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    color: #F867A0;
+    font-size: 0.8vw;
+    font-weight: 900;
+
+    border: 2px solid #DF96BA;
+}
+.title {
+    margin: 0.1%;
+}
+.sub-title {
+    width: 100%;
+    font-size: 1.1vw;
+    text-align: end;
+}
+
+.ln {
+    width: 98%;
+    margin: 0 1%;
+    display: flex;
+    align-items: top;
+    justify-content: space-between;
+}
+
+.ln > div {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+    margin: 0.3vw;
+}
+
+input {
+    border: none;
+    border-bottom: 1px solid #F867A0;
+    outline: none;
+
+    font-size: 1vw;
+    color: #3f055a;
+
+    width: 100%;
+    height: 1.8vw;
+    border-top-left-radius: 0.2vw;
+    border-top-right-radius: 0.2vw;
+    box-sizing: border-box;
+
+    margin: 0;
+}
+input[disabled] {
+    background-color: rgb(124, 118, 121, 15%);
+}
+input:not([disabled]) {
+    background-color: transparent;
+}
+label, legend {
+    margin: 0;
+    font-size: 1vw;
+}
+
+
+/* ln01 */
+.input-uf {
+    width: 5%;
+}
+.input-cnes {
+    width: 55%;
+}
+.input-n-protocolo {
+    width: 40%;
+    display: flex;
+    flex-direction: row !important;
+    justify-content: end !important;
+}
+.input-n-protocolo > div {
+    display: flex;
+    flex-direction: column;
+}
+.input-n-protocolo > div > input {
+    border-radius: 0 !important;
+    border-left: 1px solid #F867A0 !important;
+}
+
+/* ln02 */
+.input-unidade-de-saude {
+    width: 100%;
+}
+/* ln03 */
+.input-municipio {
+    width: 60%;
+}
+.input-prontuario {
+    width: 40%;
+}
+
+/* div-informações pessoais */
+.box-div {
+    margin: 0.8%;
+
+    font-size: 0.65vw;
+    text-align: center;
+
+    border: 2px solid #DF96BA;
+}
+/* ln04 */
+.input-cart-sus {
+    width: 30%;
+}
+
+/* ln05 */
+.input-nome-completo {
+    width: 100%;
+}
+
+/* ln06 */
+.input-nome-mae {
+    width: 60%;
+}
+
+.input-apelido-mulher {
+    width: 40%;
+}
+
+/* ln07 */
+.input-cpf {
+    width: 60%;
+}
+
+.input-nacionalidade {
+    width: 40%;
+}
+
+/* ln08 */
+.input-data-nascimento {
+    width: 15%;
+}
+
+.input-idade {
+    width: 5%;
+}
+
+.fieldset-raca-cor {
+    width: 80%;
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+.input-raca-cor {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    height: 80%;
+}
+.input-raca-cor > input{
+    border-radius: 0 !important;
+    border-left: 1px solid #F867A0 !important;
+}
+.input-raca-cor > input[type="radio"] {
+    display: none;
+}
+.input-raca-cor > label {
+    position: relative;
+    padding-left: 4%; 
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    align-items: center;
+}
+.input-raca-cor > label::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1.5vw; 
+    aspect-ratio: 1/1;
+    border: 2px solid #F867A0; 
+    background-color: transparent;
+    transition: 0.3s;
+}
+.input-raca-cor > input[type="radio"]:checked + label::before {
+    background-color: rgb(228, 133, 171);
+}
+.input-raca-cor > input[type="text"] {
+    width: 35%;
+}
+
+/* div dados residenciais */
+.line-div {
+    margin: 0.8%;
+
+    font-size: 0.5vw;
+    text-align: center;
+
+    border: 2px solid #DF96BA;
+}
+
+/* ln09 */
+.input-cep {
+    width: 31%;
+}
+.input-uf-mulher {
+    width: 5%;
+}
+.input-municipio-mulher {
+    width: 32%;
+}
+.input-codigo-municipio {
+    width: 32%;
+}
+
+/* ln010 */
+.input-logradouro {
+    width: 100%;
+}
+
+/* ln011 */
+.input-complemento {
+    width: 70%;
+}
+.input-numero {
+    width: 30%;
+}
+
+/* ln012 */
+.input-bairro{
+    width: 65%;
+}
+.input-ddd{
+    width: 5%;
+}
+.input-telefone-celular {
+    width: 30%;
+}
+
+/* ln013 */
+.input-ponto-referencia {
+    width: 100%;
+}
+
+/* ln014 */
+.fieldset-escolariedade {
+    width: 100%;
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+.input-escolariedade {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    height: 80%;
+    width: 100%;
+}
+.fieldset-escolariedade > legend {
+    margin-bottom: 1%;
+}
+.input-escolariedade > input[type="radio"] {
+    display: none;
+}
+.input-escolariedade > label {
+    font-size: 0.9vw;
+    position: relative;
+    padding-left: 2.6%; 
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    align-items: center;
+}
+.input-escolariedade > label::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1.4vw; 
+    aspect-ratio: 1/1;
+    border: 2px solid #F867A0; 
+    background-color: transparent;
+    transition: 0.3s;
+}
+.input-escolariedade > input[type="radio"]:checked + label::before {
+    background-color: rgb(228, 133, 171);
+}
+.input-escolariedade > input[type="text"] {
+    width: 35%;
+}
+
+/* right side */
+.body-right {
+    width: 8vw;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.n-protocolo {
+    margin-top: 30%;
+    height: 80%;
+    writing-mode: vertical-rl;
+    text-orientation: upright;
+    font-weight: 900;
+    font-size: 1.6vw;
+
+}
+
+.btn-next, .btn-download {
+    margin: 0.4vw;
+    background-color: #563A94;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.6vw;
+    width: 50%;
+    aspect-ratio: 1 / 1;
+}
+
+.btn-next > img, .btn-download > img {
+    width: 80%;
+    display: block; 
+}
+/* 
+       __
+      {0O}
+      \__/
+      /^/
+     ( (        
+    /  \_____
+   (_________)
+  (___________)Oo
+
+ */
