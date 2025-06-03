@@ -1,4 +1,6 @@
 
+var inputs = document.querySelectorAll('input[type="text"]');
+
 var cartSus = document.querySelector('#cart-sus');
 var cpf = document.querySelector('#cpf');
 var cep = document.querySelector('#cep');
@@ -13,21 +15,23 @@ var nProtocol = document.querySelector('#n-protocolo');
 var compName = document.querySelector('#nome-completo');
 var radioIndigenaEtinia = document.querySelector('#radio-indigena-etinia');
 var racaInputText = document.querySelector('#input-text');
-var fieldsetRacaCor = document.querySelector('#fieldset-raca-cor')
+var fieldsetRacaCor = document.querySelector('#fieldset-raca-cor');
+var ddd = document.querySelector('#ddd');
+var telefoneCelular = document.querySelector('#telefone-celular');
 
 cep.addEventListener('change', autoFill_EdressByCEP);
 bornDate.addEventListener('change', ageFill);
 nProtocol.addEventListener('input', function(e){autoFill_InputToTextValue(e, '#text-n-protocolo')});
 compName.addEventListener('input', function(e){autoFill_InputToTextValue(e, '#profile-name')});
-fieldsetRacaCor.addEventListener('input', textAbleLogic)
+fieldsetRacaCor.addEventListener('input', textAbleLogic);
 
 nProtocol.addEventListener('input', NProtocol_Mask);
 cpf.addEventListener('input', function(e){cpf_Mask(e)});
 cartSus.addEventListener('input', function(e){cartSus_Mask(e)});
 cep.addEventListener('input', function(e){cep_Mask(e)});
 bornDate.addEventListener('input', function(e){date_Mask(e)});
-
-
+ddd.addEventListener('input', function(e){ddd_Mask(e)});
+telefoneCelular.addEventListener('input', function(e){cel_Mask(e)});
 
 function autoFill_InputToTextValue(e, textValueId){
     let textValue = document.querySelector(textValueId);
@@ -122,9 +126,9 @@ function textAbleLogic(){
 
 // masks
 function NProtocol_Mask(){
-    let textNProtocol = document.querySelector('#text-n-protocolo')
+    let textNProtocol = document.querySelector('#text-n-protocolo');
 
-    repeat = 14 - textNProtocol.textContent.length
+    repeat = 14 - textNProtocol.textContent.length;
 
     textNProtocol.textContent = textNProtocol.textContent+'0'.repeat(repeat);
 }
@@ -137,7 +141,7 @@ function cartSus_Mask(e){
     v=v.replace(/(\d{4})(\d)/,"$1 $2");
     v=v.replace(/(\d{4})(\d)/,"$1 $2");
     v=v.replace(/(\d{4})(\d)/,"$1 $2");
-    e.target.maxLength = 18
+    e.target.maxLength = 18;
 
     e.target.value = v;
 }
@@ -149,7 +153,7 @@ function cpf_Mask(e){
     v=v.replace(/(\d{3})(\d)/,"$1.$2");       //Coloca um ponto entre o terceiro e o quarto dígitos
     v=v.replace(/(\d{3})(\d)/,"$1.$2");       //Coloca um ponto entre o terceiro e o quarto dígitos (para o segundo bloco de números)
     v=v.replace(/(\d{3})(\d{1,2})$/,"$1-$2"); //Coloca um hífen entre o terceiro e o quarto dígitos
-    e.target.maxLength = 14
+    e.target.maxLength = 14;
 
     e.target.value = v;
 }
@@ -159,7 +163,7 @@ function cep_Mask(e){
 
     v=v.replace(/\D/g,"");
     v=v.replace(/(\d{5})(\d)/,"$1-$2");
-    e.target.maxLength = 9
+    e.target.maxLength = 9;
 
     e.target.value = v;
 }
@@ -171,7 +175,30 @@ function date_Mask(e){
     v=v.replace(/(\d{2})(\d)/,"$1/$2");
     v=v.replace(/(\d{2})(\d)/,"$1/$2");
 
-    e.target.maxLength = 10
+    e.target.maxLength = 10;
+
+    e.target.value = v;
+}
+
+function ddd_Mask(e){
+    let v = e.target.value;
+
+    v=v.replace(/\D/g,"");
+    v=v.replace(/(\d{1,2})/,"($1)");
+
+    e.target.maxLength = 4;
+
+    e.target.value = v;
+}
+
+function cel_Mask(e){
+    let v = e.target.value;
+
+    v=v.replace(/\D/g,"");
+    v=v.replace(/(\d)(\d{4})$/,"$1-$2");
+    v=v.replace(/(\d)(\d{4})/,"$1 $2");
+
+    e.target.maxLength = 11;
 
     e.target.value = v;
 }
