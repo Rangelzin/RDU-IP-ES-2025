@@ -1,7 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wdth,wght@0,62.5..100,100..900;1,62.5..100,100..900&display=swap');
 
 :root {
-    --font-color: #FFFFFF;
+    --prymari-font-color: #FFFFFF;
+    --input-font-color: #3f055a ;
+    --prymari-color: #F867A0;
+    --secondary-color: #DF96BA;
+    --disabled-input-color: ;
+    --background-color: #7D59AB;
+    --exame-background-color: #F9F4FF;
+    --btn-color: #563A94;
 }
 
 html, body {
@@ -13,12 +20,12 @@ html, body {
 }
 
 body {
-    background-color: #7D59AB;
+    background-color: var(--background-color);
     font-family: "Noto Sans", sans-serif;
     display: flex;
     width: 100vw;
     height: 100dvh;
-    color: var(--font-color);
+    color: var(--prymari-font-color);
 }
 
 /* left side */
@@ -30,10 +37,15 @@ body {
     justify-content: space-between;
     text-align: center;
 }
+
 .profile-img {
+    background-color: var(--exame-background-color);
     border-radius: 100%;
     width: 50%;
+    aspect-ratio: 1/1;
+
     margin-top: 10%;
+    border: 3px solid var(--prymari-color);
 }
 .profile-name {
     margin: 0 5%;
@@ -80,12 +92,12 @@ body {
 }
 
 .exm-page {
-    background-color: #F9F4FF;
+    background-color: var(--exame-background-color);
     min-height: 98%;
     margin: 0;
     margin-top: 2%;
     padding-bottom: 2%;
-    color: #F867A0;
+    color: var(--prymari-color);
 }
 
 .header {
@@ -103,11 +115,11 @@ body {
     align-items: center;
     justify-content: space-between;
 
-    color: #F867A0;
+    color: var(--prymari-color);
     font-size: 0.8vw;
     font-weight: 900;
 
-    border: 2px solid #DF96BA;
+    border: 2px solid var(--secondary-color);
 }
 .title {
     margin: 0.1%;
@@ -136,11 +148,11 @@ body {
 
 input {
     border: none;
-    border-bottom: 1px solid #F867A0;
+    border-bottom: 1px solid var(--prymari-color);
     outline: none;
 
     font-size: 1vw;
-    color: #3f055a;
+    color: var(--input-font-color);
 
     width: 100%;
     height: 1.8vw;
@@ -181,7 +193,7 @@ label, legend {
 }
 .input-n-protocolo > div > input {
     border-radius: 0 !important;
-    border-left: 1px solid #F867A0 !important;
+    border-left: 1px solid var(--prymari-color) !important;
 }
 
 /* ln02 */
@@ -203,7 +215,7 @@ label, legend {
     font-size: 0.65vw;
     text-align: center;
 
-    border: 2px solid #DF96BA;
+    border: 2px solid var(--secondary-color);
 }
 /* ln04 */
 .input-cart-sus {
@@ -256,7 +268,7 @@ label, legend {
 }
 .input-raca-cor > input{
     border-radius: 0 !important;
-    border-left: 1px solid #F867A0 !important;
+    border-left: 1px solid var(--prymari-color) !important;
 }
 .input-raca-cor > input[type="radio"] {
     display: none;
@@ -277,7 +289,7 @@ label, legend {
     transform: translateY(-50%);
     width: 1.5vw; 
     aspect-ratio: 1/1;
-    border: 2px solid #F867A0; 
+    border: 2px solid var(--prymari-color); 
     background-color: transparent;
     transition: 0.3s;
 }
@@ -295,7 +307,7 @@ label, legend {
     font-size: 0.5vw;
     text-align: center;
 
-    border: 2px solid #DF96BA;
+    border: 2px solid var(--secondary-color);
 }
 
 /* ln09 */
@@ -378,7 +390,7 @@ label, legend {
     transform: translateY(-50%);
     width: 1.4vw; 
     aspect-ratio: 1/1;
-    border: 2px solid #F867A0; 
+    border: 2px solid var(--prymari-color); 
     background-color: transparent;
     transition: 0.3s;
 }
@@ -408,8 +420,9 @@ label, legend {
 }
 
 .btn-next, .btn-download {
+    cursor: pointer;
     margin: 0.4vw;
-    background-color: #563A94;
+    background-color: var(--btn-color);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -417,11 +430,16 @@ label, legend {
     border-radius: 0.6vw;
     width: 50%;
     aspect-ratio: 1 / 1;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
 
 .btn-next > img, .btn-download > img {
-    width: 80%;
+    width: 50%;
     display: block; 
+}
+
+.btn-next:hover, .btn-download:hover {
+    background-color: hsl(259, 50%, 52%);
 }
 /* 
        __

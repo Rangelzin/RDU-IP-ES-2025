@@ -124,6 +124,14 @@ function textAbleLogic(){
     }
 }
 
+function imageFill(){
+    let img = document.querySelector('#profile-img')
+
+    img.src = "../assets/img/defaulPerfil_IMG/perfil_02.svg"
+
+
+}
+
 // masks
 function NProtocol_Mask(){
     let textNProtocol = document.querySelector('#text-n-protocolo');
