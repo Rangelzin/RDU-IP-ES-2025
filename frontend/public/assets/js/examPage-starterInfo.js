@@ -38,9 +38,33 @@ function autoFill_InputToTextValue(e, textValueId){
     textValue.textContent = e.target.value;
 }
 
+function ageFill(){
+    if (bornDate.value == "") {
+        console.log('born date value is nil')
+    }
+
+    let bornDateValue = bornDate.value.split('/');
+    let dateNow = new Date();
+
+    monthNow = dateNow.getMonth()+1;
+    yearNow = dateNow.getFullYear();
+    dayNow = dateNow.getDate();
+    monthBorn = bornDateValue[1];
+    yearBorn = bornDateValue[2];
+    dayBorn = bornDateValue[0];
+
+    ageCalc = parseInt(yearNow) - parseInt(yearBorn);
+    if (monthNow <  monthBorn || monthNow ==  monthBorn && dayNow <= dayBorn){
+        ageCalc--
+    }
+
+    age.value = ageCalc
+}
+
 async function autoFill_EdressByCEP(){
-    var addressInfo;
-    var ibgeList;
+    let addressInfo;
+    let ibgeCode;
+    let ibgeList;
 
     const URL_CEP_API = "https://brasilapi.com.br/api/cep/v1/"+cep.value;
     const respApiCEP = await fetch(URL_CEP_API);
@@ -56,52 +80,36 @@ async function autoFill_EdressByCEP(){
         console.log('error state valaue is nil')
     }else {
         const URL_IBGE_API = "https://brasilapi.com.br/api/ibge/municipios/v1/"+addressInfo.state+"?providers=dados-abertos-br,gov,wikipedia";
-        const respApiIBGE = await fetch(URL_IBGE_API)
+        const respApiIBGE = await fetch(URL_IBGE_API);
 
-        if (respApiIBGE.status == 200){
-            ibgeList = await respApiIBGE.json()
-            ibgeCode = ibgeList[IBGE_binSearsh(addressInfo.city.toUpperCase(), ibgeList)].codigo_ibge
-        }else {
-            console.log('error in ibge api response: '+respApiIBGE.status)
+        if (respApiIBGE.status != 200){
+            console.log('error in ibge api response: '+respApiIBGE.status);
+        }else{
+            ibgeList = await respApiIBGE.json();
+            i = IBGE_binSearsh(addressInfo.city.toUpperCase(), ibgeList)
+            if (i == -1){
+                console.log('erro na busca do múnicipio na lista do ibge')
+            }else{
+                ibgeCode = ibgeList[i].codigo_ibge;
+            }
+            
         }
+
+
     }
 
     uf.value = addressInfo.state;
     municipio.value = addressInfo.city;
-    codIBGE.value = ibgeCode;
+    if(ibgeCode){codIBGE.value = ibgeCode;}
     lorgadouro.value = addressInfo.street;
     bairro.value = addressInfo.neighborhood;
-}
-
-function ageFill(){
-    if (bornDate.value == "") {
-        console.log('born date value is nil')
-    }
-
-    let bornDateValue = bornDate.value.split('/');
-    let dateNow = new Date();
-
-    monthNow = dateNow.getMonth();
-    yearNow = dateNow.getFullYear();
-    dayNow = dateNow.getDay();
-    monthBorn = bornDateValue[1];
-    yearBorn = bornDateValue[2];
-    dayBorn = bornDateValue[0];
-
-
-    ageCalc = parseInt(yearNow) - parseInt(yearBorn);
-    if (monthNow <  monthBorn || monthNow ==  monthBorn && dayNow <= dayBorn){
-        ageCalc--
-    }
-
-    age.value = ageCalc
 }
 
 function IBGE_binSearsh(city, IBGElist) {
     let min = 0;
     let max = IBGElist.length - 1;
 
-    while (min < max) {
+    while (min <= max) {
         let mid = (min + max) >> 1; // mesmo que (min + max)/2
 
         if (IBGElist[mid].nome == city) {
