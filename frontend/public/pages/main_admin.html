@@ -1,75 +1,63 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tela do administrador</title>
-  <link href="../assets/css/output.css" rel="stylesheet">
-  <style>
-    .card-container:hover .card-header {
-      background-color: #5a3f7a;
-    }
-    .card-container:hover .card-body {
-      background-color: #f5f5f5;
-    }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Central Administrativa - Sistema de Rastreamento</title>
+  <link href="../assets/css/output.css" rel="stylesheet" />
 </head>
-<body class="bg-[#F0EFF6] h-screen flex overflow-hidden">
+<body class="w-screen h-screen flex flex-col">
 
-  <div class="flex-1 flex flex-col p-8">
-    <div class="text-center mb-10 px-4">
-      <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-[var(--color-primary)] mb-4">
-        Central administrativa
-      </h1>
-      <h2 class="text-2xl md:text-3xl font-extrabold text-[var(--color-tertiary)] mb-2">
-        Rastreio Câncer de Colo de Útero
-      </h2>
-      <p class="text-sm md:text-md max-w-3xl mx-auto py-1 font-bold text-shadow-black">
-        Bem-vindo(a) ao painel de controle do sistema de saúde. Aqui você pode gerenciar pacientes, acompanhar estatísticas e buscar usuários registrados.
-      </p>
-    </div>
+  <!-- Header -->
+  <header class="flex items-center bg-[var(--color-secondary)] h-20 px-4">
+    <img class="h-18 w-18 mr-4" src="../assets/img/Logo.svg" alt="Logo" />
+    <h1 class="text-3xl font-sans text-[var(--color-fifth)]">Central Administrativa</h1>
+  </header>
 
-    <div class="flex flex-col md:flex-row justify-center gap-3 mt-2">
-      <div class="w-full md:w-1/3 max-w-md card-container cursor-pointer">
-        <div class="card-header bg-(--color-tertiary) text-white text-4xl font-bold py-2 px-5 rounded-t-4xl text-center">
-          Paciente
-        </div>
-        <div class="card-body bg-[#D9D9D9] px-8 py-3 rounded-b-4xl flex flex-col items-center">
-          <div class="w-44 h-44 rounded-full bg-[#D9D9D9] flex items-center justify-center   overflow-hidden">
-            <img src="../assets/img/perfil.svg" alt="Ícone de paciente" class="w-64 h-64 object-contain">
+  <!-- Main Content -->
+  <main class="flex flex-1">
+
+    <!-- Conteúdo do Admin -->
+    <section class="flex flex-col flex-1 p-6">
+      <h2 class="underline text-xl font-semibold text-[var(--color-tertiary)] mb-6">Funções Administrativas</h2>
+
+      <div class="mx-auto my-auto flex flex-col gap-10 lg:gap-20 lg:flex-row">
+
+        <!-- Card 1 - Paciente -->
+        <div class="w-60 h-35 lg:w-75 lg:h-50 bg-[var(--color-quaternary)] rounded-xl hover:bg-[#bfb0d1] cursor-pointer">
+          <div class="h-10 lg:h-12 bg-[var(--color-tertiary)] rounded-t-xl">
+            <h3 class="text-xl pt-3 pl-5 font-semibold text-[var(--color-fifth)]">Paciente</h3>
           </div>
-          <p class="text-[var(--color-primary)] text-lg font-bold">Visualizar, adicionar e excluir pacientes</p>
+          <img class="h-15 w-15 lg:h-25 lg:w-25 mt-4 mx-auto" src="../assets/img/woman2.svg" alt="Paciente">
+          <p class="text-center text-sm mt-2 font-semibold text-[var(--color-primary)]">Visualizar, adicionar e excluir pacientes</p>
+        </div>
+
+        <!-- Card 2 - Dashboard -->
+        <div class="w-60 h-35 lg:w-75 lg:h-50 bg-[var(--color-quaternary)] rounded-xl hover:bg-[#bfb0d1] cursor-pointer">
+          <div class="h-10 lg:h-12 bg-[var(--color-tertiary)] rounded-t-xl">
+            <h3 class="text-xl pt-3 pl-5 font-semibold text-[var(--color-fifth)]">Dashboard Admin</h3>
+          </div>
+          <img class="h-15 w-15 lg:h-25 lg:w-25 mt-4 mx-auto" src="../assets/img/tabela.svg" alt="Dashboard">
+          <p class="text-center text-sm mt-2 font-semibold text-[var(--color-primary)]">Visualizar estatísticas e relatórios</p>
+        </div>
+
+        <!-- Card 3 - Usuário -->
+        <div class="w-60 h-35 lg:w-75 lg:h-50 bg-[var(--color-quaternary)] rounded-xl hover:bg-[#bfb0d1] cursor-pointer">
+          <div class="h-10 lg:h-12 bg-[var(--color-tertiary)] rounded-t-xl">
+            <h3 class="text-xl pt-3 pl-5 font-semibold text-[var(--color-fifth)]">Usuário</h3>
+          </div>
+          <img class="h-15 w-15 lg:h-25 lg:w-20 mt-4 mx-auto" src="../assets/img/Magnifyingglass.svg" alt="Usuário">
+          <p class="text-center text-sm mt-2 font-semibold text-[var(--color-primary)]">Visualizar, adicionar e excluir usuários</p>
         </div>
       </div>
 
-      <div class="w-full md:w-1/3 max-w-md card-container cursor-pointer">
-        <div class="card-header bg-(--color-tertiary) text-white text-3xl font-bold py-3 rounded-t-4xl text-center">
-          Dashboard Admin
-        </div>
-        <div class="card-body bg-[#D9D9D9] px-8 py-3 rounded-b-4xl flex flex-col items-center">
-          <div class="w-44 h-44 rounded-full bg-[#D9D9D9] flex items-center justify-center overflow-hidden">
-            <img src="../assets/img/tabela.svg" alt="Ícone de dashboard" class="w-64 h-64 object-contain">
-          </div>
-          <p class="text-[var(--color-primary)] text-lg font-bold">Visualizar estatísticas e relatórios</p>
-        </div>
-      </div>
+      <div class="mt-10 text-center text">© 2025 Aplicativo de Saúde. Todos os direitos reservados.</div>
+    </section>
 
-      <div class="w-full md:w-1/3 max-w-md card-container cursor-pointer">
-        <div class="card-header bg-(--color-tertiary) text-white text-4xl font-bold py-2 px-5 rounded-t-4xl text-center">
-          Usuário
-        </div>
-        <div class="card-body bg-[#D9D9D9] px-8 py-3 rounded-b-4xl flex flex-col items-center">
-          <div class="w-44 h-44 rounded-full bg-[#D9D9D9] flex items-center justify-center overflow-hidden">
-            <img src="../assets/img/lupa.svg" alt="Ícone de usuário" class="w-64 h-64 object-contain">
-          </div>
-          <p class="text-[var(--color-primary)] text-lg font-bold">Visualizar, adicionar e excluir usuários</p>
-        </div>
-      </div>
-    </div>
 
-    <div class="mt-10 text-center text-md text-[var(--color-primary)] pt-4">
-      © 2025 Aplicativo de Saúde. Todos os direitos reservados.
-    </div>
-  </div>
+    <!-- Sidebar falsa para manter layout -->
+    <aside class="w-0 lg:w-20 bg-[var(--color-secondary)]"></aside>
+  </main>
+
 </body>
 </html>
