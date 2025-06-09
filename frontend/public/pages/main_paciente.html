@@ -6,7 +6,6 @@
     <title>SISCAN - Painel do Paciente</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* Reset Básico e Variáveis de Cor */
         :root {
             --color-primary: #563A94;
             --color-secondary: #9464C4;
@@ -37,291 +36,289 @@
             line-height: 1.5;
         }
 
-        /* Estrutura Principal com Faixas */
-        .page-container {
+        .pagina-container {
             display: flex;
             flex-direction: column;
             min-height: 100vh;
         }
 
-        .top-band {
+        .faixa-superior {
             background-color: var(--color-primary);
-            padding: 0.75rem;
+            padding: 1.15rem;
             display: flex;
             align-items: center;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
         }
 
-        .logo-area { /* Container para o SVG e o texto SUS */
+        .area-logo {
             display: flex;
             align-items: center;
         }
 
-        .logo-svg {
-            height: 2.5rem; /* Ajuste esta altura conforme necessário para sua nova logo */
-            width: auto;   /* Para manter a proporção. Se o SVG não redimensionar bem, defina uma largura explícita. */
-            margin-right: 0.75rem; /* Espaçamento entre a logo e o texto SUS */
-            /* As cores fill e stroke serão as do seu SVG, a menos que você as altere para currentColor no SVG */
+        .logo-imagem { 
+            height: 4rem;
+            width: auto; 
+            margin-right: 1rem;
         }
 
-        .sus-text {
+        .texto-cabecalho-app {
             color: var(--color-quaternary);
             font-weight: 700;
-            font-size: 1.5rem;
+            font-size: 1.85rem;
         }
 
-        .content-wrapper {
+        .conteudo-wrapper {
             display: flex;
             flex-grow: 1;
         }
 
-        .left-band {
+        .faixa-lateral-direita {
             background-color: var(--color-primary);
-            width: 4rem;
+            width: 6.5rem;
         }
 
         @media (max-width: 767px) {
-             .left-band {
+             .faixa-lateral-direita {
                 display: none;
             }
         }
 
-        .main-content {
+        .conteudo-principal {
             flex-grow: 1;
-            padding: 1rem;
+            padding: 4rem;
             overflow-y: auto;
-            background-color: var(--color-white); /* Certifica que o fundo do conteúdo principal é branco */
+            background-color: var(--color-white);
         }
 
-        .main-content-inner {
-            max-width: 80rem;
+        .conteudo-principal-interno {
+            max-width: 100rem;
             margin-left: auto;
             margin-right: auto;
         }
 
         @media (min-width: 640px) {
-            .main-content {
-                padding: 1.5rem;
+            .conteudo-principal {
+                padding: 2.25rem;
             }
         }
         @media (min-width: 768px) {
-            .main-content {
-                padding: 2rem;
+            .conteudo-principal {
+                padding: 2.75rem;
             }
-            .left-band { /* Garante que a left-band apareça em telas médias e maiores */
+            .faixa-lateral-direita {
                 display: block;
             }
         }
 
-        /* Card Principal: Status de Saúde */
-        .status-card-main {
+        .cartao-status-principal {
             background-color: var(--color-fifth);
-            border-radius: 1rem;
+            border-radius: 1.5rem;
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            padding: 1.5rem;
+            padding: 2.25rem;
             position: relative;
         }
 
-        .status-card-header {
+        .cartao-status-cabecalho {
             text-align: right;
         }
 
         @media (min-width: 768px) {
-            .status-card-header {
+            .cartao-status-cabecalho {
                 position: absolute;
-                top: 1.5rem;
-                right: 1.5rem;
+                top: 2rem;
+                right: 2rem;
             }
         }
 
-        .status-card-header h2 {
-            font-size: 1.25rem;
+        .cartao-status-cabecalho h2 {
+            font-size: 1.375rem;
             font-weight: 700;
             color: var(--color-text-dark);
         }
 
-        .risk-assessment {
+        .avaliacao-risco {
             display: flex;
             flex-direction: column;
             align-items: flex-end;
             margin-top: 0.5rem;
         }
 
-        .risk-label {
+        .rotulo-risco {
             font-size: 0.875rem;
             color: var(--color-text-medium);
         }
 
-        .risk-bar-bg {
-            width: 4rem;
-            height: 1rem;
+        .barra-risco-fundo {
+            width: 5.5rem;
+            height: 1.125rem;
             background-color: var(--color-gray-border);
             border-radius: 9999px;
             margin-top: 0.25rem;
             overflow: hidden;
         }
 
-        .risk-bar-fill {
+        .barra-risco-preenchimento {
             width: 33.3333%;
             height: 100%;
             background-color: var(--color-green-risk);
             border-radius: 9999px;
         }
 
-        .patient-greeting {
-            margin-bottom: 1.5rem;
+        .saudacao-paciente {
+            margin-bottom: 2.25rem;
             padding-top: 1rem;
         }
         @media (min-width: 768px) {
-             .patient-greeting {
+             .saudacao-paciente {
                 padding-top: 0;
              }
         }
 
-        .patient-greeting h1 {
-            font-size: 1.875rem;
+        .saudacao-paciente h1 {
+            font-size: 2.25rem;
             font-weight: 700;
             color: var(--color-text-dark);
         }
 
-        .patient-photo-container {
-            margin-top: 1rem;
-            width: 6rem;
-            height: 6rem;
+        .foto-paciente-container {
+            margin-top: 1.5rem;
+            width: 7.5rem;
+            height: 7.5rem;
             border-radius: 50%;
             overflow: hidden;
             background-color: var(--color-gray-border);
             box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
         }
 
-        .patient-photo {
+        .foto-paciente {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
 
-        .status-mini-cards-grid {
-            margin-top: 1.5rem;
+        .grade-mini-cartoes-status {
+            margin-top: 2.25rem;
             display: grid;
-            gap: 1.5rem;
+            gap: 2rem;
         }
 
         @media (min-width: 768px) {
-            .status-mini-cards-grid {
+            .grade-mini-cartoes-status {
                 grid-template-columns: repeat(3, minmax(0, 1fr));
             }
         }
 
-        .mini-card {
+        .mini-cartao {
             background-color: var(--color-white);
-            padding: 1rem;
-            border-radius: 0.5rem;
+            padding: 1.5rem;
+            border-radius: 0.875rem;
             display: flex;
             align-items: center;
             box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
         }
 
-        .mini-card-icon-bg {
+        .mini-cartao-icone-fundo {
             background-color: var(--color-quaternary);
             color: var(--color-secondary);
-            padding: 0.75rem;
-            border-radius: 0.5rem;
-            margin-right: 1rem;
+            padding: 1rem;
+            border-radius: 0.875rem;
+            margin-right: 1.25rem;
         }
 
-        .mini-card-icon-bg i {
-            font-size: 1.25rem;
+        .mini-cartao-icone-fundo i {
+            font-size: 1.5rem;
         }
 
-        .mini-card-label {
-            font-size: 0.875rem;
+        .mini-cartao-rotulo {
+            font-size: 0.95rem;
             color: var(--color-text-medium);
         }
 
-        .mini-card-value {
+        .mini-cartao-valor {
             font-weight: 700;
             color: var(--color-text-dark);
+            font-size: 1.1rem;
         }
 
-        .bottom-cards-grid {
-            margin-top: 2rem;
+        .grade-cartoes-inferiores {
+            margin-top: 2.75rem;
             display: grid;
-            gap: 2rem;
+            gap: 2.75rem;
         }
 
         @media (min-width: 1024px) {
-            .bottom-cards-grid {
+            .grade-cartoes-inferiores {
                 grid-template-columns: repeat(2, minmax(0, 1fr));
             }
         }
 
-        .info-card {
+        .cartao-info {
             background-color: var(--color-fifth);
-            border-radius: 1rem;
-            padding: 1.5rem;
+            border-radius: 1.5rem;
+            padding: 2.25rem;
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
             position: relative;
         }
 
-        .info-card-header {
+        .cartao-info-cabecalho {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            margin-bottom: 1rem;
+            margin-bottom: 1.25rem;
         }
 
-        .info-card h3 {
+        .cartao-info h3 {
             font-weight: 700;
-            font-size: 1.125rem;
+            font-size: 1.375rem;
             color: var(--color-text-dark);
         }
 
-        .history-button {
+        .botao-historico {
             background-color: var(--color-primary);
             color: var(--color-white);
-            font-size: 0.75rem;
+            font-size: 0.875rem;
             font-weight: 600;
-            padding: 0.25rem 0.75rem;
+            padding: 0.6rem 1.2rem;
             border-radius: 0.5rem;
             border: none;
             cursor: pointer;
             transition: background-color 0.2s ease-in-out;
         }
 
-        .history-button:hover {
+        .botao-historico:hover {
             background-color: var(--color-secondary);
         }
 
-        .info-card-content {
-            margin-top: 1rem;
+        .cartao-info-conteudo {
+            margin-top: 1.25rem;
             background-color: var(--color-white);
             border: 1px solid var(--color-quaternary);
-            border-radius: 0.5rem;
-            padding: 1rem;
-            height: 10rem;
+            border-radius: 0.875rem;
+            padding: 1.5rem;
+            height: 13rem;
             overflow-y: auto;
         }
 
-        .info-card-content .content-title {
+        .cartao-info-conteudo .titulo-conteudo {
             font-weight: 600;
             color: var(--color-text-medium);
         }
-        .info-card-content .content-detail {
+        .cartao-info-conteudo .detalhe-conteudo {
             font-size: 0.875rem;
             margin-left: 0.5rem;
             color: var(--color-text-dark);
             margin-bottom: 0.5rem;
         }
-         .info-card-content .content-title + .content-detail {
+         .cartao-info-conteudo .titulo-conteudo + .detalhe-conteudo {
             margin-top: 0.125rem;
         }
-        .info-card-content p + .content-title {
+        .cartao-info-conteudo p + .titulo-conteudo {
             margin-top: 0.75rem;
         }
 
-        .page-footer {
+        .rodape-pagina {
             text-align: center;
-            color: var(--color-text-medium);
+            color: var(--color-black);
             font-size: 0.875rem;
             padding-top: 2rem;
             padding-bottom: 2rem;
@@ -332,124 +329,106 @@
 </head>
 <body>
 
-    <div class="page-container">
-        <header class="top-band">
-            <div class="logo-area"> <svg width="560" height="560" viewBox="0 0 560 560" fill="none" xmlns="http://www.w3.org/2000/svg" class="logo-svg">
-                    <g filter="url(#filter0_d_30_641)">
-                    <path d="M329.971 1C343.778 1 354.971 12.193 354.971 26V141.766C354.971 143.691 357.056 144.894 358.721 143.932L467.376 81.2005C479.331 74.297 494.621 78.394 501.526 90.3512L551.526 176.954C558.428 188.911 554.331 204.201 542.376 211.104L433.726 273.832C432.061 274.795 432.061 277.2 433.726 278.163L542.453 340.935C554.411 347.84 558.506 363.13 551.603 375.087L501.603 461.69C494.701 473.648 479.411 477.742 467.453 470.84L358.721 408.065C357.056 407.103 354.971 408.305 354.971 410.23V526C354.971 539.807 343.778 551 329.971 551H229.971C216.164 551 204.971 539.807 204.971 526V410.235C204.971 408.31 202.888 407.108 201.221 408.07L92.5688 470.8C80.6116 477.702 65.3218 473.608 58.4181 461.65L8.41808 375.047C1.5146 363.09 5.61158 347.8 17.5688 340.895L126.226 278.163C127.893 277.2 127.893 274.795 126.226 273.832L17.5041 211.062C5.54683 204.158 1.44998 188.868 8.35358 176.911L58.3536 90.3088C65.2571 78.3515 80.5468 74.2545 92.5041 81.1582L201.221 143.926C202.888 144.888 204.971 143.686 204.971 141.761V26C204.971 12.193 216.164 1 229.971 1H329.971Z" fill="#9375B9" stroke="black" stroke-linecap="round"/>
-                    <mask id="path-2-inside-1_30_641" fill="white">
-                    <path d="M244.205 450L233.295 424.797C231.491 420.431 230.188 415.938 229.385 411.317C228.583 406.696 228.182 401.947 228.182 397.069C228.182 391.164 228.866 385.397 230.234 379.768C231.602 374.14 233.759 368.824 236.705 363.821C238.523 360.298 240 356.669 241.136 352.935C242.273 349.201 242.841 345.241 242.841 341.057C242.841 336.425 242.159 332.083 240.795 328.028C239.432 323.977 237.841 319.919 236.023 315.854C234.205 310.976 232.557 305.959 231.08 300.805C229.602 295.653 228.864 290.371 228.864 284.959V219.106C228.864 211.201 226.761 204.482 222.557 198.951C218.352 193.417 213.068 190.65 206.705 190.65C200.795 190.65 195.739 192.886 191.534 197.358C187.33 201.829 185 207.317 184.545 213.821C192.47 217.366 198.998 223.297 204.127 231.614C209.255 239.931 211.818 249.27 211.818 259.63C211.818 273.264 207.841 284.824 199.886 294.309C191.932 303.794 182.273 308.537 170.909 308.537C159.545 308.537 149.886 303.794 141.932 294.309C133.977 284.824 130 273.306 130 259.756C130 247.561 133.239 236.992 139.716 228.049C146.193 219.106 154.318 213.686 164.091 211.789C165 198.78 169.539 187.94 177.707 179.268C185.873 170.596 195.539 166.26 206.705 166.26C208.448 166.26 210.19 166.396 211.931 166.667C213.674 166.938 215.31 167.344 216.84 167.886C226.447 161.111 236.567 156.436 247.201 153.862C257.833 151.287 268.74 150 279.922 150C290.883 150 301.705 151.287 312.386 153.862C323.068 156.436 333.213 161.111 342.819 167.886C344.349 167.344 345.985 166.938 347.728 166.667C349.469 166.396 351.211 166.26 352.955 166.26C364.091 166.26 373.75 170.528 381.932 179.065C390.114 187.602 394.659 198.374 395.568 211.382C405.341 213.279 413.523 218.767 420.114 227.846C426.705 236.924 430 247.561 430 259.756C430 273.306 426.023 284.824 418.068 294.309C410.114 303.794 400.455 308.537 389.091 308.537C377.727 308.537 368.068 303.794 360.114 294.309C352.159 284.824 348.182 273.306 348.182 259.756C348.182 249.187 350.682 239.77 355.682 231.504C360.682 223.238 367.159 217.344 375.114 213.821C374.659 207.046 372.31 201.491 368.067 197.154C363.826 192.818 358.789 190.65 352.955 190.65C346.791 190.65 341.614 193.417 337.423 198.951C333.232 204.482 331.136 211.201 331.136 219.106V284.959C331.136 290.366 330.341 295.644 328.75 300.793C327.159 305.942 325.341 310.962 323.295 315.854C321.705 319.911 320.284 323.967 319.034 328.024C317.784 332.084 317.159 336.432 317.159 341.069C317.159 345.126 317.67 349.119 318.693 353.049C319.716 356.978 321.136 360.569 322.955 363.821C325.909 368.699 328.125 374.012 329.602 379.76C331.08 385.505 331.818 391.316 331.818 397.191C331.818 402.045 331.336 406.772 330.373 411.374C329.411 415.976 328.075 420.45 326.364 424.797L315.455 450L297.045 439.024L307.614 413.821C308.75 411.111 309.659 408.383 310.341 405.638C311.023 402.896 311.364 400 311.364 396.951C311.364 393.293 310.909 389.837 310 386.585C309.091 383.333 307.727 380.217 305.909 377.236C302.727 371.816 300.398 366.091 298.92 360.061C297.443 354.031 296.705 347.875 296.705 341.593C296.705 335.816 297.443 330.285 298.92 325C300.398 319.715 302.273 314.499 304.545 309.35C306.136 305.556 307.557 301.606 308.807 297.5C310.057 293.397 310.682 289.217 310.682 284.959V218.939C310.682 211.991 311.705 205.402 313.75 199.175C315.795 192.95 318.636 187.534 322.273 182.927C315.682 179.946 308.811 177.778 301.661 176.423C294.509 175.068 287.293 174.39 280.014 174.39C272.732 174.39 265.511 175.068 258.352 176.423C251.193 177.778 244.318 179.946 237.727 182.927C241.364 187.534 244.205 192.95 246.25 199.175C248.295 205.402 249.318 211.991 249.318 218.939V284.959C249.318 289.295 249.886 293.496 251.023 297.561C252.159 301.626 253.636 305.556 255.455 309.35C257.5 314.499 259.318 319.715 260.909 325C262.5 330.285 263.295 335.783 263.295 341.496C263.295 347.707 262.473 353.856 260.827 359.943C259.182 366.033 256.823 371.797 253.75 377.236C251.932 380.217 250.625 383.367 249.83 386.687C249.034 390.007 248.636 393.477 248.636 397.098C248.636 400.117 248.92 402.981 249.489 405.691C250.057 408.401 250.909 411.111 252.045 413.821L262.614 439.024L244.205 450ZM170.909 284.146C176.705 284.146 181.562 281.809 185.483 277.134C189.403 272.459 191.364 266.667 191.364 259.756C191.364 252.846 189.403 247.053 185.483 242.378C181.562 237.703 176.705 235.366 170.909 235.366C165.114 235.366 160.256 237.703 156.335 242.378C152.415 247.053 150.455 252.846 150.455 259.756C150.455 266.667 152.415 272.459 156.335 277.134C160.256 281.809 165.114 284.146 170.909 284.146ZM389.091 284.146C394.886 284.146 399.744 281.809 403.665 277.134C407.585 272.459 409.545 266.667 409.545 259.756C409.545 252.846 407.585 247.053 403.665 242.378C399.744 237.703 394.886 235.366 389.091 235.366C383.295 235.366 378.438 237.703 374.517 242.378C370.597 247.053 368.636 252.846 368.636 259.756C368.636 266.667 370.597 272.459 374.517 277.134C378.438 281.809 383.295 284.146 389.091 284.146Z" fill="#563A94" stroke="black" stroke-width="2" mask="url(#path-2-inside-1_30_641)"/>
-                    </g>
-                    <defs>
-                    <filter id="filter0_d_30_641" x="0.5" y="0.5" width="558.956" height="559" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-                    <feFlood flood-opacity="0" result="BackgroundImageFix"/>
-                    <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-                    <feOffset dy="4"/>
-                    <feGaussianBlur stdDeviation="2"/>
-                    <feComposite in2="hardAlpha" operator="out"/>
-                    <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
-                    <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_30_641"/>
-                    <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_30_641" result="shape"/>
-                    </filter>
-                    </defs>
-                </svg>
-                <span class="sus-text">SUS</span>
+    <div class="pagina-container">
+        <header class="faixa-superior">
+            <div class="area-logo">
+                <img src="../assets/img/Logo.svg" alt="Logo SISCAN" class="logo-imagem">
+                <span class="texto-cabecalho-app">Main Paciente</span>
             </div>
         </header>
 
-        <div class="content-wrapper">
-            <aside class="left-band">
-                </aside>
+        <div class="conteudo-wrapper">
+            <main class="conteudo-principal">
+                <div class="conteudo-principal-interno">
 
-            <main class="main-content">
-                <div class="main-content-inner">
-
-                    <section class="status-card-main">
-                        <div class="status-card-header">
+                    <section class="cartao-status-principal">
+                        <div class="cartao-status-cabecalho">
                             <h2>Seus Status de Saúde</h2>
-                            <div class="risk-assessment">
-                                <span class="risk-label">Classificação de risco</span>
-                                <div class="risk-bar-bg">
-                                    <div class="risk-bar-fill"></div>
+                            <div class="avaliacao-risco">
+                                <span class="rotulo-risco">Classificação de risco</span>
+                                <div class="barra-risco-fundo">
+                                    <div class="barra-risco-preenchimento"></div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="patient-greeting">
+                        <div class="saudacao-paciente">
                             <h1>Olá, Paciente!</h1>
-                            <div class="patient-photo-container">
-                                <img src="https://randomuser.me/portraits/women/72.jpg" alt="Foto do Paciente" class="patient-photo">
+                            <div class="foto-paciente-container">
+                                <img src="https://randomuser.me/portraits/women/72.jpg" alt="Foto do Paciente" class="foto-paciente">
                             </div>
                         </div>
 
-                        <div class="status-mini-cards-grid">
-                            <div class="mini-card">
-                                <div class="mini-card-icon-bg">
+                        <div class="grade-mini-cartoes-status">
+                            <div class="mini-cartao">
+                                <div class="mini-cartao-icone-fundo">
                                     <i class="fas fa-calendar-check"></i>
                                 </div>
                                 <div>
-                                    <p class="mini-card-label">Último Papanicolau</p>
-                                    <p class="mini-card-value">15/03/2025</p>
+                                    <p class="mini-cartao-rotulo">Último Exame</p>
+                                    <p class="mini-cartao-valor">15/03/2025</p>
                                 </div>
                             </div>
-                            <div class="mini-card">
-                                <div class="mini-card-icon-bg">
+                            <div class="mini-cartao">
+                                <div class="mini-cartao-icone-fundo">
                                     <i class="fas fa-poll"></i>
                                 </div>
                                 <div>
-                                    <p class="mini-card-label">Resultado HPV</p>
-                                    <p class="mini-card-value">Negativo</p>
+                                    <p class="mini-cartao-rotulo">Resultado</p>
+                                    <p class="mini-cartao-valor">Negativo</p>
                                 </div>
                             </div>
-                            <div class="mini-card">
-                                <div class="mini-card-icon-bg">
+                            <div class="mini-cartao">
+                                <div class="mini-cartao-icone-fundo">
                                     <i class="fas fa-calendar-alt"></i>
                                 </div>
                                 <div>
-                                    <p class="mini-card-label">Próxima Colposcopia</p>
-                                    <p class="mini-card-value">Agendada</p>
+                                    <p class="mini-cartao-rotulo">Próximo Exame</p>
+                                    <p class="mini-cartao-valor">Agendada</p>
                                 </div>
                             </div>
                         </div>
                     </section>
 
-                    <section class="bottom-cards-grid">
-                        <div class="info-card">
-                            <div class="info-card-header">
-                                <h3>Últimos Exames (Colo de Útero)</h3>
-                                <button class="history-button">Histórico de Exames</button>
+                    <section class="grade-cartoes-inferiores">
+                        <div class="cartao-info">
+                            <div class="cartao-info-cabecalho">
+                                <h3>Últimos Exames </h3>
+                                <button class="botao-historico">Histórico de Exames</button>
                             </div>
-                            <div class="info-card-content">
-                                <p class="content-title">Papanicolau</p>
-                                <p class="content-detail">Data: 15/03/2025 - Resultado: Sem alterações.</p>
-                                <p class="content-title">Teste de HPV</p>
-                                <p class="content-detail">Data: 15/03/2025 - Resultado: Negativo para tipos de alto risco.</p>
-                                <p class="content-title">Colposcopia</p>
-                                <p class="content-detail">Data: 02/11/2024 - Achados: JEC visível, sem lesões.</p>
+                            <div class="cartao-info-conteudo">
+                                <p class="titulo-conteudo">Papanicolau</p>
+                                <p class="detalhe-conteudo">Data: 15/03/2025 - Resultado: Sem alterações.</p>
+                                <p class="titulo-conteudo">Teste de HPV</p>
+                                <p class="detalhe-conteudo">Data: 15/03/2025 - Resultado: Negativo para tipos de alto risco.</p>
+                                <p class="titulo-conteudo">Colposcopia</p>
+                                <p class="detalhe-conteudo">Data: 02/11/2024 - Achados: JEC visível, sem lesões.</p>
                             </div>
                         </div>
 
-                        <div class="info-card">
-                            <div class="info-card-header">
+                        <div class="cartao-info">
+                            <div class="cartao-info-cabecalho">
                                 <h3>Últimas Notificações</h3>
-                                <button class="history-button">Histórico de Notificações</button>
+                                <button class="botao-historico">Histórico de Notificações</button>
                             </div>
-                            <div class="info-card-content">
-                                <p class="content-title">Agendamento</p>
-                                <p class="content-detail">Lembrete: Consulta de rotina e Papanicolau agendados para 15/03/2026.</p>
-                                <p class="content-title">Resultado Disponível</p>
-                                <p class="content-detail">Os resultados do seu último Papanicolau estão disponíveis no portal.</p>
-                                <p class="content-title">Orientações</p>
-                                <p class="content-detail">Não se esqueça da importância do autoexame e das consultas regulares.</p>
+                            <div class="cartao-info-conteudo">
+                                <p class="titulo-conteudo">Agendamento</p>
+                                <p class="detalhe-conteudo">Lembrete: Consulta de rotina e Papanicolau agendados para 15/03/2026.</p>
+                                <p class="titulo-conteudo">Resultado Disponível</p>
+                                <p class="detalhe-conteudo">Os resultados do seu último Papanicolau estão disponíveis no portal.</p>
+                                <p class="titulo-conteudo">Orientações</p>
+                                <p class="detalhe-conteudo">Não se esqueça da importância do autoexame e das consultas regulares.</p>
                             </div>
                         </div>
                     </section>
 
-                    <footer class="page-footer">
+                    <footer class="rodape-pagina">
                         <p>© 2025 Aplicativo de Saúde. Todos os direitos reservados.</p>
                     </footer>
                 </div>
             </main>
+            <aside class="faixa-lateral-direita">
+            </aside>
         </div>
     </div>
 

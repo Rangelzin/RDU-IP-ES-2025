@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página Inicial - Agente Comunitário</title>
+    <link rel="stylesheet" href="../assets/css/output.css">
+</head>
+<body class="w-screen h-screen flex flex-col">
+    <!-- Header -->
+    <header class="flex items-center bg-[var(--color-secondary)] h-20 px-4">
+        <img class="h-18 w-18 mr-4" src="../assets/img/Logo.svg" alt="Logo" />
+        <div class="flex flex-col lg:flex-row items-start justify-start">
+            <h1 class="lg:text-3xl font-sans text-[var(--color-fifth)]">Página Inicial</h1>
+            <div class="lg:block hidden mx-1 text-3xl font-sans text-[var(--color-fifth)]">-</div>
+            <h1 class="lg:text-3xl font-sans text-[#B9B9B9]">Agente Comunitário de Saúde</h1>
+        </div>
+    </header>
+    <!-- Main Content -->
+    <main class="flex flex-1">
+        <!-- Ações do Usuário -->
+        <section class="flex flex-col flex-1 items-center justify-center p-6">
+            <div class="w-full flex justify-start">
+                <h2 class="block underline text-xl md:text-2xl lg:text-3xl font-semibold text-[var(--color-tertiary)] mb-6 text-left">Ações do usuário</h2>
+            </div>
+            <div class="flex flex-col flex-2 items-start xl:items-center justify-center gap-20 lg:gap-30 lg:flex-row flex-wrap">
+                <!-- Card 1 -->
+                <div class="hidden xl:block w-60 h-35 lg:w-75 lg:h-50 bg-[var(--color-quaternary)] rounded-xl hover:bg-[#bfb0d1] cursor-pointer">
+                    <div class=" h-10 lg:h-12 bg-[var(--color-tertiary)] rounded-t-xl">
+                            <h3 class="text-xl pt-3 pl-5 font-semibold text-[var(--color-fifth)] ">Cadastrar nova ficha</h3>
+                    </div>
+                    <img class="h-15 w-15 lg:h-25 lg:w-25 mb-auto ml-auto mt-4 mr-auto" src="../assets/img/doctorfiles.svg" alt="Ficha">
+                </div>
+                <!-- Card 2 -->
+                <div class="w-60 h-35 lg:w-75 lg:h-50 bg-[var(--color-quaternary)] rounded-xl hover:bg-[#bfb0d1] cursor-pointer">
+                    <div class=" h-10 lg:h-12 bg-[var(--color-tertiary)] rounded-t-xl ">
+                            <h3 class="text-sm xl:text-lg pt-3 pl-5 font-semibold text-[var(--color-fifth)] ">Consultar Pacientes para Visita</h3>
+                    </div>
+                    <img class="h-15 w-15 lg:h-25 lg:w-25 mb-auto ml-auto mt-4 mr-auto" src="../assets/img/Magnifyingglass.svg" alt="Lupa">
+                </div>
+                <!-- Card 3 -->
+                <div class="w-60 h-35 lg:w-75 lg:h-50 bg-[var(--color-quaternary)] rounded-xl hover:bg-[#bfb0d1] cursor-pointer">
+                    <div class=" h-10 lg:h-12 bg-[var(--color-tertiary)] rounded-t-xl">
+                        <h3 class="text-xl pt-3 pl-5 font-semibold text-[var(--color-fifth)] ">Buscar paciente</h3>
+                    </div>
+                    <img class=" h-15 w-15 lg:h-25 lg:w-25 mb-auto ml-auto mt-4 mr-auto" src="../assets/img/woman2.svg" alt="mulher">
+                </div>
+            </div>
+            <div class="mt-10 text-center">© 2025 Aplicativo de Saúde. Todos os direitos reservados.</div>
+        </section>
+        <!-- Sidebar -->
+        <aside class="hidden lg:block w-20 bg-[var(--color-secondary)]"></aside>
+    </main>
+</body>
+</html>
