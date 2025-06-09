@@ -11,7 +11,7 @@ func main() {
 	// Inicializa as dependências do servidor
 	db, err := server.Init()
 	if err != nil {
-		log.Fatal("❌ Falha na inicialização!")
+		log.Fatal("❌ Falha na inicialização! ", err)
 	}
 	defer db.Close()
 
