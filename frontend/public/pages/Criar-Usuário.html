@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cadastrar Usuário</title>
+    <link href="../assets/css/output.css" rel="stylesheet" />
+  </head>
+  <body>
+    <main class="bg-[var(--color-fifth)] min-h-screen w-screen flex items-center justify-center">
+      <div class="w-full lg:w-3/4 xl:w-7/12 2xl:w-5/12 bg-[var(--color-fifth)] shadow-shadow-[0_4px_60px_rgba(0,0,0,0.9)] rounded-2xl p-8 transition-all duration-500 ease mx-4 my-8">
+        <!-- Ícone e Título -->
+        <div class="flex flex-col items-center">
+          <img src="../assets/img/Woman.svg" class="h-32 w-32 object-contain" alt="Usuário" />
+          <h1 class="mt-5 font-extrabold text-3xl text-[var(--color-primary)]">Cadastro de Profissional da Saúde</h1>
+        </div>
+
+        <!-- Formulário -->
+        <form id="formUsuario" method="post" class="mt-6 space-y-4 mx-2 md:mx-8 max-h-screen" >
+          <!-- Nome -->
+          <div>
+            <label for="nome" class="px-3 text-start font-extrabold text-sm text-[var(--color-tertiary)]">Nome</label>
+            <div class="flex items-center bg-[#D9D9D9] rounded-2xl mt-1">
+              <img src="../assets/img/person.svg" class="p-1 h-10" />
+              <input type="text" id="nome" name="nome" placeholder="Digite o nome" required
+                class="w-full text-lg py-3 placeholder:text-base bg-transparent outline-none focus:ring-0" />
+            </div>
+          </div>
+
+          <!-- CPF -->
+          <div>
+            <label for="cpf" class="px-3 text-start font-extrabold text-sm text-[var(--color-tertiary)]">CPF</label>
+            <div class="flex items-center bg-[#D9D9D9] rounded-2xl mt-1">
+              <img src="../assets/img/cpf.svg" class="p-1 h-10" />
+              <input type="text" id="cpf" name="cpf" placeholder="Digite o CPF" required
+                class="w-full text-lg py-3 placeholder:text-base bg-transparent outline-none focus:ring-0" />
+            </div>
+          </div>
+
+          
+
+          <!-- Email -->
+          <div>
+            <label for="email" class="px-3 text-start font-extrabold text-sm text-[var(--color-tertiary)]">E-mail</label>
+            <div class="flex items-center bg-[#D9D9D9] rounded-2xl mt-1">
+              <img src="../assets/img/email.svg" class="p-1 h-10" />
+              <input type="email" id="email" name="email" placeholder="Digite o e-mail" required
+                class="w-full text-lg py-3 placeholder:text-base bg-transparent outline-none focus:ring-0" />
+            </div>
+          </div>
+
+          <!-- Profissão -->
+          <div>
+            <label for="profissao" class="px-3 text-start font-extrabold text-sm text-[var(--color-tertiary)]">Profissão</label>
+            <div class="flex items-center bg-[#D9D9D9] rounded-2xl mt-1">
+              <img src="../assets/img/enfermeira.svg" class="p-1 h-10" />
+              <select id="profissao" name="profissao"
+                class="w-full text-lg py-3 bg-transparent placeholder:text-base outline-none focus:ring-0">
+                <option value="">Selecione a profissão</option>
+                <option value="enfermeiro(a)">Enfermeiro(a)</option>
+                <option value="agente">Agente Comunitário</option>
+                <option value="medico">Médico(a) Ginecologista</option>
+                <option value="Outros">Outros</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- CRM -->
+          <div>
+            <label for="crm" class="px-3 text-start font-extrabold text-sm text-[var(--color-tertiary)]">CRM <span class="text-xs">(Opcional)</span></label>
+            <div class="flex items-center bg-[#D9D9D9] rounded-2xl mt-1">
+              <img src="../assets/img/CRM.svg" class="p-1 h-10" />
+              <input type="text" id="crm" name="crm" placeholder="Campo disponível apenas para médicos"
+                class="w-full text-lg py-3 placeholder:text-base bg-red-100 outline-none cursor-not-allowed" disabled />
+            </div>
+          </div>
+
+          <!-- Senha -->
+          <div>
+            <label for="senha" class="px-3 text-start font-extrabold text-sm text-[var(--color-tertiary)]">Senha</label>
+            <div class="flex items-center bg-[#D9D9D9] rounded-2xl mt-1">
+              <img src="../assets/img/lock.svg" class="p-1 h-10" />
+              <input type="password" id="senha" name="senha" placeholder="Digite a senha" required
+                class="w-full text-lg py-3 placeholder:text-base bg-transparent outline-none focus:ring-0" />
+            </div>
+          </div>
+
+          <!-- Permissões -->
+          <div class="md:col-span-2 mt-6">
+            <h2 class="text-lg font-extrabold text-[var(--color-primary)] mb-4">Permissões de Acesso</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
+              <label class="flex items-center gap-8 p-2 rounded-lg hover:bg-gray-100">
+                <input type="checkbox" name="permissoes" value="gerar_relatorios" class="accent-[var(--color-primary)] w-6 h-6" />
+                <span class="font-semibold text-[var(--color-tertiary)]">Gerar Relatórios</span>
+              </label>
+              <label class="flex items-center gap-8 p-2 rounded-lg hover:bg-gray-100">
+                <input type="checkbox" name="permissoes" value="gerenciar_pacientes" class="accent-[var(--color-primary)] w-6 h-6" />
+                <span class="font-semibold text-[var(--color-tertiary)]">Editar Pacientes</span>
+              </label>
+              <label class="flex items-center gap-8 p-2 rounded-lg hover:bg-gray-100">
+                <input type="checkbox" name="permissoes" value="gerenciar_agendamentos" class="accent-[var(--color-primary)] w-6 h-6" />
+                <span class="font-semibold text-[var(--color-tertiary)]">Gerenciar Agendamentos</span>
+              </label>
+              <label class="flex items-center gap-8 p-2 rounded-lg hover:bg-gray-100">
+                <input type="checkbox" name="permissoes" value="acessar_prontuarios" class="accent-[var(--color-primary)] w-6 h-6" />
+                <span class="font-semibold text-[var(--color-tertiary)]">Acessar Prontuários</span>
+              </label>
+              <label class="flex items-center gap-8 p-2 rounded-lg hover:bg-gray-100">
+                <input type="checkbox" name="permissoes" value="configuracoes_sistema" class="accent-[var(--color-primary)] w-6 h-6" />
+                <span class="font-semibold text-[var(--color-tertiary)]">Configurações do Sistema</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Botão Criar -->
+          <input
+            type="submit"
+            name="submit"
+            id="submit"
+            class="mt-5 text-white font-extrabold w-full text-xl py-3 bg-(--color-primary) rounded-2xl hover:bg-(--color-secondary) cursor-pointer"
+            value="Criar Usuário"
+          />
+        </form>
+      </div>
+    </main>
+
+    <!-- Scripts -->
+    <script>
+      // Validação de CPF
+      document.getElementById("formUsuario").addEventListener("submit", function (e) {
+        const cpf = document.getElementById("cpf").value.replace(/[^\d]/g, "");
+        if (!/^\d{11}$/.test(cpf) || /^(\d)\1{10}$/.test(cpf)) {
+          e.preventDefault();
+          alert("CPF inválido.");
+        }
+
+        const permissoesMarcadas = [];
+        document.querySelectorAll('input[name="permissoes"]:checked').forEach((input) => {
+          permissoesMarcadas.push(input.value);
+        });
+        console.log("Permissões selecionadas:", permissoesMarcadas);
+      });
+
+      // Lógica de ativar/desativar CRM
+      const profissaoSelect = document.getElementById("profissao");
+      const crmInput = document.getElementById("crm");
+
+      // Inicial: desabilitado e vermelho
+      crmInput.disabled = true;
+      crmInput.classList.add("bg-red-100",  "cursor-not-allowed");
+      crmInput.placeholder = "Campo disponível apenas para médicos";
+
+      profissaoSelect.addEventListener("change", function () {
+        if (this.value === "medico") {
+          crmInput.disabled = false;
+          crmInput.classList.remove("bg-red-100",  "cursor-not-allowed");
+          crmInput.classList.add("bg-transparent", "cursor-text");
+          crmInput.placeholder = "Digite o CRM (apenas para médicos)";
+        } else {
+          crmInput.disabled = true;
+          crmInput.value = "";
+          crmInput.classList.remove("bg-transparent", "cursor-text");
+          crmInput.classList.add("bg-red-100",  "cursor-not-allowed");
+          crmInput.placeholder = "Campo disponível apenas para médicos";
+        }
+      });
+    </script>
+  </body>
+</html>
