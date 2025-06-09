@@ -29,13 +29,18 @@ Para rodar o projeto:
    
     ```bash
     docker-compose up --build
-    ```  
+    ```
 2. Acesse o backend:
    
    ```bash
     cd backend
     ```
-3. Rode o backend:
+2. execute as migrates:
+   
+   ```bash
+    go run main.go migrate
+    ```
+4. Rode a aplicação:
    
    ```bash
     go run main.go
