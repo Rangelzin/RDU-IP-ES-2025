@@ -9,13 +9,13 @@ import (
 func main() {
 
 	// Inicializa as dependências do servidor
-	db, err := server.Init()
+	db, deps, err := server.Init()
 	if err != nil {
 		log.Fatal("❌ Falha na inicialização! ", err)
 	}
 	defer db.Close()
 
-	r := server.SetupRouter()
+	r := server.SetupRouter(deps)
 
 	// Roda o servidor
 	port := os.Getenv("PORT")

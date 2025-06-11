@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func SetupRouter () *gin.Engine {
+func SetupRouter (deps *Dependencies) *gin.Engine {
 	r := gin.Default()
 
 	// Serve o diretório dos arquivos estáticos da aplicação
@@ -19,7 +19,7 @@ func SetupRouter () *gin.Engine {
 
 	// Registra os grupos de rotas importadas da pasta routes
 	rg := r.Group("/api")
-	routes.RegisterAPIRoutes(rg)
+	routes.RegisterAPIRoutes(rg, deps.PacienteHandler)
 
 	rg = r.Group("/")
 	routes.LoginRoutes(rg)

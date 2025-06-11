@@ -1,4 +1,4 @@
-package db
+package database
 
 import(
 	"fmt"
@@ -25,7 +25,7 @@ func RunMigrations() error {
 	}
 
 	// encontra o caminho para as migrations
-	m, err := migrate.NewWithDatabaseInstance("file://db/migrations", "postgres", driver)
+	m, err := migrate.NewWithDatabaseInstance("file://database/migrations", "postgres", driver)
 	if err != nil {
 		return err
 	}

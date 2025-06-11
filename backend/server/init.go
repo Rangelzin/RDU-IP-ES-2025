@@ -2,18 +2,20 @@ package server
 
 import (
 	"backend/config"
-	"backend/db"
+	"backend/database"
 	"database/sql"
-	_ "github.com/lib/pq"
 	"log"
 	"os"
+
+	_ "github.com/lib/pq"
 )
 
-func Init() (*sql.DB, error) {
+
+func Init() (*sql.DB, *Dependencies, error) {
 	// Inicia as variáveis de ambiente
 	if err := config.InitEnv(); err != nil {
 		log.Fatal("❌ Erro ao carregar as variáveis de ambiente:", err)
-		return nil, err
+		return nil, nil, err
 	}
 
 	// Executa as migrations
@@ -21,21 +23,23 @@ func Init() (*sql.DB, error) {
 	// quando se executa go run main.go migrates
 	// o os.args = {"main.go", "migrate"}
 	if len(os.Args) > 1 && os.Args[1] == "migrate" {
-		if err := db.RunMigrations(); err != nil {
-			return nil, err
+		if err := database.RunMigrations(); err != nil {
+			return nil, nil, err
 		}
 		log.Println("✅ Migration Executada com Sucesso.")
 		os.Exit(0)
 	}
 
 	// Conecta ao banco de dados
-	db, err := db.ConnectDB()
+	db, err := database.ConnectDB()
 	if err != nil {
-		log.Fatal("❌ Erro ao carregar as variáveis de ambiente:", err)
-		return nil, err
+		log.Fatal("❌ Erro ao conectar no banco de dados:", err)
+		return nil, nil, err
 	}
-	
-	return db, nil
 
+	// Carrega as depêndencias
+	deps := BuildDependencies(db)
+
+	return db, deps, nil
 
 }

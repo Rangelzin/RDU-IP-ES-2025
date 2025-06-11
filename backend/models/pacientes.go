@@ -10,6 +10,7 @@ type Paciente struct {
 	Nome_mae         string    `json:"nome_mae"`
 	Apelido          string    `json:"apelido"`
 	Cpf              string    `json:"cpf"`
+	Senha			 string    `json:"-"`
 	Data_nascimento  time.Time `json:"data_nascimento"`
 	Idade            int       `json:"idade"`
 	Logradouro       string    `json:"logradouro"`

@@ -5,6 +5,6 @@ import (
 	"backend/handlers"
 )
 
-func RegisterAPIRoutes (rg *gin.RouterGroup) {
-	rg.GET("/ping", handlers.PingHandler)
+func RegisterAPIRoutes (rg *gin.RouterGroup, pacienteHandler *handlers.PacienteHandler) {
+	rg.GET("/patients", pacienteHandler.GetPatientsHandler)
 }
