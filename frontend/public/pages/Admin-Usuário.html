@@ -35,11 +35,10 @@
 
         <input type="text" id="buscaNome" placeholder="Buscar por nome..." class="bg-white border border-gray-300 text-sm rounded px-3 py-2 w-60" />
 
-         <button id="btnNovoUsuario" class="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded text-sm ml-auto">
+         <button id="btnNovoUsuario" class="bg-purple-600 hover:bg-purple-700 text-white px-5 py-2.5 rounded-lg text-sm font-semibold shadow-md ml-auto transition duration-300 ease-in-out transform hover:scale-105">
 
-         + Novo Usuário
-
-        </button>
+        + Novo Usuário
+    </button>
       </div>
 
       <div class="bg-white rounded-md overflow-hidden shadow">
@@ -165,9 +164,9 @@
       }
 
       // Criar e adicionar linhas de usuários filtrados na tabela
-      filtrados.forEach((usuario, index) => { // Adicione 'index' aqui para o efeito zebra
+      filtrados.forEach((usuario, index) => { // Adicione 'index' aqui 
         const tr = document.createElement("tr");
-        // Alterna as cores de fundo para o efeito "zebra"
+        
         tr.className = `hover:bg-gray-100 ${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}`;
 
         // Preencher a linha com os dados do usuário e o botão de editar

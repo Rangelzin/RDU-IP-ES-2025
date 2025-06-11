@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gerenciamento de Pacientes (Backend Simulado)</title>
+    <link href="../assets/css/output.css" rel="stylesheet" />
+  </head>
+  <body class="w-screen h-screen flex flex-col font-sans">
+
+    <header class="flex items-center bg-[var(--color-secondary)] h-20 px-4">
+      <img class="h-18 w-18 mr-4" src="../assets/img/Logo.svg" alt="Logo" />
+      <h1 class="text-3xl font-sans text-[var(--color-fifth)]">Pesquisar Paciente</h1>
+    </header>
+
+    <main class="flex flex-1">
+
+      <aside class="w-20 bg-[var(--color-secondary)]"></aside>
+
+      <section class="flex-1 bg-gray-100 p-6 overflow-auto">
+
+        <div class="flex flex-wrap items-center gap-4 mb-6">
+          <select id="filtroFase" class="bg-white border border-gray-300 text-sm rounded px-3 py-2">
+            <option value="todas">Todas as fases</option>
+            <option value="inicial">Inicial</option>
+            <option value="intermediária">Intermediária</option>
+            <option value="final">Final</option>
+          </select>
+
+          <select id="filtroIdade" class="bg-white border border-gray-300 text-sm rounded px-3 py-2">
+            <option value="todas">Todas as idades</option>
+            <option value="criança">Criança</option>
+            <option value="adolescente">Adolescente</option>
+            <option value="adulto">Adulto</option>
+            <option value="idoso">Idoso</option>
+          </select>
+
+          <input type="text" id="buscaNome" placeholder="Buscar por nome..." class="bg-white border border-gray-300 text-sm rounded px-3 py-2 w-60" />
+
+          <button id="btnNovoPaciente" class="bg-purple-600 hover:bg-purple-700 text-white px-5 py-2.5 rounded-lg text-sm font-semibold shadow-md ml-auto transition duration-300 ease-in-out transform hover:scale-105">
+            + Novo Paciente
+          </button>
+        </div>
+
+        <div class="bg-white rounded-md overflow-hidden shadow"> <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+              <thead class="bg-gray-800"> <tr>
+                  <th scope="col" class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">Paciente</th>
+                  <th scope="col" class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">CPF</th>
+                  <th scope="col" class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">ID</th>
+                  <th scope="col" class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">Contato</th>
+                  <th scope="col" class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">Consulta</th>
+                  <th scope="col" class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">Idade</th>
+                  <th scope="col" class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">Fase</th>
+                  <th scope="col" class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">Ações</th>
+                </tr>
+              </thead>
+              <tbody id="tabelaPacientes" class="bg-white divide-y divide-gray-200">
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div id="statusMessage" class="mt-4 text-center text-gray-600"></div>
+
+      </section>
+    </main>
+
+    <script>
+      // --- SIMULAÇÃO DE BACKEND (NÃO USAR EM PRODUÇÃO) ---
+      // Este objeto simula as operações de um backend (GET, POST, PUT, DELETE),
+      // retornando Promisses para simular requisições assíncronas de rede.
+      const mockBackend = {
+        _pacientes: [ // Dados internos que seriam gerenciados por um banco de dados real
+          { nome: "Daenerys Targaryen", cpf: "123.456.789-00", id: "PT-1001", contato: "DanyTargaryen@gmail.com | (123) 98765-4321 | IP: 192.168.1.1", consulta: "29/12/2013", fase: "inicial", idade: "adulto" },
+          { nome: "Arya Stark", cpf: "987.654.321-11", id: "PT-1002", contato: "AryaStark@gmail.com | (21) 91234-5678 | IP: 10.0.0.2", consulta: "12/02/2001", fase: "intermediária", idade: "adolescente" },
+          { nome: "Cersei Lannister", cpf: "111.222.333-44", id: "PT-1004", contato: "CerseiLannister@gmail.com | (31) 99876-5432 | IP: 172.16.0.1", consulta: "03/06/2025", fase: "final", idade: "idoso" },
+          { nome: "Sansa Stark", cpf: "222.333.444-55", id: "PT-1005", contato: "SansaStark@gmail.com | (11) 90011-2233 | IP: 192.168.0.25", consulta: "15/08/2023", fase: "intermediária", idade: "adulto" },
+          { nome: "Brienne de Tarth", cpf: "333.444.555-66", id: "PT-1006", contato: "BrienneTarth@gmail.com | (85) 99888-7766 | IP: 10.1.2.3", consulta: "20/04/2022", fase: "final", idade: "adulto" },
+          { nome: "Ygritte", cpf: "444.555.666-77", id: "PT-1007", contato: "Ygritte@gmail.com | (91) 91111-3344 | IP: 192.168.10.10", consulta: "01/11/2024", fase: "inicial", idade: "adulto" }
+        ],
+
+        // Simula uma requisição GET para buscar todos os pacientes
+        getPacientes: function() {
+          return new Promise(resolve => {
+            setTimeout(() => { // Simula um atraso de rede de 500ms
+              resolve(JSON.parse(JSON.stringify(this._pacientes))); // Retorna uma cópia para evitar mutação direta
+            }, 500);
+          });
+        }
+        // As funções de atualização e criação não são necessárias aqui, pois os botões apenas redirecionam.
+      };
+      // --- FIM DA SIMULAÇÃO DE BACKEND ---
+
+      // Variável para armazenar a lista de pacientes obtida do backend
+      let pacientesAtuais = [];
+      // Referência ao elemento de mensagem de status
+      const statusMessage = document.getElementById("statusMessage");
+
+      // Seleção de elementos HTML para filtros e tabela
+      const buscaNome = document.getElementById("buscaNome");
+      const filtroFase = document.getElementById("filtroFase");
+      const filtroIdade = document.getElementById("filtroIdade");
+      const tabela = document.getElementById("tabelaPacientes");
+      const btnNovoPaciente = document.getElementById("btnNovoPaciente"); // Seleção do botão "Novo Paciente"
+
+      // Função assíncrona para carregar os pacientes do "backend"
+      async function carregarPacientes() {
+        statusMessage.textContent = "Carregando pacientes..."; // Mensagem de carregamento
+        try {
+          pacientesAtuais = await mockBackend.getPacientes();
+          statusMessage.textContent = ""; // Limpa a mensagem de carregamento
+          renderTabela(); // Renderiza a tabela com os dados atualizados
+        } catch (error) {
+          console.error("Erro ao carregar pacientes:", error);
+          statusMessage.textContent = `Erro ao carregar pacientes: ${error.message}`; // Exibe erro
+          // Ajuste colspan para 8 para incluir a nova coluna "Ações"
+          tabela.innerHTML = `<tr><td colspan="8" class="px-6 py-6 text-center text-red-500 text-lg font-semibold bg-red-50">Erro ao carregar pacientes.</td></tr>`;
+        }
+      }
+
+      // Função para redirecionar para a tela de edição de paciente
+      function editarPaciente(pacienteId) {
+        window.location.href = `editar-paciente.html?id=${pacienteId}`;
+      }
+
+      // Função para redirecionar para a tela de criação de novo paciente
+      function abrirNovoPaciente() {
+        window.location.href = `novo-paciente.html`;
+      }
+
+      // Função para renderizar/atualizar a tabela de pacientes
+      function renderTabela() {
+        const nomeBusca = buscaNome.value.toLowerCase().trim();
+        const fase = filtroFase.value;
+        const idade = filtroIdade.value;
+
+        tabela.innerHTML = ""; // Limpar o corpo da tabela
+
+        const filtrados = pacientesAtuais.filter(p => {
+          const nomeMatch = p.nome.toLowerCase().includes(nomeBusca);
+          const faseMatch = fase === "todas" || p.fase === fase;
+          const idadeMatch = idade === "todas" || p.idade === idade;
+          return nomeMatch && faseMatch && idadeMatch;
+        });
+
+        if (filtrados.length === 0) {
+         
+          tabela.innerHTML = `
+            <tr>
+              <td colspan="8" class="px-6 py-6 text-center text-gray-500 text-lg font-semibold bg-gray-50">Nenhum paciente encontrado.</td>
+            </tr>
+          `;
+          return;
+        }
+
+        filtrados.forEach((paciente, index) => { // Adicione 'index' 
+          const tr = document.createElement("tr");
+          
+          tr.className = `hover:bg-gray-100 ${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}`;
+
+          tr.innerHTML = `
+            <td class="px-6 py-3 font-medium text-gray-900">${paciente.nome}</td>
+            <td class="px-6 py-3 whitespace-nowrap text-gray-700">${paciente.cpf}</td>
+            <td class="px-6 py-3 whitespace-nowrap text-gray-700">${paciente.id}</td>
+            <td class="px-6 py-3 text-gray-700 break-words max-w-xs">${paciente.contato}</td>
+            <td class="px-6 py-3 whitespace-nowrap text-gray-700">${paciente.consulta}</td>
+            <td class="px-6 py-3 whitespace-nowrap capitalize text-gray-700">${paciente.idade}</td>
+            <td class="px-6 py-3 whitespace-nowrap capitalize text-gray-700">${paciente.fase}</td>
+            <td class="px-6 py-3 whitespace-nowrap text-right text-sm font-medium">
+              <button onclick="editarPaciente('${paciente.id}')" class="text-indigo-600 hover:text-indigo-900 font-medium">Editar</button>
+            </td>
+          `;
+          tabela.appendChild(tr);
+        });
+      }
+
+      buscaNome.addEventListener("input", renderTabela);
+      filtroFase.addEventListener("change", renderTabela);
+      filtroIdade.addEventListener("change", renderTabela);
+      btnNovoPaciente.addEventListener("click", abrirNovoPaciente);
+
+      carregarPacientes();
+    </script>
+
+  </body>
+</html>
