@@ -3,15 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Página Inicial - Sistema de Rastreamento</title>
-  <link href="../assets/css/output.css" rel="stylesheet" />
+  <title>Página Inicial - Sistema de Rastreamento (Backend Simulado)</title> <link href="../assets/css/output.css" rel="stylesheet" />
 </head>
-<body class="w-screen h-screen flex flex-col font-sans">
-
-  <header class="flex items-center bg-[var(--color-secondary)] h-20 px-4">
+<body class="w-screen h-screen flex flex-col font-sans"> <header class="flex items-center bg-[var(--color-secondary)] h-20 px-4">
     <img class="h-18 w-18 mr-4" src="../assets/img/Logo.svg" alt="Logo" />
-    <h1 class="text-3xl font-sans text-[var(--color-fifth)]">Pesquisar Usuário</h1>
-  </header>
+    <h1 class="text-3xl font-sans text-[var(--color-fifth)]">Pesquisar Usuário</h1> </header>
 
   <main class="flex flex-1">
 
@@ -48,11 +44,10 @@
                 <th scope="col" class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">Usuário</th>
                 <th scope="col" class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">Perfil</th>
                 <th scope="col" class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">E-mail</th>
-                <th scope="col" class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">Status / Ações</th>
-              </tr>
+                <th scope="col" class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">Status</th> <th scope="col" class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">Ações</th> </tr>
             </thead>
             <tbody id="tabelaUsuarios" class="bg-white divide-y divide-gray-200">
-              </tbody>
+            </tbody>
           </table>
         </div>
       </div>
@@ -63,86 +58,146 @@
   </main>
 
   <script>
-    const usuarios = [
-      { nome: "Dr. Vincent Vega", cargo: "Médico direcologista", status: "ativo", email: "vincentvega@gmail.com" },
-      { nome: "Enf. Mia Wallace", cargo: "Enfermeira", status: "inativo", email: "Miawallace@gmail.com" },
-      { nome: "Ag. Jules Winnfield", cargo: "Agente Comunitário", status: "ativo", email: "JulesWinnfield@gmail.com" },
-      { nome: "Dr. Butch Coolidge", cargo: "Médico cardiologista", status: "ativo", email: "butch.coolidge@email.com" },
-      { nome: "Enf. Marsellus Wallace", cargo: "Enfermeiro", status: "inativo", email: "marsellus.wallace@email.com" },
-      { nome: "Ag. Fabienne Lemoine", cargo: "Agente Comunitário", status: "ativo", email: "fabienne.lemoine@email.com" }
-    ];
+    // --- SIMULAÇÃO DE BACKEND (NÃO USAR EM PRODUÇÃO) ---
+    // Este objeto simula as operações de um backend (GET, POST, PUT, DELETE),
+    // retornando Promisses para simular requisições assíncronas de rede.
+    const mockBackend = {
+      _usuarios: [ // Dados que seriam armazenados em um banco de dados real
+        // Adicionado um 'id' único para cada usuário, essencial para referenciar na edição
+        { id: "USR-001", nome: "Dr. Vincent Vega", cargo: "Médico direcologista", status: "ativo", email: "vincentvega@gmail.com" },
+        { id: "USR-002", nome: "Enf. Mia Wallace", cargo: "Enfermeira", status: "inativo", email: "Miawallace@gmail.com" },
+        { id: "USR-003", nome: "Ag. Jules Winnfield", cargo: "Agente Comunitário", status: "ativo", email: "JulesWinnfield@gmail.com" },
+        { id: "USR-004", nome: "Dr. Butch Coolidge", cargo: "Médico cardiologista", status: "ativo", email: "butch.coolidge@email.com" },
+        { id: "USR-005", nome: "Enf. Marsellus Wallace", cargo: "Enfermeiro", status: "inativo", email: "marsellus.wallace@email.com" },
+        { id: "USR-006", nome: "Ag. Fabienne Lemoine", cargo: "Agente Comunitário", status: "ativo", email: "fabienne.lemoine@email.com" }
+      ],
 
+      // Simula uma requisição GET para buscar todos os usuários
+      getUsuarios: function() {
+        return new Promise(resolve => {
+          setTimeout(() => { // Simula um atraso de rede de 500ms
+            resolve(JSON.parse(JSON.stringify(this._usuarios))); // Retorna uma cópia para evitar mutação direta
+          }, 500);
+        });
+      }
+      // Funções de atualização e criação seriam adicionadas aqui em um backend real.
+    };
+    // --- FIM DA SIMULAÇÃO DE BACKEND ---
+
+    // Variável para armazenar a lista de usuários obtida do backend
+    let usuariosAtuais = [];
+    // Referência ao elemento de mensagem de status
+    const statusMessage = document.getElementById("statusMessage");
+
+    // Seleção de elementos HTML para filtros e tabela
     const buscaNome = document.getElementById("buscaNome");
     const filtroCargo = document.getElementById("filtroCargo");
     const filtroStatus = document.getElementById("filtroStatus");
     const tabela = document.getElementById("tabelaUsuarios");
-    const btnNovoUsuario = document.getElementById("btnNovoUsuario"); // Referência ao novo botão
+    const btnNovoUsuario = document.getElementById("btnNovoUsuario"); // Seleção do botão "+ Novo Usuário"
 
+    // Função assíncrona para carregar os usuários do "backend"
+    async function carregarUsuarios() {
+      statusMessage.textContent = "Carregando usuários..."; // Mensagem de carregamento
+      try {
+        // *** EM UM PROJETO REAL, AQUI VOCÊ USARIA 'fetch' ***
+        // Exemplo:
+        // const response = await fetch('/api/usuarios');
+        // if (!response.ok) {
+        //   throw new Error(`Erro HTTP: ${response.status}`);
+        // }
+        // usuariosAtuais = await response.json();
+
+        // Usando o mockBackend para simular a requisição:
+        usuariosAtuais = await mockBackend.getUsuarios();
+        statusMessage.textContent = ""; // Limpa a mensagem de carregamento
+        renderTabela(); // Renderiza a tabela com os dados atualizados
+      } catch (error) {
+        console.error("Erro ao carregar usuários:", error);
+        statusMessage.textContent = `Erro ao carregar usuários: ${error.message}`; // Exibe erro
+        // Mensagem de erro dentro da estrutura da tabela. Colspan ajustado para 5.
+        tabela.innerHTML = `<tr><td colspan="5" class="px-6 py-4 text-center text-red-500">Erro ao carregar usuários.</td></tr>`;
+      }
+    }
+
+    // Função para redirecionar para a tela de edição de usuário
+    function editarUsuario(usuarioId) {
+      // Redireciona para uma URL de edição, passando o ID do usuário como parâmetro de query.
+      window.location.href = `editar-usuario.html?id=${usuarioId}`;
+    }
+
+    // Função para redirecionar para a tela de criação de novo usuário
+    function abrirNovoUsuario() {
+      window.location.href = `novo-usuario.html`;
+    }
+
+    // Função para renderizar/atualizar a tabela de usuários
     function renderTabela() {
+      // Obter valores dos filtros
       const nomeBusca = buscaNome.value.toLowerCase().trim();
-      const cargo = filtroCargo.value;
+      const cargo = filtroCargo.value.toLowerCase(); // Transformado para minúsculas aqui
       const status = filtroStatus.value;
 
-      tabela.innerHTML = ""; // Limpa o corpo da tabela
+      // Limpar o corpo da tabela antes de renderizar
+      tabela.innerHTML = "";
 
-      const filtrados = usuarios.filter(usuario => {
+      // Filtrar usuários com base nos critérios
+      const filtrados = usuariosAtuais.filter(usuario => {
         const nomeMatch = usuario.nome.toLowerCase().includes(nomeBusca);
         // Ajuste no filtro de cargo para lidar com "médico" e "médico cardiologista"
-        const cargoMatch = cargo === "todos" || usuario.cargo.toLowerCase().includes(cargo.toLowerCase());
+        const cargoMatch = cargo === "todos" || usuario.cargo.toLowerCase().includes(cargo);
         const statusMatch = status === "todos" || usuario.status === status;
         return nomeMatch && cargoMatch && statusMatch;
       });
 
+      // Exibir mensagem se nenhum usuário for encontrado
       if (filtrados.length === 0) {
-        // Ajustado colspan para 4 (número de colunas no cabeçalho)
+        // Ajustado colspan para 5 (número de colunas no cabeçalho)
         tabela.innerHTML = `
           <tr>
-            <td colspan="4" class="px-6 py-6 text-center text-gray-500 text-lg font-semibold bg-gray-50">Nenhum usuário encontrado.</td>
+            <td colspan="5" class="px-6 py-6 text-center text-gray-500 text-lg font-semibold bg-gray-50">Nenhum usuário encontrado.</td>
           </tr>
         `;
         return;
       }
 
-      filtrados.forEach((usuario, index) => {
+      // Criar e adicionar linhas de usuários filtrados na tabela
+      filtrados.forEach((usuario, index) => { // Adicionado 'index' para o efeito zebra
         const tr = document.createElement("tr");
-        // Efeito zebra e hover
+        
         tr.className = `hover:bg-gray-100 ${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}`;
 
+        // Preencher a linha com os dados do usuário e o botão de editar
         tr.innerHTML = `
-          <td class="px-6 py-3 font-medium text-gray-900">${usuario.nome}</td>
+          <td class="px-6 py-3 whitespace-nowrap font-medium text-gray-900">${usuario.nome}</td>
           <td class="px-6 py-3 whitespace-nowrap text-gray-700">${usuario.cargo}</td>
           <td class="px-6 py-3 text-gray-700 break-words max-w-xs">${usuario.email}</td>
-          <td class="px-6 py-3 whitespace-nowrap text-right text-sm font-medium">
-            <span class="${usuario.status === "ativo" ? "text-green-600 font-bold" : "text-red-600 font-bold"} mr-2">
+          <td class="px-6 py-3 whitespace-nowrap">
+            <span class="${usuario.status === "ativo" ? "text-green-600 font-semibold bg-green-100 px-2 py-0.5 rounded-full text-xs" : "text-red-600 font-semibold bg-red-100 px-2 py-0.5 rounded-full text-xs"}">
               ${usuario.status === "ativo" ? "Ativo" : "Inativo"}
             </span>
-            <button onclick="editarUsuario('${usuario.email}')" class="text-indigo-600 hover:text-indigo-900 font-medium">Editar</button>
+          </td>
+          <td class="px-6 py-3 whitespace-nowrap text-right text-sm font-medium">
+            <button onclick="editarUsuario('${usuario.id}')"
+               class="text-indigo-600 hover:text-indigo-900 font-medium">
+              Editar
+            </button>
           </td>
         `;
         tabela.appendChild(tr);
       });
     }
 
-    // Função para simular edição (pode ser um redirecionamento como no código 1)
-    function editarUsuario(userEmail) {
-      alert(`Função de edição para o usuário: ${userEmail}`);
-      // window.location.href = `editar-usuario.html?email=${userEmail}`; // Exemplo de redirecionamento
-    }
-
-    // Função para simular a abertura de novo usuário
-    function abrirNovoUsuario() {
-        alert("Redirecionar para tela de novo usuário.");
-        // window.location.href = `novo-usuario.html`; // Exemplo de redirecionamento
-    }
-
-    // Event Listeners
+    // Adicionar escutadores de eventos para os filtros e busca
     buscaNome.addEventListener("input", renderTabela);
     filtroCargo.addEventListener("change", renderTabela);
     filtroStatus.addEventListener("change", renderTabela);
-    btnNovoUsuario.addEventListener("click", abrirNovoUsuario); // Adicionando evento ao novo botão
 
-    // Carrega a tabela na inicialização
-    renderTabela();
+    // Escutador para o botão "+ Novo Usuário"
+    btnNovoUsuario.addEventListener("click", abrirNovoUsuario);
+
+    // Carregar os usuários do "backend" quando a página é carregada
+    carregarUsuarios();
   </script>
 
 </body>

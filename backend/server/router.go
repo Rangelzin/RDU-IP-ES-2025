@@ -19,7 +19,8 @@ func SetupRouter (deps *Dependencies) *gin.Engine {
 
 	// Registra os grupos de rotas importadas da pasta routes
 	rg := r.Group("/api")
-	routes.RegisterAPIRoutes(rg, deps.PacienteHandler)
+	routes.RegisterAPIPacienteRoutes(rg, deps.PacienteHandler)
+	routes.RegisterAPIUserRoutes(rg, deps.UserHandler)
 
 	rg = r.Group("/")
 	routes.LoginRoutes(rg)

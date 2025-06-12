@@ -156,7 +156,7 @@
 
         filtrados.forEach((paciente, index) => { // Adicione 'index' para o efeito zebra
           const tr = document.createElement("tr");
-          // Efeito zebra e hover
+          
           tr.className = `hover:bg-gray-100 ${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}`;
 
           tr.innerHTML = `
