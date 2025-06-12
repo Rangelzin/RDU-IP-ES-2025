@@ -1,8 +1,10 @@
 package services
 
-import(
+import (
 	"backend/models"
 	"backend/repositories"
+
+	"github.com/gin-gonic/gin"
 )
 
 type PacienteService struct {
@@ -15,4 +17,8 @@ func NewPacienteService(pacienteRepository *repositories.PacienteRepository) *Pa
 
 func (s *PacienteService) GetAllPatientes() (*[]models.Paciente, error) {
 	return s.pacienteRepository.FindAllPatients()
+}
+
+func (s *PacienteService) GetPatienteByCPF(c *gin.Context) (*models.Paciente, error) {
+	return s.pacienteRepository.FindPatientByCPF(c)
 }

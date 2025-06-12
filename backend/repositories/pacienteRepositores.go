@@ -3,6 +3,11 @@ package repositories
 import (
 	"backend/database"
 	"backend/models"
+	"database/sql"
+	"fmt"
+	"log"
+
+	"github.com/gin-gonic/gin"
 )
 
 type PacienteRepository struct {
@@ -51,4 +56,46 @@ func (r *PacienteRepository) FindAllPatients() (*[]models.Paciente, error) {
 	}
 
 	return &patients, nil
+}
+
+func (r *PacienteRepository) FindPatientByCPF(c *gin.Context) (*models.Paciente, error) {
+	cpf := c.Param("cpf")
+	ctx := c.Request.Context()
+	var p models.Paciente
+
+	row := r.db.DB.QueryRowContext(ctx, "SELECT * FROM pacientes WHERE cpf = $1", cpf)
+	err := row.Scan(
+		&p.Id,
+		&p.Nome_completo,
+		&p.Nome_mae,
+		&p.Apelido,
+		&p.Cpf,
+		&p.Senha,
+		&p.Data_nascimento,
+		&p.Idade,
+		&p.Logradouro,
+		&p.Numero,
+		&p.Complemento,
+		&p.Bairro, &p.Municipio,
+		&p.Uf,
+		&p.Cep,
+		&p.Telefone,
+		&p.Ponto_referencia,
+		&p.Escolaridade,
+		&p.Cartao_sus,
+		&p.Raca_cor,
+		&p.Nacionalidade,
+		&p.Ubs_id,
+		&p.Created_at); 
+		fmt.Print(p)
+	
+	switch{
+	case err == sql.ErrNoRows:
+		log.Printf("No Pacient with CPF %s", cpf)
+		return nil, err
+	case err != nil:
+		return nil, err
+	default:
+		return &p, nil
+	}
 }
