@@ -11,10 +11,18 @@
     --color-red-100: oklch(93.6% 0.032 17.717);
     --color-red-500: oklch(63.7% 0.237 25.331);
     --color-red-600: oklch(57.7% 0.245 27.325);
+    --color-amber-50: oklch(98.7% 0.022 95.277);
     --color-yellow-500: oklch(79.5% 0.184 86.047);
     --color-green-50: oklch(98.2% 0.018 155.826);
     --color-green-500: oklch(72.3% 0.219 149.579);
     --color-green-600: oklch(62.7% 0.194 149.214);
+<<<<<<< HEAD
+=======
+    --color-indigo-600: oklch(51.1% 0.262 276.966);
+    --color-indigo-900: oklch(35.9% 0.144 278.697);
+    --color-purple-600: oklch(55.8% 0.288 302.321);
+    --color-purple-700: oklch(49.6% 0.265 301.924);
+>>>>>>> 5a2bc09 (feat: fin. da sidebar lateral para as telas (sem ações) ✨ (ref #53))
     --color-pink-100: oklch(94.8% 0.028 342.258);
     --color-pink-200: oklch(89.9% 0.061 343.231);
     --color-pink-600: oklch(59.2% 0.249 0.584);
@@ -52,6 +60,11 @@
     --radius-lg: 0.5rem;
     --radius-xl: 0.75rem;
     --radius-2xl: 1rem;
+<<<<<<< HEAD
+=======
+    --radius-4xl: 2rem;
+    --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+>>>>>>> 5a2bc09 (feat: fin. da sidebar lateral para as telas (sem ações) ✨ (ref #53))
     --default-transition-duration: 150ms;
     --default-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     --default-font-family: var(--font-sans);
@@ -237,9 +250,12 @@
   .mx-auto {
     margin-inline: auto;
   }
+<<<<<<< HEAD
   .my-8 {
     margin-block: calc(var(--spacing) * 8);
   }
+=======
+>>>>>>> 5a2bc09 (feat: fin. da sidebar lateral para as telas (sem ações) ✨ (ref #53))
   .my-auto {
     margin-block: auto;
   }
@@ -306,11 +322,17 @@
   .table {
     display: table;
   }
+  .h-1 {
+    height: calc(var(--spacing) * 1);
+  }
   .h-6 {
     height: calc(var(--spacing) * 6);
   }
   .h-10 {
     height: calc(var(--spacing) * 10);
+  }
+  .h-11 {
+    height: calc(var(--spacing) * 11);
   }
   .h-12 {
     height: calc(var(--spacing) * 12);
@@ -378,6 +400,12 @@
   .w-10 {
     width: calc(var(--spacing) * 10);
   }
+<<<<<<< HEAD
+=======
+  .w-11 {
+    width: calc(var(--spacing) * 11);
+  }
+>>>>>>> 5a2bc09 (feat: fin. da sidebar lateral para as telas (sem ações) ✨ (ref #53))
   .w-15 {
     width: calc(var(--spacing) * 15);
   }
@@ -447,6 +475,12 @@
   .border-collapse {
     border-collapse: collapse;
   }
+<<<<<<< HEAD
+=======
+  .rotate-180 {
+    rotate: 180deg;
+  }
+>>>>>>> 5a2bc09 (feat: fin. da sidebar lateral para as telas (sem ações) ✨ (ref #53))
   .transform {
     transform: var(--tw-rotate-x,) var(--tw-rotate-y,) var(--tw-rotate-z,) var(--tw-skew-x,) var(--tw-skew-y,);
   }
@@ -628,6 +662,9 @@
   .bg-\[var\(--color-tertiary\)\] {
     background-color: var(--color-tertiary);
   }
+  .bg-amber-50 {
+    background-color: var(--color-amber-50);
+  }
   .bg-black {
     background-color: var(--color-black);
   }
@@ -685,6 +722,15 @@
   .p-8 {
     padding: calc(var(--spacing) * 8);
   }
+<<<<<<< HEAD
+=======
+  .p-10 {
+    padding: calc(var(--spacing) * 10);
+  }
+  .px-2 {
+    padding-inline: calc(var(--spacing) * 2);
+  }
+>>>>>>> 5a2bc09 (feat: fin. da sidebar lateral para as telas (sem ações) ✨ (ref #53))
   .px-3 {
     padding-inline: calc(var(--spacing) * 3);
   }
@@ -711,6 +757,9 @@
   }
   .pt-3 {
     padding-top: calc(var(--spacing) * 3);
+  }
+  .pl-2 {
+    padding-left: calc(var(--spacing) * 2);
   }
   .pl-5 {
     padding-left: calc(var(--spacing) * 5);
@@ -904,6 +953,110 @@
       line-height: var(--tw-leading, var(--text-lg--line-height));
     }
   }
+<<<<<<< HEAD
+=======
+  .hover\:mx-2 {
+    &:hover {
+      @media (hover: hover) {
+        margin-inline: calc(var(--spacing) * 2);
+      }
+    }
+  }
+  .hover\:mx-3 {
+    &:hover {
+      @media (hover: hover) {
+        margin-inline: calc(var(--spacing) * 3);
+      }
+    }
+  }
+  .hover\:mx-5 {
+    &:hover {
+      @media (hover: hover) {
+        margin-inline: calc(var(--spacing) * 5);
+      }
+    }
+  }
+  .hover\:mx-10 {
+    &:hover {
+      @media (hover: hover) {
+        margin-inline: calc(var(--spacing) * 10);
+      }
+    }
+  }
+  .hover\:w-1\/2 {
+    &:hover {
+      @media (hover: hover) {
+        width: calc(1/2 * 100%);
+      }
+    }
+  }
+  .hover\:w-\[100\%-10\] {
+    &:hover {
+      @media (hover: hover) {
+        width: 100%-10;
+      }
+    }
+  }
+  .hover\:w-\[100\%\] {
+    &:hover {
+      @media (hover: hover) {
+        width: 100%;
+      }
+    }
+  }
+  .hover\:w-\[100\] {
+    &:hover {
+      @media (hover: hover) {
+        width: 100;
+      }
+    }
+  }
+  .hover\:w-full {
+    &:hover {
+      @media (hover: hover) {
+        width: 100%;
+      }
+    }
+  }
+  .hover\:scale-105 {
+    &:hover {
+      @media (hover: hover) {
+        --tw-scale-x: 105%;
+        --tw-scale-y: 105%;
+        --tw-scale-z: 105%;
+        scale: var(--tw-scale-x) var(--tw-scale-y);
+      }
+    }
+  }
+  .hover\:items-start {
+    &:hover {
+      @media (hover: hover) {
+        align-items: flex-start;
+      }
+    }
+  }
+  .hover\:justify-center {
+    &:hover {
+      @media (hover: hover) {
+        justify-content: center;
+      }
+    }
+  }
+  .hover\:justify-start {
+    &:hover {
+      @media (hover: hover) {
+        justify-content: flex-start;
+      }
+    }
+  }
+  .hover\:rounded-4xl {
+    &:hover {
+      @media (hover: hover) {
+        border-radius: var(--radius-4xl);
+      }
+    }
+  }
+>>>>>>> 5a2bc09 (feat: fin. da sidebar lateral para as telas (sem ações) ✨ (ref #53))
   .hover\:bg-\(--color-secondary\) {
     &:hover {
       @media (hover: hover) {
@@ -953,6 +1106,51 @@
       }
     }
   }
+<<<<<<< HEAD
+=======
+  .hover\:p-1 {
+    &:hover {
+      @media (hover: hover) {
+        padding: calc(var(--spacing) * 1);
+      }
+    }
+  }
+  .hover\:p-2 {
+    &:hover {
+      @media (hover: hover) {
+        padding: calc(var(--spacing) * 2);
+      }
+    }
+  }
+  .hover\:p-4 {
+    &:hover {
+      @media (hover: hover) {
+        padding: calc(var(--spacing) * 4);
+      }
+    }
+  }
+  .hover\:p-5 {
+    &:hover {
+      @media (hover: hover) {
+        padding: calc(var(--spacing) * 5);
+      }
+    }
+  }
+  .hover\:px-2 {
+    &:hover {
+      @media (hover: hover) {
+        padding-inline: calc(var(--spacing) * 2);
+      }
+    }
+  }
+  .hover\:px-5 {
+    &:hover {
+      @media (hover: hover) {
+        padding-inline: calc(var(--spacing) * 5);
+      }
+    }
+  }
+>>>>>>> 5a2bc09 (feat: fin. da sidebar lateral para as telas (sem ações) ✨ (ref #53))
   .hover\:text-\[var\(--color-primary\)\] {
     &:hover {
       @media (hover: hover) {
