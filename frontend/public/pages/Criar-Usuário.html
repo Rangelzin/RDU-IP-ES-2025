@@ -6,18 +6,15 @@
     <title>Cadastrar Usuário</title>
     <link href="../assets/css/output.css" rel="stylesheet" />
   </head>
-  <body>
-    <main class="bg-[var(--color-fifth)] min-h-screen w-screen flex items-center justify-center">
-      <div class="w-full lg:w-3/4 xl:w-7/12 2xl:w-5/12 bg-[var(--color-fifth)] shadow-shadow-[0_4px_60px_rgba(0,0,0,0.9)] rounded-2xl p-8 transition-all duration-500 ease mx-4 my-8">
-        <!-- Ícone e Título -->
+  <body class="bg-white">
+    <main class="min-h-screen w-screen flex items-center justify-center">
+      <div class="w-full lg:w-3/4 xl:w-7/12 2xl:w-5/12 bg-[var(--color-fifth)] shadow-[0_0px_40px_rgba(0,0,0,0.10)] lg:shadow-[0_0px_40px_rgba(0,0,0,0.25)] transition-all duration-500 ease rounded-2xl p-8 flex flex-col">
         <div class="flex flex-col items-center">
           <img src="../assets/img/Woman.svg" class="h-32 w-32 object-contain" alt="Usuário" />
           <h1 class="mt-5 font-extrabold text-3xl text-[var(--color-primary)]">Cadastro de Profissional da Saúde</h1>
         </div>
 
-        <!-- Formulário -->
-        <form id="formUsuario" method="post" class="mt-6 space-y-4 mx-2 md:mx-8 max-h-screen" >
-          <!-- Nome -->
+        <form id="formUsuario" method="post" class="mt-6 space-y-4 mx-2 md:mx-8 flex flex-col flex-grow">
           <div>
             <label for="nome" class="px-3 text-start font-extrabold text-sm text-[var(--color-tertiary)]">Nome</label>
             <div class="flex items-center bg-[#D9D9D9] rounded-2xl mt-1">
@@ -27,7 +24,6 @@
             </div>
           </div>
 
-          <!-- CPF -->
           <div>
             <label for="cpf" class="px-3 text-start font-extrabold text-sm text-[var(--color-tertiary)]">CPF</label>
             <div class="flex items-center bg-[#D9D9D9] rounded-2xl mt-1">
@@ -37,9 +33,6 @@
             </div>
           </div>
 
-          
-
-          <!-- Email -->
           <div>
             <label for="email" class="px-3 text-start font-extrabold text-sm text-[var(--color-tertiary)]">E-mail</label>
             <div class="flex items-center bg-[#D9D9D9] rounded-2xl mt-1">
@@ -49,7 +42,6 @@
             </div>
           </div>
 
-          <!-- Profissão -->
           <div>
             <label for="profissao" class="px-3 text-start font-extrabold text-sm text-[var(--color-tertiary)]">Profissão</label>
             <div class="flex items-center bg-[#D9D9D9] rounded-2xl mt-1">
@@ -65,7 +57,6 @@
             </div>
           </div>
 
-          <!-- CRM -->
           <div>
             <label for="crm" class="px-3 text-start font-extrabold text-sm text-[var(--color-tertiary)]">CRM <span class="text-xs">(Opcional)</span></label>
             <div class="flex items-center bg-[#D9D9D9] rounded-2xl mt-1">
@@ -75,7 +66,6 @@
             </div>
           </div>
 
-          <!-- Senha -->
           <div>
             <label for="senha" class="px-3 text-start font-extrabold text-sm text-[var(--color-tertiary)]">Senha</label>
             <div class="flex items-center bg-[#D9D9D9] rounded-2xl mt-1">
@@ -85,7 +75,6 @@
             </div>
           </div>
 
-          <!-- Permissões -->
           <div class="md:col-span-2 mt-6">
             <h2 class="text-lg font-extrabold text-[var(--color-primary)] mb-4">Permissões de Acesso</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
@@ -112,19 +101,17 @@
             </div>
           </div>
 
-          <!-- Botão Criar -->
           <input
             type="submit"
             name="submit"
             id="submit"
-            class="mt-5 text-white font-extrabold w-full text-xl py-3 bg-(--color-primary) rounded-2xl hover:bg-(--color-secondary) cursor-pointer"
+            class="mt-5 text-white font-extrabold w-full text-xl py-3 bg-[var(--color-primary)] rounded-2xl hover:bg-[var(--color-secondary)] cursor-pointer"
             value="Criar Usuário"
           />
         </form>
       </div>
     </main>
 
-    <!-- Scripts -->
     <script>
       // Validação de CPF
       document.getElementById("formUsuario").addEventListener("submit", function (e) {
