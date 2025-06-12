@@ -780,14 +780,12 @@
     color: var(--color-tertiary);
   }
   .text-\[\#\#ffffff\] {
-    color: ##ffffff;
+    color: #ffffff;
   }
   .text-\[\#B9B9B9\] {
     color: #B9B9B9;
   }
-  .text-\[\#\] {
-    color: #;
-  }
+  
   .text-\[\#ffffff\] {
     color: #ffffff;
   }
@@ -1312,7 +1310,7 @@
       width: calc(5/12 * 100%);
     }
   }
-}
+
 :root {
   --color-primary: #563A94;
   --color-secondary: #9464C4;
@@ -1523,4 +1521,5 @@
       --tw-duration: initial;
     }
   }
+}
 }
