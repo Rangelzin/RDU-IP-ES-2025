@@ -1,11 +1,16 @@
 package routes
 
 import (
-	"github.com/gin-gonic/gin"
 	"backend/handlers"
+
+	"github.com/gin-gonic/gin"
 )
 
-func RegisterAPIRoutes (rg *gin.RouterGroup, pacienteHandler *handlers.PacienteHandler) {
+func RegisterAPIPacienteRoutes (rg *gin.RouterGroup, pacienteHandler *handlers.PacienteHandler) {
 	rg.GET("/patients", pacienteHandler.GetPatientsHandler)
 	rg.GET("/patients/:cpf", pacienteHandler.GetPatientsByCPFHandler)
+}
+
+func RegisterAPIUserRoutes (rg *gin.RouterGroup, userHandler *handlers.UserHandler) {
+	rg.GET("/users", userHandler.GetUsersHandler)
 }
