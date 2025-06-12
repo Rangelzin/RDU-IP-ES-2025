@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<<<<<<< HEAD
   <title>Página Inicial - Sistema de Rastreamento (Backend Simulado)</title>
   <link href="../assets/css/output.css" rel="stylesheet" />
 </head>
@@ -11,6 +12,16 @@
   <header class="flex items-center bg-[var(--color-secondary)] h-20 px-4">
     <img class="h-18 w-18 mr-4" src="../assets/img/Logo.svg" alt="Logo" />
     <h1 class="text-3xl font-sans text-[var(--color-fifth)]">Administrativo - Gerenciar Usuário</h1>
+=======
+  <title>Página Inicial - Sistema de Rastreamento</title>
+  <link href="../assets/css/output.css" rel="stylesheet" />
+</head>
+<body class="w-screen h-screen flex flex-col font-sans">
+
+  <header class="flex items-center bg-[var(--color-secondary)] h-20 px-4">
+    <img class="h-18 w-18 mr-4" src="../assets/img/Logo.svg" alt="Logo" />
+    <h1 class="text-3xl font-sans text-[var(--color-fifth)]">Pesquisar Usuário</h1>
+>>>>>>> 7d0c55ac8517550e668050f831b4457486bb1f64
   </header>
 
   <main class="flex flex-1">
@@ -35,10 +46,16 @@
 
         <input type="text" id="buscaNome" placeholder="Buscar por nome..." class="bg-white border border-gray-300 text-sm rounded px-3 py-2 w-60" />
 
+<<<<<<< HEAD
          <button id="btnNovoUsuario" class="bg-purple-600 hover:bg-purple-700 text-white px-5 py-2.5 rounded-lg text-sm font-semibold shadow-md ml-auto transition duration-300 ease-in-out transform hover:scale-105">
 
         + Novo Usuário
     </button>
+=======
+        <button id="btnNovoUsuario" class="bg-purple-600 hover:bg-purple-700 text-white px-5 py-2.5 rounded-lg text-sm font-semibold shadow-md ml-auto transition duration-300 ease-in-out transform hover:scale-105">
+          + Novo Usuário
+        </button>
+>>>>>>> 7d0c55ac8517550e668050f831b4457486bb1f64
       </div>
 
       <div class="bg-white rounded-md overflow-hidden shadow">
@@ -49,12 +66,20 @@
                 <th scope="col" class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">Usuário</th>
                 <th scope="col" class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">Perfil</th>
                 <th scope="col" class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">E-mail</th>
+<<<<<<< HEAD
                 <th scope="col" class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">Status</th>
                 <th scope="col" class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">Ações</th>
               </tr>
             </thead>
             <tbody id="tabelaUsuarios" class="bg-white divide-y divide-gray-200">
             </tbody>
+=======
+                <th scope="col" class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">Status / Ações</th>
+              </tr>
+            </thead>
+            <tbody id="tabelaUsuarios" class="bg-white divide-y divide-gray-200">
+              </tbody>
+>>>>>>> 7d0c55ac8517550e668050f831b4457486bb1f64
           </table>
         </div>
       </div>
@@ -65,6 +90,7 @@
   </main>
 
   <script>
+<<<<<<< HEAD
     // APENAS PARA TESTAR AS FUNCIONALIDADES DE BUSCA E FILTRO
     const mockBackend = {
       _usuarios: [ // Dados que seriam armazenados em um banco de dados real
@@ -94,10 +120,22 @@
     const statusMessage = document.getElementById("statusMessage");
 
     // Seleção de elementos HTML para filtros e tabela
+=======
+    const usuarios = [
+      { nome: "Dr. Vincent Vega", cargo: "Médico direcologista", status: "ativo", email: "vincentvega@gmail.com" },
+      { nome: "Enf. Mia Wallace", cargo: "Enfermeira", status: "inativo", email: "Miawallace@gmail.com" },
+      { nome: "Ag. Jules Winnfield", cargo: "Agente Comunitário", status: "ativo", email: "JulesWinnfield@gmail.com" },
+      { nome: "Dr. Butch Coolidge", cargo: "Médico cardiologista", status: "ativo", email: "butch.coolidge@email.com" },
+      { nome: "Enf. Marsellus Wallace", cargo: "Enfermeiro", status: "inativo", email: "marsellus.wallace@email.com" },
+      { nome: "Ag. Fabienne Lemoine", cargo: "Agente Comunitário", status: "ativo", email: "fabienne.lemoine@email.com" }
+    ];
+
+>>>>>>> 7d0c55ac8517550e668050f831b4457486bb1f64
     const buscaNome = document.getElementById("buscaNome");
     const filtroCargo = document.getElementById("filtroCargo");
     const filtroStatus = document.getElementById("filtroStatus");
     const tabela = document.getElementById("tabelaUsuarios");
+<<<<<<< HEAD
     const btnNovoUsuario = document.getElementById("btnNovoUsuario"); // Seleção do botão "+ Novo Usuário"
 
     // Função assíncrona para carregar os usuários do "backend"
@@ -149,20 +187,44 @@
       const filtrados = usuariosAtuais.filter(usuario => {
         const nomeMatch = usuario.nome.toLowerCase().includes(nomeBusca);
         const cargoMatch = cargo === "todos" || usuario.cargo.toLowerCase().includes(cargo);
+=======
+    const btnNovoUsuario = document.getElementById("btnNovoUsuario"); // Referência ao novo botão
+
+    function renderTabela() {
+      const nomeBusca = buscaNome.value.toLowerCase().trim();
+      const cargo = filtroCargo.value;
+      const status = filtroStatus.value;
+
+      tabela.innerHTML = ""; // Limpa o corpo da tabela
+
+      const filtrados = usuarios.filter(usuario => {
+        const nomeMatch = usuario.nome.toLowerCase().includes(nomeBusca);
+        // Ajuste no filtro de cargo para lidar com "médico" e "médico cardiologista"
+        const cargoMatch = cargo === "todos" || usuario.cargo.toLowerCase().includes(cargo.toLowerCase());
+>>>>>>> 7d0c55ac8517550e668050f831b4457486bb1f64
         const statusMatch = status === "todos" || usuario.status === status;
         return nomeMatch && cargoMatch && statusMatch;
       });
 
+<<<<<<< HEAD
       // Exibir mensagem se nenhum usuário for encontrado
       if (filtrados.length === 0) {
         tabela.innerHTML = `
           <tr>
             <td colspan="5" class="px-6 py-6 text-center text-gray-500 text-lg font-semibold bg-gray-50">Nenhum usuário encontrado.</td>
+=======
+      if (filtrados.length === 0) {
+        // Ajustado colspan para 4 (número de colunas no cabeçalho)
+        tabela.innerHTML = `
+          <tr>
+            <td colspan="4" class="px-6 py-6 text-center text-gray-500 text-lg font-semibold bg-gray-50">Nenhum usuário encontrado.</td>
+>>>>>>> 7d0c55ac8517550e668050f831b4457486bb1f64
           </tr>
         `;
         return;
       }
 
+<<<<<<< HEAD
       // Criar e adicionar linhas de usuários filtrados na tabela
       filtrados.forEach((usuario, index) => { // Adicione 'index' aqui 
         const tr = document.createElement("tr");
@@ -184,12 +246,29 @@
                class="text-indigo-600 hover:text-indigo-900 font-medium">
               Editar
             </button>
+=======
+      filtrados.forEach((usuario, index) => {
+        const tr = document.createElement("tr");
+        // Efeito zebra e hover
+        tr.className = `hover:bg-gray-100 ${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}`;
+
+        tr.innerHTML = `
+          <td class="px-6 py-3 font-medium text-gray-900">${usuario.nome}</td>
+          <td class="px-6 py-3 whitespace-nowrap text-gray-700">${usuario.cargo}</td>
+          <td class="px-6 py-3 text-gray-700 break-words max-w-xs">${usuario.email}</td>
+          <td class="px-6 py-3 whitespace-nowrap text-right text-sm font-medium">
+            <span class="${usuario.status === "ativo" ? "text-green-600 font-bold" : "text-red-600 font-bold"} mr-2">
+              ${usuario.status === "ativo" ? "Ativo" : "Inativo"}
+            </span>
+            <button onclick="editarUsuario('${usuario.email}')" class="text-indigo-600 hover:text-indigo-900 font-medium">Editar</button>
+>>>>>>> 7d0c55ac8517550e668050f831b4457486bb1f64
           </td>
         `;
         tabela.appendChild(tr);
       });
     }
 
+<<<<<<< HEAD
     // Adicionar escutadores de eventos para os filtros e busca
     buscaNome.addEventListener("input", renderTabela);
     filtroCargo.addEventListener("change", renderTabela);
@@ -200,6 +279,28 @@
 
     // Carregar os usuários do "backend" quando a página é carregada
     carregarUsuarios();
+=======
+    // Função para simular edição (pode ser um redirecionamento como no código 1)
+    function editarUsuario(userEmail) {
+      alert(`Função de edição para o usuário: ${userEmail}`);
+      // window.location.href = `editar-usuario.html?email=${userEmail}`; // Exemplo de redirecionamento
+    }
+
+    // Função para simular a abertura de novo usuário
+    function abrirNovoUsuario() {
+        alert("Redirecionar para tela de novo usuário.");
+        // window.location.href = `novo-usuario.html`; // Exemplo de redirecionamento
+    }
+
+    // Event Listeners
+    buscaNome.addEventListener("input", renderTabela);
+    filtroCargo.addEventListener("change", renderTabela);
+    filtroStatus.addEventListener("change", renderTabela);
+    btnNovoUsuario.addEventListener("click", abrirNovoUsuario); // Adicionando evento ao novo botão
+
+    // Carrega a tabela na inicialização
+    renderTabela();
+>>>>>>> 7d0c55ac8517550e668050f831b4457486bb1f64
   </script>
 
 </body>

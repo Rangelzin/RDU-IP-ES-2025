@@ -145,7 +145,11 @@
         });
 
         if (filtrados.length === 0) {
+<<<<<<< HEAD
          
+=======
+          // Ajustado colspan para 8
+>>>>>>> 7d0c55ac8517550e668050f831b4457486bb1f64
           tabela.innerHTML = `
             <tr>
               <td colspan="8" class="px-6 py-6 text-center text-gray-500 text-lg font-semibold bg-gray-50">Nenhum paciente encontrado.</td>
@@ -154,9 +158,15 @@
           return;
         }
 
+<<<<<<< HEAD
         filtrados.forEach((paciente, index) => { // Adicione 'index' 
           const tr = document.createElement("tr");
           
+=======
+        filtrados.forEach((paciente, index) => { // Adicione 'index' para o efeito zebra
+          const tr = document.createElement("tr");
+          // Efeito zebra e hover
+>>>>>>> 7d0c55ac8517550e668050f831b4457486bb1f64
           tr.className = `hover:bg-gray-100 ${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}`;
 
           tr.innerHTML = `
