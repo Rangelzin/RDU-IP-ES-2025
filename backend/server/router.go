@@ -21,6 +21,7 @@ func SetupRouter (deps *Dependencies) *gin.Engine {
 	rg := r.Group("/api")
 	routes.RegisterAPIPacienteRoutes(rg, deps.PacienteHandler)
 	routes.RegisterAPIUserRoutes(rg, deps.UserHandler)
+	routes.RegisterAPIExamRoutes(rg, deps.ExamHandler)
 
 	rg = r.Group("/")
 	routes.LoginRoutes(rg)

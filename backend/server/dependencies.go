@@ -11,6 +11,7 @@ import (
 type Dependencies struct {
 	PacienteHandler *handlers.PacienteHandler
 	UserHandler *handlers.UserHandler
+	ExamHandler *handlers.ExamHandler
 	// Outros handlers no futuro
 }
 
@@ -25,8 +26,13 @@ func BuildDependencies(db *sql.DB) *Dependencies {
 	userService := services.NewUserService(userRepo)
 	userHandler := handlers.NewUserHandler(userService)
 
+	examRepo := repositories.NewExamRepository(dbCliente)
+	examService := services.NewExamService(examRepo)
+	examHandler := handlers.NewExamHandler(examService)
+
 	return &Dependencies{
 		PacienteHandler: pacienteHandler,
 		UserHandler: userHandler,
+		ExamHandler: examHandler,
 	}
 }
