@@ -1,0 +1,1 @@
+export const API_ENDERECO = "http://localhost:8080/api/"
