@@ -14,3 +14,7 @@ func RegisterAPIPacienteRoutes (rg *gin.RouterGroup, pacienteHandler *handlers.P
 func RegisterAPIUserRoutes (rg *gin.RouterGroup, userHandler *handlers.UserHandler) {
 	rg.GET("/users", userHandler.GetUsersHandler)
 }
+
+func RegisterAPIExamRoutes (rg *gin.RouterGroup, examHandler *handlers.ExamHandler) {
+	rg.GET("/exams", examHandler.GetExamsHandler)
+}
