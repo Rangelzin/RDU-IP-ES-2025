@@ -27,7 +27,8 @@ func (h *PacienteHandler) GetPatientsHandler(c *gin.Context) {
 }
 
 func (h *PacienteHandler) GetPatientsByCPFHandler(c *gin.Context) {
-	paciente, err := h.pacienteService.GetPatienteByCPF(c)
+	cpf := c.Param("cpf")
+	paciente, err := h.pacienteService.GetPatienteByCPF(c, &cpf)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Erro ao buscar pacientes"})
 		log.Println("Erro ao buscar pacientes: ", err)

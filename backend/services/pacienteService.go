@@ -19,6 +19,6 @@ func (s *PacienteService) GetAllPatientes() (*[]models.Paciente, error) {
 	return s.pacienteRepository.FindAllPatients()
 }
 
-func (s *PacienteService) GetPatienteByCPF(c *gin.Context) (*models.Paciente, error) {
-	return s.pacienteRepository.FindPatientByCPF(c)
+func (s *PacienteService) GetPatienteByCPF(c *gin.Context, cpf *string) (*models.Paciente, error) {
+	return s.pacienteRepository.FindPatientByCPF(c, cpf)
 }
