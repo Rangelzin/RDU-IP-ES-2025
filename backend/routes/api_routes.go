@@ -16,8 +16,5 @@ func RegisterAPIUserRoutes(rg *gin.RouterGroup, userHandler *handlers.UserHandle
 
 func RegisterAPIExamRoutes(rg *gin.RouterGroup, examHandler *handlers.ExamHandler) {
 	rg.GET("/exams", examHandler.GetExamsHandler) 
-}
-
-func RegisterAPIExamByIDRoutes(rg *gin.RouterGroup, findExamHandler *handlers.FindExamHandler) { 
-	rg.GET("/exams/:id", findExamHandler.GetExamByIDHandler) 
+	rg.GET("/exams/:Protocolo", examHandler.GetExamByPROTOCOLOHandler) 
 }

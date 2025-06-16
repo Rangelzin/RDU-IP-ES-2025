@@ -19,7 +19,8 @@ func SetupRouter (deps *Dependencies) *gin.Engine {
 	routes.RegisterAPIPacienteRoutes(rg, deps.PacienteHandler)
 	routes.RegisterAPIUserRoutes(rg, deps.UserHandler)
 	routes.RegisterAPIExamRoutes(rg, deps.ExamHandler)
-	routes.RegisterAPIExamByIDRoutes(rg, deps.FindExamHandler)
+	
+	
 
 	rg = r.Group("/")
 	routes.LoginRoutes(rg)

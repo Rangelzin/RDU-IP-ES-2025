@@ -16,3 +16,8 @@ func NewExamService(repo *repositories.ExamRepository) *ExamService {
 func (s *ExamService) GetExamService() (*[]models.Exames, error) {
 	return s.examRepo.GetAllExams()
 }
+
+func (s *ExamService) GetExamByPROTOCOLO(protocolo string) (*models.Exames, error) {
+
+	return s.examRepo.FindExamByPROTOCOLO(protocolo)
+}

@@ -12,7 +12,7 @@ type Dependencies struct {
 	PacienteHandler *handlers.PacienteHandler
 	UserHandler     *handlers.UserHandler
 	ExamHandler     *handlers.ExamHandler       
-	FindExamHandler *handlers.FindExamHandler  
+	 
 }
 
 func BuildDependencies(db *sql.DB) *Dependencies {
@@ -32,14 +32,9 @@ func BuildDependencies(db *sql.DB) *Dependencies {
 	examHandler := handlers.NewExamHandler(examService)
 
 
-	findExamRepo := repositories.NewFindExamRepository(dbCliente) 
-	findExamService := services.NewFindExamService(findExamRepo)  
-	findExamHandler := handlers.NewFindExamHandler(findExamService) 
-
 	return &Dependencies{
 		PacienteHandler: pacienteHandler,
 		UserHandler:     userHandler,
 		ExamHandler:     examHandler,
-		FindExamHandler: findExamHandler, 
 	}
 }

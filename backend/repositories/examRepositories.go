@@ -3,6 +3,9 @@ package repositories
 import (
 	"backend/database"
 	"backend/models"
+	"database/sql"
+	"fmt"
+	"log"
 )
 
 type ExamRepository struct {
@@ -26,6 +29,7 @@ func (r *ExamRepository) GetAllExams() (*[]models.Exames, error) {
 		if err := rows.Scan(
 			&e.Id,
 			&e.Paciente_id,
+			&e.Paciente_name,
 			&e.Protocolo,
 			&e.Prontuario,
 			&e.Data_resultado,
@@ -35,4 +39,35 @@ func (r *ExamRepository) GetAllExams() (*[]models.Exames, error) {
 	}
 
 	return &exam, nil
+}
+
+func (r *ExamRepository) FindExamByPROTOCOLO(protocolo string) (*models.Exames, error) {
+	query := `
+		SELECT
+			id, paciente_id, paciente_name, protocolo, prontuario, data_resultado, created_at
+		FROM exames
+		WHERE protocolo = $1;` 
+
+	var e models.Exames
+	row := r.db.DB.QueryRow(query, protocolo) 
+	err := row.Scan(
+		&e.Id,
+		&e.Paciente_id,
+		&e.Paciente_name,
+		&e.Protocolo,
+		&e.Prontuario,
+		&e.Data_resultado,
+		&e.Created_at,
+	)
+
+	switch {
+	case err == sql.ErrNoRows:
+		log.Printf("No exam found with protocolo:", protocolo) 
+		return nil, sql.ErrNoRows
+	case err != nil:
+		log.Printf("Error scanning exam with protocolo: ", protocolo) 
+		return nil, fmt.Errorf("failed to scan exam: %w", err)
+	default:
+		return &e, nil
+	}
 }
