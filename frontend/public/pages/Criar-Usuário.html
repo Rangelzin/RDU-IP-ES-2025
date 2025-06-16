@@ -2,108 +2,127 @@
 <html lang="pt-br">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>Cadastrar Usuário</title>
     <link href="../assets/css/output.css" rel="stylesheet" />
+    <style>
+      @media (max-height: 800px) {
+        body {
+          overflow-y: auto;
+        }
+        main {
+          padding: 20px 0;
+          align-items: flex-start;
+          height: auto;
+          min-height: 100vh;
+        }
+        .form-container {
+          max-height: none;
+          overflow-y: visible;
+        }
+      }
+    </style>
   </head>
-  <body class="bg-white">
-    <main class="min-h-screen w-screen flex items-center justify-center">
-      <div class="w-full lg:w-3/4 xl:w-7/12 2xl:w-5/12 bg-[var(--color-fifth)] shadow-[0_0px_40px_rgba(0,0,0,0.10)] lg:shadow-[0_0px_40px_rgba(0,0,0,0.25)] transition-all duration-500 ease rounded-2xl p-8 flex flex-col">
+  <body class="bg-(--color-quaternary)">
+    <main class="min-h-screen w-screen flex items-center justify-center p-4">
+      <div class="form-container w-full lg:w-3/4 xl:w-9/12 2xl:w-7/12 bg-[var(--color-fifth)] shadow-[0_0px_40px_rgba(0,0,0,0.10)] lg:shadow-[0_0px_40px_rgba(0,0,0,0.25)] rounded-2xl p-6">
         <div class="flex flex-col items-center">
-          <img src="../assets/img/Woman.svg" class="h-32 w-32 object-contain" alt="Usuário" />
-          <h1 class="mt-1 font-extrabold text-3xl text-[var(--color-primary)]">Cadastro de Profissional da Saúde</h1>
+          <img src="../assets/img/Woman.svg" class="h-12 w-12 object-contain" alt="Usuário" />
+          <h1 class="mt-1 font-extrabold text-2xl text-[var(--color-primary)] text-center">Cadastro de Profissional da Saúde</h1>
         </div>
 
-<<<<<<< HEAD
-        <form id="formUsuario" method="post" class="mt-2 space-y-4 mx-2 md:mx-8 flex flex-col flex-grow">
-=======
-        <form id="formUsuario" method="post" class="mt-6 space-y-4 mx-2 md:mx-8 flex flex-col flex-grow">
->>>>>>> 7d0c55ac8517550e668050f831b4457486bb1f64
-          <div>
-            <label for="nome" class="px-3 text-start font-extrabold text-sm text-[var(--color-tertiary)]">Nome</label>
-            <div class="flex items-center bg-[#D9D9D9] rounded-2xl mt-1">
-              <img src="../assets/img/person.svg" class="p-1 h-10" />
-              <input type="text" id="nome" name="nome" placeholder="Digite o nome" required
-                class="w-full text-lg py-3 placeholder:text-base bg-transparent outline-none focus:ring-0" />
+        <form id="formUsuario" method="post" class="mt-4 mx-2 md:mx-4 space-y-4">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label for="nome" class="px-3 text-start font-extrabold text-sm text-[var(--color-tertiary)]">Nome</label>
+              <div class="flex items-center bg-[#D9D9D9] rounded-2xl mt-1">
+                <img src="../assets/img/person.svg" class="h-10 w-10 p-2" />
+                <input type="text" id="nome" name="nome" placeholder="Digite o nome" required
+                  class="w-full text-lg py-3 placeholder:text-base bg-transparent outline-none focus:ring-0" />
+              </div>
+            </div>
+
+            <div>
+              <label for="cpf" class="px-3 text-start font-extrabold text-sm text-[var(--color-tertiary)]">CPF</label>
+              <div class="flex items-center bg-[#D9D9D9] rounded-2xl mt-1">
+                <img src="../assets/img/CPF.svg" class="h-10 w-10 p-2" />
+                <input type="text" id="cpf" name="cpf" placeholder="Digite o CPF" required
+                  class="w-full text-lg py-3 placeholder:text-base bg-transparent outline-none focus:ring-0" />
+              </div>
+            </div>
+
+            <div>
+              <label for="email" class="px-3 text-start font-extrabold text-sm text-[var(--color-tertiary)]">E-mail</label>
+              <div class="flex items-center bg-[#D9D9D9] rounded-2xl mt-1">
+                <img src="../assets/img/email.svg" class="h-10 w-10 p-2" />
+                <input type="email" id="email" name="email" placeholder="Digite o e-mail" required
+                  class="w-full text-lg py-3 placeholder:text-base bg-transparent outline-none focus:ring-0" />
+              </div>
+            </div>
+
+            <div>
+              <label for="profissao" class="px-3 text-start font-extrabold text-sm text-[var(--color-tertiary)]">Profissão</label>
+              <div class="flex items-center bg-[#D9D9D9] rounded-2xl mt-1">
+                <img src="../assets/img/enfermeira.svg" class="h-10 w-10 p-2" />
+                <select id="profissao" name="profissao"
+                  class="w-full text-lg py-3 bg-transparent placeholder:text-base outline-none focus:ring-0">
+                  <option value="">Selecione a profissão</option>
+                  <option value="enfermeiro(a)">Enfermeiro(a)</option>
+                  <option value="agente">Agente Comunitário</option>
+                  <option value="medico">Médico(a) Ginecologista</option>
+                  <option value="Outros">Outros</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label for="crm" class="px-3 text-start font-extrabold text-sm text-[var(--color-tertiary)]">
+                CRM <span class="text-xs">(Opcional)</span>
+              </label>
+              <div class="flex items-center mt-1 rounded-2xl bg-[#D9D9D9] overflow-hidden"> 
+                <img src="../assets/img/CRM.svg" class="h-10 w-10 p-2" /> 
+                <input
+                  type="text"
+                  id="crm"
+                  name="crm"
+                  placeholder="Campo disponível apenas para médicos"
+                  class="w-full text-lg py-3 placeholder:text-base outline-none cursor-not-allowed bg-red-100" 
+                  disabled
+                />
+              </div>
+            </div>
+
+            <div>
+              <label for="senha" class="px-3 text-start font-extrabold text-sm text-[var(--color-tertiary)]">Senha</label>
+              <div class="flex items-center bg-[#D9D9D9] rounded-2xl mt-1">
+                <img src="../assets/img/lock.svg" class="h-10 w-10 p-2" />
+                <input type="password" id="senha" name="senha" placeholder="Digite a senha" required
+                  class="w-full text-lg py-3 placeholder:text-base bg-transparent outline-none focus:ring-0" />
+              </div>
             </div>
           </div>
 
-          <div>
-            <label for="cpf" class="px-3 text-start font-extrabold text-sm text-[var(--color-tertiary)]">CPF</label>
-            <div class="flex items-center bg-[#D9D9D9] rounded-2xl mt-1">
-              <img src="../assets/img/cpf.svg" class="p-1 h-10" />
-              <input type="text" id="cpf" name="cpf" placeholder="Digite o CPF" required
-                class="w-full text-lg py-3 placeholder:text-base bg-transparent outline-none focus:ring-0" />
-            </div>
-          </div>
-
-          <div>
-            <label for="email" class="px-3 text-start font-extrabold text-sm text-[var(--color-tertiary)]">E-mail</label>
-            <div class="flex items-center bg-[#D9D9D9] rounded-2xl mt-1">
-              <img src="../assets/img/email.svg" class="p-1 h-10" />
-              <input type="email" id="email" name="email" placeholder="Digite o e-mail" required
-                class="w-full text-lg py-3 placeholder:text-base bg-transparent outline-none focus:ring-0" />
-            </div>
-          </div>
-
-          <div>
-            <label for="profissao" class="px-3 text-start font-extrabold text-sm text-[var(--color-tertiary)]">Profissão</label>
-            <div class="flex items-center bg-[#D9D9D9] rounded-2xl mt-1">
-              <img src="../assets/img/enfermeira.svg" class="p-1 h-10" />
-              <select id="profissao" name="profissao"
-                class="w-full text-lg py-3 bg-transparent placeholder:text-base outline-none focus:ring-0">
-                <option value="">Selecione a profissão</option>
-                <option value="enfermeiro(a)">Enfermeiro(a)</option>
-                <option value="agente">Agente Comunitário</option>
-                <option value="medico">Médico(a) Ginecologista</option>
-                <option value="Outros">Outros</option>
-              </select>
-            </div>
-          </div>
-
-          <div>
-            <label for="crm" class="px-3 text-start font-extrabold text-sm text-[var(--color-tertiary)]">CRM <span class="text-xs">(Opcional)</span></label>
-            <div class="flex items-center bg-[#D9D9D9] rounded-2xl mt-1">
-              <img src="../assets/img/CRM.svg" class="p-1 h-10" />
-              <input type="text" id="crm" name="crm" placeholder="Campo disponível apenas para médicos"
-                class="w-full text-lg py-3 placeholder:text-base bg-red-100 outline-none cursor-not-allowed" disabled />
-            </div>
-          </div>
-
-          <div>
-            <label for="senha" class="px-3 text-start font-extrabold text-sm text-[var(--color-tertiary)]">Senha</label>
-            <div class="flex items-center bg-[#D9D9D9] rounded-2xl mt-1">
-              <img src="../assets/img/lock.svg" class="p-1 h-10" />
-              <input type="password" id="senha" name="senha" placeholder="Digite a senha" required
-                class="w-full text-lg py-3 placeholder:text-base bg-transparent outline-none focus:ring-0" />
-            </div>
-          </div>
-
-<<<<<<< HEAD
-          <div class="md:col-span-2 mt-2">
-=======
-          <div class="md:col-span-2 mt-6">
->>>>>>> 7d0c55ac8517550e668050f831b4457486bb1f64
-            <h2 class="text-lg font-extrabold text-[var(--color-primary)] mb-4">Permissões de Acesso</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
-              <label class="flex items-center gap-8 p-2 rounded-lg hover:bg-gray-100">
-                <input type="checkbox" name="permissoes" value="gerar_relatorios" class="accent-[var(--color-primary)] w-6 h-6" />
+          <div class="md:col-span-2 mt-1">
+            <h2 class="text-lg font-extrabold text-[var(--color-primary)] mb-2">Permissões de Acesso</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              <label class="flex items-center gap-4 p-2 rounded-lg hover:bg-gray-100">
+                <input type="checkbox" name="permissoes" value="gerar_relatorios" class="accent-[var(--color-primary)] w-5 h-5" />
                 <span class="font-semibold text-[var(--color-tertiary)]">Gerar Relatórios</span>
               </label>
-              <label class="flex items-center gap-8 p-2 rounded-lg hover:bg-gray-100">
-                <input type="checkbox" name="permissoes" value="gerenciar_pacientes" class="accent-[var(--color-primary)] w-6 h-6" />
+              <label class="flex items-center gap-4 p-2 rounded-lg hover:bg-gray-100">
+                <input type="checkbox" name="permissoes" value="gerenciar_pacientes" class="accent-[var(--color-primary)] w-5 h-5" />
                 <span class="font-semibold text-[var(--color-tertiary)]">Editar Pacientes</span>
               </label>
-              <label class="flex items-center gap-8 p-2 rounded-lg hover:bg-gray-100">
-                <input type="checkbox" name="permissoes" value="gerenciar_agendamentos" class="accent-[var(--color-primary)] w-6 h-6" />
+              <label class="flex items-center gap-4 p-2 rounded-lg hover:bg-gray-100">
+                <input type="checkbox" name="permissoes" value="gerenciar_agendamentos" class="accent-[var(--color-primary)] w-5 h-5" />
                 <span class="font-semibold text-[var(--color-tertiary)]">Gerenciar Agendamentos</span>
               </label>
-              <label class="flex items-center gap-8 p-2 rounded-lg hover:bg-gray-100">
-                <input type="checkbox" name="permissoes" value="acessar_prontuarios" class="accent-[var(--color-primary)] w-6 h-6" />
+              <label class="flex items-center gap-4 p-2 rounded-lg hover:bg-gray-100">
+                <input type="checkbox" name="permissoes" value="acessar_prontuarios" class="accent-[var(--color-primary)] w-5 h-5" />
                 <span class="font-semibold text-[var(--color-tertiary)]">Acessar Prontuários</span>
               </label>
-              <label class="flex items-center gap-8 p-2 rounded-lg hover:bg-gray-100">
-                <input type="checkbox" name="permissoes" value="configuracoes_sistema" class="accent-[var(--color-primary)] w-6 h-6" />
+              <label class="flex items-center gap-4 p-2 rounded-lg hover:bg-gray-100">
+                <input type="checkbox" name="permissoes" value="configuracoes_sistema" class="accent-[var(--color-primary)] w-5 h-5" />
                 <span class="font-semibold text-[var(--color-tertiary)]">Configurações do Sistema</span>
               </label>
             </div>
@@ -113,7 +132,7 @@
             type="submit"
             name="submit"
             id="submit"
-            class="mt-5 text-white font-extrabold w-full text-xl py-3 bg-[var(--color-primary)] rounded-2xl hover:bg-[var(--color-secondary)] cursor-pointer"
+            class="mt-3 text-white font-extrabold w-full text-xl py-3 bg-[var(--color-primary)] rounded-2xl hover:bg-[var(--color-secondary)] cursor-pointer"
             value="Criar Usuário"
           />
         </form>
@@ -136,27 +155,70 @@
         console.log("Permissões selecionadas:", permissoesMarcadas);
       });
 
-      // Lógica de ativar/desativar CRM
+      // Ativa ou desativa o CRM conforme a profissão
       const profissaoSelect = document.getElementById("profissao");
       const crmInput = document.getElementById("crm");
 
-      // Inicial: desabilitado e vermelho
+      // Estado inicial do CRM
       crmInput.disabled = true;
-      crmInput.classList.add("bg-red-100",  "cursor-not-allowed");
-      crmInput.placeholder = "Campo disponível apenas para médicos";
+      crmInput.classList.add("bg-red-100", "cursor-not-allowed");
 
       profissaoSelect.addEventListener("change", function () {
         if (this.value === "medico") {
           crmInput.disabled = false;
-          crmInput.classList.remove("bg-red-100",  "cursor-not-allowed");
-          crmInput.classList.add("bg-transparent", "cursor-text");
+          crmInput.classList.remove("bg-red-100", "cursor-not-allowed");
+          crmInput.classList.add("cursor-text"); 
           crmInput.placeholder = "Digite o CRM (apenas para médicos)";
         } else {
           crmInput.disabled = true;
           crmInput.value = "";
-          crmInput.classList.remove("bg-transparent", "cursor-text");
-          crmInput.classList.add("bg-red-100",  "cursor-not-allowed");
+          crmInput.classList.remove("cursor-text"); 
+          crmInput.classList.add("bg-red-100", "cursor-not-allowed");
           crmInput.placeholder = "Campo disponível apenas para médicos";
+        }
+      });
+
+      document.getElementById("formUsuario").addEventListener("submit", async function (e) {
+        e.preventDefault();
+
+        const nome = document.getElementById("nome").value;
+        const cpf = document.getElementById("cpf").value;
+        const email = document.getElementById("email").value;
+        const profissao = document.getElementById("profissao").value;
+        const crm = document.getElementById("crm").value;
+        const senha = document.getElementById("senha").value;
+
+        const permissoes = Array.from(document.querySelectorAll('input[name="permissoes"]:checked'))
+          .map(input => input.value);
+
+        const payload = {
+          nome,
+          cpf,
+          email,
+          profissao,
+          crm,
+          senha,
+          permissoes
+        };
+
+        try {
+          const response = await fetch("http://localhost:8080/api/users", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify(payload)
+          });
+
+          const result = await response.json();
+          if (response.ok) {
+            alert("Usuário criado com sucesso!");
+            document.getElementById("formUsuario").reset();
+          } else {
+            alert("Erro: " + result.error);
+          }
+        } catch (error) {
+          alert("Erro ao conectar com o servidor.");
         }
       });
     </script>
