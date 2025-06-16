@@ -3,9 +3,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const cardsContainer = document.getElementById('cardsContainer');
     const searchInput = document.getElementById('searchInput');
     const searchButton = document.getElementById('searchButton');
+    const paginationControls = document.getElementById('paginationControls'); 
     
     let allPatients = [];
     let statusPatients = [];
+
+    let currentPage = 1;
+    const itemsPerPage = 6;
 
     const mockData = [
         {   paciente_id: 1, 
@@ -35,6 +39,20 @@ document.addEventListener('DOMContentLoaded', () => {
             telefone: '(62) 91234-5678', 
             Cartao_sus: '123 1234 2222 2444',
             data_resultado: '2021-10-01',
+        },
+        {   paciente_id: 3, 
+            nome_completo : 'Anastácia Silva Mendes', 
+            cpf: '321.321.321-99',
+            logradouro: 'Rua das Flores',
+            numero: '567',
+            complemento: 'Casa',
+            bairro: 'Jardim Primavera',
+            municipio: 'Goiânia',
+            uf: 'GO',
+            cep: '74210-123',
+            telefone: '(62) 99999-8888', 
+            Cartao_sus: '987 6543 2109 8765',
+            data_resultado: '2022-05-15',
         },
     ];
     
@@ -75,19 +93,107 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function renderCards(patients) {
         cardsContainer.innerHTML = '';
+        currentPage = 1
         if (patients.length === 0) {
             cardsContainer.innerHTML = '<p class="m-10 col-span-full text-3xl text-center text-gray-500">Nenhum paciente com visita pendente encontrado.</p>';
+            renderPaginationControls(0, patients);
             return;
         }
-        patients.forEach(patient => {
+        displayPage(patients);
+        
+    }
+
+    function displayPage(patients) {
+        cardsContainer.innerHTML = ''; 
+        
+        const startIndex = (currentPage - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+        const paginatedPatients = patients.slice(startIndex, endIndex);
+
+        paginatedPatients.forEach(patient => {
             const card = createPatientCard(patient);
             cardsContainer.appendChild(card);
         });
+
+        const totalPages = Math.ceil(patients.length / itemsPerPage);
+        renderPaginationControls(totalPages, patients);
     }
     
+    function renderPaginationControls(totalPages, patients) {
+    paginationControls.innerHTML = ''; // Limpa botões antigos
+
+    if (totalPages <= 1) return; // Não mostra controles se houver apenas uma página
+
+    // --- LÓGICA DO BOTÃO "ANTERIOR" (igual a antes) ---
+    const prevButton = document.createElement('button');
+    prevButton.innerText = 'Anterior';
+    prevButton.className = 'px-4 py-2 rounded-md bg-white text-[var(--color-primary)] font-semibold hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed';
+    prevButton.disabled = currentPage === 1;
+    prevButton.addEventListener('click', () => {
+        if (currentPage > 1) {
+            currentPage--;
+            displayPage(patients);
+        }
+    });
+    paginationControls.appendChild(prevButton);
+
+    // --- LÓGICA AVANÇADA PARA OS BOTÕES DE PÁGINA ---
+    const window = 1; // Quantos vizinhos mostrar ao redor da página atual (1 para cada lado)
+    let lastPageShown = 0; // Ajuda a saber quando inserir as reticências
+
+    for (let i = 1; i <= totalPages; i++) {
+        // Condições para mostrar um botão de número de página:
+        const isFirstPage = i === 1;
+        const isLastPage = i === totalPages;
+        const isInWindow = i >= currentPage - window && i <= currentPage + window;
+
+        const shouldShowButton = isFirstPage || isLastPage || isInWindow;
+
+        if (shouldShowButton) {
+            // Se houver um salto entre o último número mostrado e o atual, insere "..."
+            if (i > lastPageShown + 1) {
+                const ellipsis = document.createElement('span');
+                ellipsis.innerText = '...';
+                ellipsis.className = 'px-4 py-2 text-gray-500';
+                paginationControls.appendChild(ellipsis);
+            }
+            
+            // Cria o botão da página
+            const pageButton = document.createElement('button');
+            pageButton.innerText = i;
+            pageButton.className = 'px-4 py-2 rounded-md font-semibold';
+            if (i === currentPage) {
+                pageButton.classList.add('bg-[var(--color-primary)]', 'text-white');
+            } else {
+                pageButton.classList.add('bg-white', 'text-gray-700', 'hover:bg-gray-200');
+            }
+            pageButton.addEventListener('click', () => {
+                currentPage = i;
+                displayPage(patients);
+            });
+            paginationControls.appendChild(pageButton);
+
+            lastPageShown = i; // Atualiza o último número que foi mostrado
+        }
+    }
+
+    // --- LÓGICA DO BOTÃO "PRÓXIMO" (igual a antes) ---
+    const nextButton = document.createElement('button');
+    nextButton.innerText = 'Próximo';
+    nextButton.className = 'px-4 py-2 rounded-md bg-white text-[var(--color-primary)] font-semibold hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed';
+    nextButton.disabled = currentPage === totalPages;
+    nextButton.addEventListener('click', () => {
+        if (currentPage < totalPages) {
+            currentPage++;
+            displayPage(patients);
+        }
+    });
+    paginationControls.appendChild(nextButton);
+}
+
     function createPatientCard(patient) {
         const card = document.createElement('div');
-        card.className = 'bg-[#D3C8E2] border-2 border-[#C9C4CE] p-4 rounded-lg shadow-md flex flex-col items-center cursor-pointer w-75 h-75';
+        card.className = 'bg-[#D3C8E2] border-2 border-[#C9C4CE] p-4 rounded-lg shadow-md flex flex-col items-center cursor-pointer w-75 h-75 2xl:w-90 2xl:h-90';
         
         let statusColorClass = '';
         if (patient.dias_de_atraso > year * 3 ) {
@@ -98,9 +204,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         card.innerHTML = `
             <img src="../assets/img/defaulPerfil_IMG/perfil_02.svg" alt="Foto do Paciente" class="w-30 h-30 rounded-full mb-2 border-2 border-(--color-primary) shadow-xl"> 
-            <h3 class="font-bold text-center text-xl text-[var(--color-primary)]">${patient.nome}</h3>
-            <p class="text-xl text-gray-600">${patient.cpf}</p>
-            <span class="mt-2 text-xl text-white font-bold py-1 px-4 rounded-full ${statusColorClass}">${patient.status}</span>
+            <h3 class="2xl:p-2 font-bold text-center text-2xl xl:text-3xl text-[var(--color-primary)]">${patient.nome}</h3>
+            <p class="2xl:p-2 text-xl xl:text-2xl text-gray-600">${patient.cpf}</p>
+            <span class="mt-2 text-xl xl:text-2xl text-white font-bold py-1 px-4 rounded-full ${statusColorClass}">${patient.status}</span>
         `;
         
         card.addEventListener('click', () => {
