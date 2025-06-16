@@ -14,6 +14,7 @@ func RegisterAPIUserRoutes(rg *gin.RouterGroup, userHandler *handlers.UserHandle
 	rg.GET("/users", userHandler.GetUsersHandler)
 	rg.DELETE("/users/:id", userHandler.DeleteUserHandler)
 	rg.POST("/users", userHandler.CreateUserHandler)
+	rg.GET("/users/:cpf", userHandler.GetUserbyCPFHandler)
 }
 
 func RegisterAPIExamRoutes(rg *gin.RouterGroup, examHandler *handlers.ExamHandler) {

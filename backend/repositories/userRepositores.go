@@ -79,3 +79,25 @@ func (r *UserRepository) DeleteUser(id int) (int64, error) {
     
     return rowsAffected, nil
 }
+func (r *UserRepository) GetUserbyCPF(cpf string) (*models.Users, error) {
+	query := "SELECT id, nome, cpf, email, password, role FROM users WHERE cpf = 1$"
+
+	var user models.Users
+
+	row := r.db.DB.QueryRow(query, cpf)
+
+	err := 	row.Scan(
+		&user.Id,
+		&user.Nome,
+		&user.CPF,
+		&user.Email,
+		&user.Senha,
+		&user.Role,
+	)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &user, nil
+}
