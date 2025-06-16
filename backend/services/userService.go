@@ -49,6 +49,6 @@ func (s *UserService) DeletarUsuario(id int) error {
     }
     return nil
 }
-func (s *UserService) GetUserbyCPF(cpf string) (*models.Users, error) {
-	return s.userRepository.GetUserbyCPF(cpf)
+func (s *UserService) GetUserbyCPF(c *gin.Context, cpf string) (*models.Users, error) {
+	return s.userRepository.GetUserbyCPF(c, cpf)
 }

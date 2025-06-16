@@ -5,14 +5,11 @@ import (
 	"backend/services"
 	"log"
 	"net/http"
-<<<<<<< HEAD
 	"strconv"
     "strings"
-=======
 	"errors"
 	"database/sql"
 	
->>>>>>> b364998 (feat: adiciona rota responsável por buscar o usuário pelo cpf . ✨ (ref #31))
 	"github.com/gin-gonic/gin"
 )
 
@@ -56,7 +53,6 @@ func (h *UserHandler) GetUsersHandler(c *gin.Context) {
     })
 }
 
-<<<<<<< HEAD
 func (h *UserHandler) DeleteUserHandler(c *gin.Context) {
 	idStr := c.Param("id")
     id, err := strconv.Atoi(idStr)
@@ -79,11 +75,12 @@ func (h *UserHandler) DeleteUserHandler(c *gin.Context) {
     }
 
     c.JSON(http.StatusOK, gin.H{"mensagem": "Usuário deletado com sucesso"})
-=======
+}
+
 func (h *UserHandler) GetUserbyCPFHandler(c *gin.Context) {
 	cpf := c.Param("cpf")
 
-	userC, err := h.userService.GetUserbyCPF(cpf)
+	userC, err := h.userService.GetUserbyCPF(c, cpf)
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
 			c.JSON(http.StatusNotFound, gin.H{"error": "Usuário não encontrado"})
@@ -95,5 +92,4 @@ func (h *UserHandler) GetUserbyCPFHandler(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, userC)
->>>>>>> b364998 (feat: adiciona rota responsável por buscar o usuário pelo cpf . ✨ (ref #31))
 }
