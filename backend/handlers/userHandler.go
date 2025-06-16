@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"backend/services"
+	"backend/models"
 	"log"
 	"net/http"
 	
@@ -24,4 +25,22 @@ func (h *UserHandler) GetUsersHandler(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, usuarios)
+}
+
+ func (h *UserHandler) CreateUserHandler(c *gin.Context) {
+    var user models.Users
+
+    if err := c.ShouldBindJSON(&user); err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"erro": "JSON inválido"})
+        return
+    }
+
+    if err := h.userService.CadastraUsuario(c, &user); err != nil {
+        c.JSON(http.StatusInternalServerError, gin.H{"erro": "Erro ao cadastrar usuário"})
+        return
+    }
+
+    c.JSON(http.StatusCreated, gin.H{
+        "mensagem": "Usuário criado com sucesso",
+    })
 }

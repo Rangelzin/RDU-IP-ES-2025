@@ -12,6 +12,8 @@ func RegisterAPIPacienteRoutes(rg *gin.RouterGroup, pacienteHandler *handlers.Pa
 
 func RegisterAPIUserRoutes(rg *gin.RouterGroup, userHandler *handlers.UserHandler) {
 	rg.GET("/users", userHandler.GetUsersHandler)
+
+	rg.POST("/users", userHandler.CreateUserHandler)
 }
 
 func RegisterAPIExamRoutes(rg *gin.RouterGroup, examHandler *handlers.ExamHandler) {
