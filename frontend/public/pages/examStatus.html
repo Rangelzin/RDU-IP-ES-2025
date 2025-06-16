@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExamStatus</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --color-primary: #563A94;
+            --color-secondary: #9464C4;
+            --color-tertiary: #7D59AB;
+            --color-quaternary: #D3C7E1;
+            --color-fifth: #F9F4FF;
+            --card-color: #D3C8E2;
+
+            --container-bg-color: #F0EBF6;
+
+            --color-white: #FFFFFF;
+            --color-gray-bg: #F8F9FA;
+            --color-gray-border: #E5E7EB;
+            --color-text-dark: #1F2937;
+            --color-text-medium: #6B7280;
+            
+            --status-available-bg: #D1FAE5;
+            --status-available-text: #065F46;
+            --status-in-progress-bg: #FEF3C7;
+            --status-in-progress-text: #92400E;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+            background-color: var(--color-white);
+            color: var(--color-text-dark);
+            line-height: 1.5;
+        }
+        
+        .pagina-container {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .faixa-superior {
+            background-color: var(--color-secondary);
+            padding: 1.25rem 2rem;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            color: var(--color-white);
+        }
+
+        .area-logo-cabecalho {
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+        }
+
+        .logo-imagem {
+            height: 3rem;
+            width: auto;
+        }
+
+        .titulo-cabecalho {
+            font-weight: 700;
+            font-size: 2rem;
+        }
+
+        .conteudo-principal {
+            flex-grow: 1;
+            padding: 1.5rem;
+            background-color: var(--color-white);
+        }
+
+        .conteudo-principal-interno {
+            max-width: 80rem;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        @media (min-width: 768px) {
+            .conteudo-principal {
+                padding: 2.5rem;
+            }
+        }
+        
+        .container-exames {
+            background-color: var(--container-bg-color);
+            border: 1px solid var(--color-secondary);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+        }
+
+        .lista-exames {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .cartao-exame {
+            background-color: var(--card-color);
+            border-radius: 0.5rem;
+            border: 1px solid var(--color-secondary);
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+            color: var(--color-secondary);
+        }
+
+        .cartao-exame-cabecalho {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-bottom: 1px solid rgba(148, 100, 196, 0.4);
+        }
+
+        .cartao-exame-cabecalho .icone-cabecalho {
+            color: var(--color-secondary);
+            font-size: 0.9rem;
+        }
+
+        .cartao-exame-cabecalho h2 {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--color-secondary);
+        }
+
+        .etiqueta-status {
+            position: absolute;
+            top: 0.5rem;
+            right: 1rem;
+            padding: 0.1rem 0.6rem;
+            font-size: 0.65rem;
+            font-weight: 700;
+            border-radius: 9999px;
+            border: 1px solid;
+            text-transform: uppercase;
+        }
+
+        .status-disponivel .etiqueta-status {
+            background-color: var(--status-available-bg);
+            color: var(--status-available-text);
+            border-color: var(--status-available-text);
+        }
+        
+        .status-em-andamento .etiqueta-status {
+            background-color: var(--status-in-progress-bg);
+            color: var(--status-in-progress-text);
+            border-color: var(--status-in-progress-text);
+        }
+
+        .cartao-exame-corpo {
+            padding: 0.75rem 1rem;
+        }
+
+        .grade-info-exame {
+            display: grid;
+            grid-template-columns: repeat(1, minmax(0, 1fr));
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        @media (min-width: 768px) {
+            .grade-info-exame {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+        }
+
+        .item-info .rotulo-info {
+            font-size: 0.7rem;
+            color: var(--color-secondary);
+            font-weight: 500;
+            opacity: 0.9;
+            text-transform: uppercase;
+        }
+
+        .item-info .valor-info {
+            font-weight: 600;
+            color: var(--color-secondary);
+            font-size: 0.875rem;
+        }
+
+        .cartao-exame-acoes {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 1rem;
+            padding-top: 0.5rem;
+            border-top: 1px dashed rgba(148, 100, 196, 0.4);
+        }
+
+        .cartao-exame-acoes a {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--color-secondary);
+            text-decoration: none;
+            transition: opacity 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .cartao-exame-acoes a:hover {
+            opacity: 0.7;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="pagina-container">
+        <header class="faixa-superior">
+            <div class="area-logo-cabecalho">
+                <img src="../assets/img/Logo.svg" alt="Logo SISCAN" class="logo-imagem">
+                <h1 class="titulo-cabecalho">Resultados de Exames</h1>
+            </div>
+        </header>
+
+        <main class="conteudo-principal">
+            <div class="conteudo-principal-interno">
+                <div class="container-exames">
+                    <div class="lista-exames">
+                    
+                        <div class="cartao-exame status-disponivel">
+                            <div class="cartao-exame-cabecalho">
+                                <i class="fas fa-file-alt icone-cabecalho"></i>
+                                <h2>Resultado do exame</h2>
+                                <span class="etiqueta-status">Disponível</span>
+                            </div>
+                            <div class="cartao-exame-corpo">
+                                <div class="grade-info-exame">
+                                    <div class="item-info">
+                                        <p class="rotulo-info">Nº de Protocolo</p>
+                                        <p class="valor-info">0123456789</p>
+                                    </div>
+                                    <div class="item-info">
+                                        <p class="rotulo-info">Data de Entrada</p>
+                                        <p class="valor-info">05/02/2025</p>
+                                    </div>
+                                    <div class="item-info">
+                                        <p class="rotulo-info">Nome do Médico(a)</p>
+                                        <p class="valor-info">Dr(a) Médico da Silva</p>
+                                    </div>
+                                </div>
+                                <div class="cartao-exame-acoes">
+                                    <a href="#"><i class="fas fa-download"></i> Baixar (pdf)</a>
+                                    <a href="#"><i class="fas fa-eye"></i> Ver detalhes</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="cartao-exame status-em-andamento">
+                            <div class="cartao-exame-cabecalho">
+                                <i class="fas fa-file-alt icone-cabecalho"></i>
+                                <h2>Resultado do exame</h2>
+                                <span class="etiqueta-status">Em andamento</span>
+                            </div>
+                            <div class="cartao-exame-corpo">
+                                 <div class="grade-info-exame">
+                                    <div class="item-info">
+                                        <p class="rotulo-info">Nº de Protocolo</p>
+                                        <p class="valor-info">0123456789</p>
+                                    </div>
+                                    <div class="item-info">
+                                        <p class="rotulo-info">Data de Entrada</p>
+                                        <p class="valor-info">10/06/2025</p>
+                                    </div>
+                                    <div class="item-info">
+                                        <p class="rotulo-info">Nome do Médico(a)</p>
+                                        <p class="valor-info">Dr(a) Monark da Silva</p>
+                                    </div>
+                                </div>
+                                <div class="cartao-exame-acoes">
+                                    <a href="#"><i class="fas fa-download"></i> Baixar (pdf)</a>
+                                    <a href="#"><i class="fas fa-eye"></i> Ver detalhes</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="cartao-exame status-disponivel">
+                             <div class="cartao-exame-cabecalho">
+                                <i class="fas fa-file-alt icone-cabecalho"></i>
+                                <h2>Resultado do exame</h2>
+                                <span class="etiqueta-status">Disponível</span>
+                            </div>
+                            <div class="cartao-exame-corpo">
+                                <div class="grade-info-exame">
+                                    <div class="item-info">
+                                        <p class="rotulo-info">Nº de Protocolo</p>
+                                        <p class="valor-info">0123456789</p>
+                                    </div>
+                                    <div class="item-info">
+                                        <p class="rotulo-info">Data de Entrada</p>
+                                        <p class="valor-info">01/02/2025</p>
+                                    </div>
+                                    <div class="item-info">
+                                        <p class="rotulo-info">Nome do Médico(a)</p>
+                                        <p class="valor-info">Dr(a) Soteldo</p>
+                                    </div>
+                                </div>
+                                <div class="cartao-exame-acoes">
+                                    <a href="#"><i class="fas fa-download"></i> Baixar (pdf)</a>
+                                    <a href="#"><i class="fas fa-eye"></i> Ver detalhes</a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
