@@ -58,8 +58,7 @@ func (r *PacienteRepository) FindAllPatients() (*[]models.Paciente, error) {
 	return &patients, nil
 }
 
-func (r *PacienteRepository) FindPatientByCPF(c *gin.Context) (*models.Paciente, error) {
-	cpf := c.Param("cpf")
+func (r *PacienteRepository) FindPatientByCPF(c *gin.Context, cpf *string) (*models.Paciente, error) {
 	ctx := c.Request.Context()
 	var p models.Paciente
 
@@ -91,7 +90,7 @@ func (r *PacienteRepository) FindPatientByCPF(c *gin.Context) (*models.Paciente,
 	
 	switch{
 	case err == sql.ErrNoRows:
-		log.Printf("No Pacient with CPF %s", cpf)
+		log.Printf("No Pacient with CPF %v", cpf)
 		return nil, err
 	case err != nil:
 		return nil, err

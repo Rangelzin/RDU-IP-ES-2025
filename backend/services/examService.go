@@ -18,6 +18,5 @@ func (s *ExamService) GetExamService() (*[]models.Exames, error) {
 }
 
 func (s *ExamService) GetExamByPROTOCOLO(protocolo string) (*models.Exames, error) {
-
 	return s.examRepo.FindExamByPROTOCOLO(protocolo)
 }

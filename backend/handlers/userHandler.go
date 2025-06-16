@@ -27,6 +27,8 @@ func (h *UserHandler) GetUsersHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, usuarios)
 }
 
+
+
  func (h *UserHandler) CreateUserHandler(c *gin.Context) {
     var user models.Users
 
