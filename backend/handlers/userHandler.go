@@ -1,11 +1,12 @@
 package handlers
 
 import (
-	"backend/services"
 	"backend/models"
+	"backend/services"
 	"log"
 	"net/http"
-	
+	"strconv"
+    "strings"
 	"github.com/gin-gonic/gin"
 )
 
@@ -45,4 +46,28 @@ func (h *UserHandler) GetUsersHandler(c *gin.Context) {
     c.JSON(http.StatusCreated, gin.H{
         "mensagem": "Usuário criado com sucesso",
     })
+}
+
+func (h *UserHandler) DeleteUserHandler(c *gin.Context) {
+	idStr := c.Param("id")
+    id, err := strconv.Atoi(idStr)
+    if err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"erro": "ID inválido, deve ser um número inteiro"})
+        return
+    }
+
+    // Chama o serviço para deletar o usuário
+    err = h.userService.DeletarUsuario(id)
+    if err != nil {
+        
+        if strings.Contains(err.Error(), "não encontrado") {
+            c.JSON(http.StatusNotFound, gin.H{"erro": err.Error()})
+        } else {
+            log.Println("Erro ao deletar usuário: ", err)
+            c.JSON(http.StatusInternalServerError, gin.H{"erro": "Erro interno ao deletar usuário"})
+        }
+        return
+    }
+
+    c.JSON(http.StatusOK, gin.H{"mensagem": "Usuário deletado com sucesso"})
 }

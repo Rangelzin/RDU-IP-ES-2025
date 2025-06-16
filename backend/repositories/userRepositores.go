@@ -61,3 +61,21 @@ func (r *UserRepository) InsertUser(c *gin.Context, user *models.Users) error {
 	
 	return err
 }
+
+func (r *UserRepository) DeleteUser(id int) (int64, error) {
+    query := `DELETE FROM users WHERE id = $1`
+
+    res, err := r.db.DB.Exec(query, id)
+    if err != nil {
+        log.Printf("Erro ao executar a query de deleção para o id %d: %v", id, err)
+        return 0, err
+    }
+
+    rowsAffected, err := res.RowsAffected()
+    if err != nil {
+        log.Printf("Erro ao obter linhas afetadas: %v", err)
+        return 0, err
+    }
+    
+    return rowsAffected, nil
+}

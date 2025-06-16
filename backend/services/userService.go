@@ -1,6 +1,7 @@
 package services
 
 import (
+	"fmt"
 	"backend/models"
 	"backend/repositories"
 	"golang.org/x/crypto/bcrypt"
@@ -34,4 +35,17 @@ func (s *UserService) CadastraUsuario(c *gin.Context, user *models.Users) error 
 	}
 
 	return nil
+}
+
+func (s *UserService) DeletarUsuario(id int) error {
+
+    rowsAffected, err := s.userRepository.DeleteUser(id)
+    if err != nil {
+        return err
+    }
+
+    if rowsAffected == 0 {
+        return fmt.Errorf("usuário com id %d não encontrado", id)
+    }
+    return nil
 }
