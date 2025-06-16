@@ -5,6 +5,7 @@ import (
 	"backend/models"
 
 	"github.com/gin-gonic/gin"
+	"log"
 
 )
 
@@ -45,8 +46,18 @@ func (r *UserRepository) FindAllUsers() (*[]models.Users, error) {
 
 func (r *UserRepository) InsertUser(c *gin.Context, user *models.Users) error {
 	query := `INSERT INTO users (nome, cpf, crm, email, senha, role, ubs_id) VALUES ($1, $2, $3, $4, $5, $6, $7)`
-	user = user
 	ctx := c.Request.Context()
-	_, err := r.db.DB.ExecContext(ctx, query, user.Nome, user.CPF, user.Crm, user.Email, user.Senha, user.Role, user.Ubs_id)
+
+	res, err := r.db.DB.ExecContext(ctx, query, user.Nome, user.CPF, user.Crm, user.Email, user.Senha, user.Role, user.Ubs_id)
+	if err != nil {
+		log.Println("Erro no ExecContext: ", err)
+	}
+
+	if res != nil {
+		if rowsaffected, err := res.RowsAffected(); err != nil {
+			log.Println("Linhas Afetadas: ", rowsaffected)
+		}
+	}
+	
 	return err
 }

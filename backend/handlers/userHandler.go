@@ -31,11 +31,13 @@ func (h *UserHandler) GetUsersHandler(c *gin.Context) {
     var user models.Users
 
     if err := c.ShouldBindJSON(&user); err != nil {
+		log.Println("Erro ao fazer bind do JSON:", err)
         c.JSON(http.StatusBadRequest, gin.H{"erro": "JSON inválido"})
         return
     }
 
     if err := h.userService.CadastraUsuario(c, &user); err != nil {
+		log.Println("Erro ao cadastrar usuário: ", err)
         c.JSON(http.StatusInternalServerError, gin.H{"erro": "Erro ao cadastrar usuário"})
         return
     }

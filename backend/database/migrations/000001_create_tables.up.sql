@@ -8,7 +8,7 @@ CREATE TABLE "ubs" (
   "uf" char(2),
   "created_at" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
+  
 CREATE TABLE "users" (
   "id" SERIAL PRIMARY KEY,
   "nome" varchar,

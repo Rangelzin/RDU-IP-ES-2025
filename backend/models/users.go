@@ -8,7 +8,7 @@ type Users struct {
 	Id         int       `json:"id"`
 	Nome       string    `json:"nome"`
 	CPF        string    `json:"cpf"`
-	Crm        string    `json:"crm"`
+	Crm        *string   `json:"crm"`
 	Email      string    `json:"email"`
 	Senha      string    `json:"senha"`
 	Role	   string    `json:"role"` 
