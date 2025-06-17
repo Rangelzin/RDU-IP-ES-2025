@@ -16,6 +16,7 @@ func NewExamHandler (svc *services.ExamService) *ExamHandler {
 	return &ExamHandler{examServ: svc}
 }
 
+// GET
 func (h *ExamHandler) GetExamsHandler(c *gin.Context) {
 	exames, err := h.examServ.GetExamService()
 	if err != nil {

@@ -90,7 +90,8 @@ func (r *PacienteRepository) FindPatientByCPF(c *gin.Context, cpf *string) (*mod
 	
 	switch{
 	case err == sql.ErrNoRows:
-		log.Printf("No Pacient with CPF %v", cpf)
+		cpf := &cpf
+		log.Printf("No Pacient with CPF %s", cpf)
 		return nil, err
 	case err != nil:
 		return nil, err
