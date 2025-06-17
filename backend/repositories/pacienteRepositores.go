@@ -98,3 +98,22 @@ func (r *PacienteRepository) FindPatientByCPF(c *gin.Context, cpf *string) (*mod
 		return &p, nil
 	}
 }
+
+func (r *PacienteRepository) DeletePatientByID(id int) (int64, error) {
+    query := `DELETE FROM pacientes WHERE id = $1`
+    res, err := r.db.DB.Exec(query, id)
+	
+
+    if err != nil {
+        log.Printf("Erro ao executar a query de deleção para o id %d: %v", id, err)
+        return 0, err
+    }
+
+	rowsAffected, err := res.RowsAffected()
+    if err != nil {
+        log.Printf("Erro ao obter linhas afetadas: %v", err)
+        return 0, err
+    }
+    
+    return rowsAffected, nil
+}
