@@ -8,6 +8,8 @@ import (
 func RegisterAPIPacienteRoutes(rg *gin.RouterGroup, pacienteHandler *handlers.PacienteHandler) {
 	rg.GET("/patients", pacienteHandler.GetPatientsHandler)
 	rg.GET("/patients/:cpf", pacienteHandler.GetPatientsByCPFHandler)
+	rg.POST("/patients", pacienteHandler.CreatePaciente)
+	rg.DELETE("/patients/:id", pacienteHandler.DeletePatientHandler)
 }
 
 func RegisterAPIUserRoutes(rg *gin.RouterGroup, userHandler *handlers.UserHandler) {

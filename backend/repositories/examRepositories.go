@@ -17,7 +17,7 @@ func NewExamRepository(dbClient *database.DatabaseCliente) *ExamRepository {
 }
 
 func (r *ExamRepository) GetAllExams() (*[]models.Exames, error) {
-	rows, err := r.db.DB.Query("SELECT * FROM exames;")
+	rows, err := r.db.DB.Query("SELECT e.id, e.paciente_id, p.nome_completo, p.cpf, e.protocolo, e.\"Prontuario\", e.data_resultado, e.created_at FROM exames e INNER JOIN pacientes p ON e.paciente_id = p.id;")
 	if err != nil {
 		return nil, err
 	}
@@ -30,6 +30,7 @@ func (r *ExamRepository) GetAllExams() (*[]models.Exames, error) {
 			&e.Id,
 			&e.Paciente_id,
 			&e.Paciente_name,
+			&e.Cpf,
 			&e.Protocolo,
 			&e.Prontuario,
 			&e.Data_resultado,

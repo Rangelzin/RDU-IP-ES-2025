@@ -94,3 +94,22 @@ func (h *UserHandler) DeleteUserHandler(c *gin.Context) {
     c.JSON(http.StatusOK, gin.H{"mensagem": "Usuário deletado com sucesso"})
 }
 
+<<<<<<< HEAD
+=======
+func (h *UserHandler) GetUserbyCPFHandler(c *gin.Context) {
+	cpf := c.Param("cpf")
+
+	userC, err := h.userService.GetUserbyCPF(c, cpf)
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			c.JSON(http.StatusNotFound, gin.H{"error": "Usuário não encontrado"})
+			return
+		}
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Erro ao buscar usuário"})
+		log.Println("Erro ao buscar usuário: ", err)
+		return
+	}
+
+	c.JSON(http.StatusOK, userC)
+}
+>>>>>>> a722d8d35acb0e7a71b902ef3e52f03ab4189f7d
