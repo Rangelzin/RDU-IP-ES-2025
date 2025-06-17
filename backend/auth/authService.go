@@ -35,7 +35,6 @@ func (s *AuthService) GerarToken(user any) (string, error) {
 	var claim		*Claim
 	expirationTime := time.Now().Add(999999 * time.Hour)
 
-	log.Println(user)
 	switch u := user.(type) {
 	case *models.Paciente:
 		claim = &Claim{
@@ -61,7 +60,9 @@ func (s *AuthService) GerarToken(user any) (string, error) {
 		return "", fmt.Errorf("tipo de usuário não suportado")
 	}
 
-	token := jwt.NewWithClaims(jwt.SigningMethodES256, claim)
+//	token := jwt.NewWithClaims(jwt.SigningMethodES256, claim)
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claim)
+	
 
 	if tokenAss, err = token.SignedString(s.jwtkey); err != nil {
 		return "", err
@@ -112,8 +113,6 @@ func (s *AuthService) UserAuth(c *gin.Context, credentials dto.UserCredentials) 
 			user, err = s.userRepository.GetUserbyCPF(c, FCredentials)
 		}
 
-		log.Println("aaaaaaaaaaa ", user)
-
 		if err != nil {
 			continue
 		}
@@ -145,6 +144,8 @@ func (s *AuthService) UserAuth(c *gin.Context, credentials dto.UserCredentials) 
 		err = nil
 		break
 	}
+
+	log.Println(err)
 
 	if err != nil {
 		return "", err
