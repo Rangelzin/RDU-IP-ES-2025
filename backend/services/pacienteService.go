@@ -3,11 +3,15 @@ package services
 import (
 	"backend/models"
 	"backend/repositories"
+<<<<<<< HEAD
 	"backend/utils" 
 	"context"
 	"errors"
 	"fmt"
 	"golang.org/x/crypto/bcrypt"
+=======
+	"fmt"
+>>>>>>> 1567fe1c4fae5846bd4515bf76b2e46148992854
 	"github.com/gin-gonic/gin"
 
 )
@@ -48,4 +52,20 @@ func (s *PacienteService) CreatePaciente(ctx context.Context, paciente models.Pa
 	}
 
 	return nil
+}
+func (s *PacienteService) GetPatienteByCPF(c *gin.Context, cpf *string) (*models.Paciente, error) {
+	return s.pacienteRepository.FindPatientByCPF(c, cpf)
+}
+
+func (s *PacienteService) DeletePatient(id int) error {
+
+    rowsAffected, err := s.pacienteRepository.DeletePatientByID(id)
+    if err != nil {
+        return err
+    }
+
+    if rowsAffected == 0 {
+        return fmt.Errorf("Paciente com id %d não encontrado", id)
+    }
+    return nil
 }

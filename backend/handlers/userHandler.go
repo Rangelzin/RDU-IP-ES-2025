@@ -1,10 +1,14 @@
 package handlers
 
 import (
-	"backend/services"
 	"backend/models"
+	"backend/services"
 	"log"
 	"net/http"
+	"strconv"
+    "strings"
+	"errors"
+	"database/sql"
 	
 	"github.com/gin-gonic/gin"
 )
@@ -27,6 +31,8 @@ func (h *UserHandler) GetUsersHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, usuarios)
 }
 
+
+
  func (h *UserHandler) CreateUserHandler(c *gin.Context) {
     var user models.Users
 
@@ -45,4 +51,45 @@ func (h *UserHandler) GetUsersHandler(c *gin.Context) {
     c.JSON(http.StatusCreated, gin.H{
         "mensagem": "Usuário criado com sucesso",
     })
+}
+
+func (h *UserHandler) DeleteUserHandler(c *gin.Context) {
+	idStr := c.Param("id")
+    id, err := strconv.Atoi(idStr)
+    if err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"erro": "ID inválido, deve ser um número inteiro"})
+        return
+    }
+
+    // Chama o serviço para deletar o usuário
+    err = h.userService.DeletarUsuario(id)
+    if err != nil {
+        
+        if strings.Contains(err.Error(), "não encontrado") {
+            c.JSON(http.StatusNotFound, gin.H{"erro": err.Error()})
+        } else {
+            log.Println("Erro ao deletar usuário: ", err)
+            c.JSON(http.StatusInternalServerError, gin.H{"erro": "Erro interno ao deletar usuário"})
+        }
+        return
+    }
+
+    c.JSON(http.StatusOK, gin.H{"mensagem": "Usuário deletado com sucesso"})
+}
+
+func (h *UserHandler) GetUserbyCPFHandler(c *gin.Context) {
+	cpf := c.Param("cpf")
+
+	userC, err := h.userService.GetUserbyCPF(c, cpf)
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			c.JSON(http.StatusNotFound, gin.H{"error": "Usuário não encontrado"})
+			return
+		}
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Erro ao buscar usuário"})
+		log.Println("Erro ao buscar usuário: ", err)
+		return
+	}
+
+	c.JSON(http.StatusOK, userC)
 }

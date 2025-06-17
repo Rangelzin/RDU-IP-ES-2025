@@ -59,8 +59,7 @@ func (r *PacienteRepository) FindAllPatients() (*[]models.Paciente, error) {
 	return &patients, nil
 }
 
-func (r *PacienteRepository) FindPatientByCPF(c *gin.Context) (*models.Paciente, error) {
-	cpf := c.Param("cpf")
+func (r *PacienteRepository) FindPatientByCPF(c *gin.Context, cpf *string) (*models.Paciente, error) {
 	ctx := c.Request.Context()
 	var p models.Paciente
 
@@ -92,7 +91,7 @@ func (r *PacienteRepository) FindPatientByCPF(c *gin.Context) (*models.Paciente,
 	
 	switch{
 	case err == sql.ErrNoRows:
-		log.Printf("No Pacient with CPF %s", cpf)
+		log.Printf("No Pacient with CPF %v", cpf)
 		return nil, err
 	case err != nil:
 		return nil, err
@@ -132,4 +131,22 @@ func (r *PacienteRepository) Create(ctx context.Context, p models.Paciente) erro
 	}
 
 	return nil 
+}
+func (r *PacienteRepository) DeletePatientByID(id int) (int64, error) {
+    query := `DELETE FROM pacientes WHERE id = $1`
+    res, err := r.db.DB.Exec(query, id)
+	
+
+    if err != nil {
+        log.Printf("Erro ao executar a query de deleção para o id %d: %v", id, err)
+        return 0, err
+    }
+
+	rowsAffected, err := res.RowsAffected()
+    if err != nil {
+        log.Printf("Erro ao obter linhas afetadas: %v", err)
+        return 0, err
+    }
+    
+    return rowsAffected, nil
 }

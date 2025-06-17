@@ -60,3 +60,44 @@ func (r *UserRepository) InsertUser(c *gin.Context, user *models.Users) error {
 	
 	return err
 }
+
+func (r *UserRepository) DeleteUser(id int) (int64, error) {
+    query := `DELETE FROM users WHERE id = $1`
+
+    res, err := r.db.DB.Exec(query, id)
+    if err != nil {
+        log.Printf("Erro ao executar a query de deleção para o id %d: %v", id, err)
+        return 0, err
+    }
+
+    rowsAffected, err := res.RowsAffected()
+    if err != nil {
+        log.Printf("Erro ao obter linhas afetadas: %v", err)
+        return 0, err
+    }
+    
+    return rowsAffected, nil
+}
+func (r *UserRepository) GetUserbyCPF(c *gin.Context, cpf string) (*models.Users, error) {
+	query := "SELECT id, nome, cpf, email, senha, role FROM users WHERE cpf = $1"
+
+	var user models.Users
+	ctx := c.Request.Context()
+
+	row := r.db.DB.QueryRowContext(ctx, query, cpf)
+
+	err := 	row.Scan(
+		&user.Id,
+		&user.Nome,
+		&user.CPF,
+		&user.Email,
+		&user.Senha,
+		&user.Role,
+	)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &user, nil
+}

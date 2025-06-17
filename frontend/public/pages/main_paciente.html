@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SISCAN - Painel do Paciente</title>
+    <title>Painel do Paciente</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         :root {
@@ -43,8 +43,8 @@
         }
 
         .faixa-superior {
-            background-color: var(--color-primary);
-            padding: 1.15rem;
+            background-color: var(--color-secondary);
+            padding: 0.8rem 1.75rem;
             display: flex;
             align-items: center;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
@@ -56,15 +56,15 @@
         }
 
         .logo-imagem { 
-            height: 4rem;
+            height: 3.75rem;
             width: auto; 
             margin-right: 1rem;
         }
 
         .texto-cabecalho-app {
-            color: var(--color-quaternary);
+            color: var(--color-white);
             font-weight: 700;
-            font-size: 1.85rem;
+            font-size: 1.55rem;
         }
 
         .conteudo-wrapper {
@@ -73,8 +73,8 @@
         }
 
         .faixa-lateral-direita {
-            background-color: var(--color-primary);
-            width: 6.5rem;
+            background-color: var(--color-secondary);
+            width: 5.5rem;
         }
 
         @media (max-width: 767px) {
@@ -85,13 +85,13 @@
 
         .conteudo-principal {
             flex-grow: 1;
-            padding: 4rem;
+            padding: 1.5rem;
             overflow-y: auto;
             background-color: var(--color-white);
         }
 
         .conteudo-principal-interno {
-            max-width: 100rem;
+            max-width: 70rem;
             margin-left: auto;
             margin-right: auto;
         }
@@ -112,7 +112,7 @@
 
         .cartao-status-principal {
             background-color: var(--color-fifth);
-            border-radius: 1.5rem;
+            border-radius: 1.25rem;
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
             padding: 2.25rem;
             position: relative;
@@ -131,8 +131,8 @@
         }
 
         .cartao-status-cabecalho h2 {
-            font-size: 1.375rem;
-            font-weight: 700;
+            font-size: 1rem;
+            font-weight: 600;
             color: var(--color-text-dark);
         }
 
@@ -165,8 +165,8 @@
         }
 
         .saudacao-paciente {
-            margin-bottom: 2.25rem;
-            padding-top: 1rem;
+            margin-bottom: 1.75rem;
+            padding-top: 0.80rem;
         }
         @media (min-width: 768px) {
              .saudacao-paciente {
@@ -175,15 +175,15 @@
         }
 
         .saudacao-paciente h1 {
-            font-size: 2.25rem;
+            font-size: 1.85rem;
             font-weight: 700;
-            color: var(--color-text-dark);
+            color: var(--color-primary);
         }
 
         .foto-paciente-container {
             margin-top: 1.5rem;
-            width: 7.5rem;
-            height: 7.5rem;
+            width: 6rem;
+            height: 6rem;
             border-radius: 50%;
             overflow: hidden;
             background-color: var(--color-gray-border);
@@ -197,9 +197,9 @@
         }
 
         .grade-mini-cartoes-status {
-            margin-top: 2.25rem;
+            margin-top: 1.5rem;
             display: grid;
-            gap: 2rem;
+            gap: 1.70rem;
         }
 
         @media (min-width: 768px) {
@@ -210,8 +210,8 @@
 
         .mini-cartao {
             background-color: var(--color-white);
-            padding: 1.5rem;
-            border-radius: 0.875rem;
+            padding: 1rem;
+            border-radius: 0.5rem;
             display: flex;
             align-items: center;
             box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
@@ -221,12 +221,12 @@
             background-color: var(--color-quaternary);
             color: var(--color-secondary);
             padding: 1rem;
-            border-radius: 0.875rem;
-            margin-right: 1.25rem;
+            border-radius: 0.775rem;
+            margin-right: 1rem;
         }
 
         .mini-cartao-icone-fundo i {
-            font-size: 1.5rem;
+            font-size: 1.2rem;
         }
 
         .mini-cartao-rotulo {
@@ -235,15 +235,15 @@
         }
 
         .mini-cartao-valor {
-            font-weight: 700;
+            font-weight: 650;
             color: var(--color-text-dark);
-            font-size: 1.1rem;
+            font-size: 1rem;
         }
 
         .grade-cartoes-inferiores {
-            margin-top: 2.75rem;
+            margin-top: 2rem;
             display: grid;
-            gap: 2.75rem;
+            gap: 2rem;
         }
 
         @media (min-width: 1024px) {
@@ -254,8 +254,8 @@
 
         .cartao-info {
             background-color: var(--color-fifth);
-            border-radius: 1.5rem;
-            padding: 2.25rem;
+            border-radius: 1.1rem;
+            padding: 1.8rem;
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
             position: relative;
         }
@@ -264,7 +264,7 @@
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            margin-bottom: 1.25rem;
+            margin-bottom: 1rem;
         }
 
         .cartao-info h3 {
@@ -342,7 +342,7 @@
                 <div class="conteudo-principal-interno">
 
                     <section class="cartao-status-principal">
-                        <div class="cartao-status-cabecalho">
+                        <!-- <div class="cartao-status-cabecalho">
                             <h2>Seus Status de Saúde</h2>
                             <div class="avaliacao-risco">
                                 <span class="rotulo-risco">Classificação de risco</span>
@@ -350,7 +350,7 @@
                                     <div class="barra-risco-preenchimento"></div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
 
                         <div class="saudacao-paciente">
                             <h1>Olá, Paciente!</h1>
@@ -432,5 +432,6 @@
         </div>
     </div>
 
+    <script src="main_paciente.js" defer></script>
 </body>
 </html>
