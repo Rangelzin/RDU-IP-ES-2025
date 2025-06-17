@@ -14,7 +14,7 @@ func SetupRouter (deps *Dependencies) *gin.Engine {
 
 	r.Use(middleware.CORSMiddleware())
 	r.Use(middleware.TimingMiddleware())
-	// r.Use(deps.Middleware.AuthenticatorMiddleware())	
+	r.Use(deps.Middleware.AuthenticatorMiddleware())	
 
 	rg := r.Group("/auth")
 	routes.RegisterAuthRoutes(rg, deps.AuthHandler)
