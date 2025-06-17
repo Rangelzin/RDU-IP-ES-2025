@@ -3,17 +3,12 @@ package services
 import (
 	"backend/models"
 	"backend/repositories"
-<<<<<<< HEAD
-	"backend/utils" 
+	"backend/utils"
 	"context"
 	"errors"
 	"fmt"
 	"golang.org/x/crypto/bcrypt"
-=======
-	"fmt"
->>>>>>> 1567fe1c4fae5846bd4515bf76b2e46148992854
 	"github.com/gin-gonic/gin"
-
 )
 
 type PacienteService struct {
@@ -28,15 +23,23 @@ func (s *PacienteService) GetAllPatientes() (*[]models.Paciente, error) {
 	return s.pacienteRepository.FindAllPatients()
 }
 
+
 func (s *PacienteService) GetPatienteByCPF(c *gin.Context) (*models.Paciente, error) {
-	return s.pacienteRepository.FindPatientByCPF(c)
+
+	cpfParam := c.Param("cpf") 
+	if cpfParam == "" {
+		return nil, errors.New("CPF não fornecido na requisição")
+	}
+
+
+	return s.pacienteRepository.FindPatientByCPF(c, &cpfParam)
 }
 
 func (s *PacienteService) CreatePaciente(ctx context.Context, paciente models.Paciente) error {
 	if paciente.Cpf == "" {
 		return errors.New("CPF é obrigatório")
 	}
-	if !utils.IsValidCPF(paciente.Cpf) { 
+	if !utils.IsValidCPF(paciente.Cpf) {
 		return errors.New("CPF inválido")
 	}
 
@@ -53,19 +56,15 @@ func (s *PacienteService) CreatePaciente(ctx context.Context, paciente models.Pa
 
 	return nil
 }
-func (s *PacienteService) GetPatienteByCPF(c *gin.Context, cpf *string) (*models.Paciente, error) {
-	return s.pacienteRepository.FindPatientByCPF(c, cpf)
-}
 
 func (s *PacienteService) DeletePatient(id int) error {
+	rowsAffected, err := s.pacienteRepository.DeletePatientByID(id)
+	if err != nil {
+		return err
+	}
 
-    rowsAffected, err := s.pacienteRepository.DeletePatientByID(id)
-    if err != nil {
-        return err
-    }
-
-    if rowsAffected == 0 {
-        return fmt.Errorf("Paciente com id %d não encontrado", id)
-    }
-    return nil
+	if rowsAffected == 0 {
+		return fmt.Errorf("paciente com id %d não encontrado", id)
+	}
+	return nil
 }
