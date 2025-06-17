@@ -4,7 +4,8 @@ import (
 	"backend/models"
 	"backend/repositories"
 	"golang.org/x/crypto/bcrypt"
-
+	"errors"
+    "backend/utils"
 	"github.com/gin-gonic/gin"
 
 )
@@ -22,6 +23,14 @@ func (s *UserService) GetAllUsers() (*[]models.Users, error) {
 }
 
 func (s *UserService) CadastraUsuario(c *gin.Context, user *models.Users) error {
+
+    if user.CPF == "" { 
+		return errors.New("CPF é obrigatório")
+	}
+	if !utils.IsValidCPF(user.CPF) {
+		return errors.New("CPF inválido")
+	}
+
 	senha, err := bcrypt.GenerateFromPassword([]byte(user.Senha), bcrypt.DefaultCost)
 	if err != nil {
 		return err

@@ -5,12 +5,14 @@ import (
 	"log"
 	"net/http"
 
+ "backend/models"
 	"github.com/gin-gonic/gin"
 )
 
 type PacienteHandler struct {
 	pacienteService *services.PacienteService
 }
+
 
 func NewPacienteHandler (pacienteService *services.PacienteService) *PacienteHandler {
 	return &PacienteHandler{pacienteService: pacienteService}
@@ -34,4 +36,20 @@ func (h *PacienteHandler) GetPatientsByCPFHandler(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, paciente)
+}
+func (h *PacienteHandler) CreatePaciente(c *gin.Context) {
+	var paciente models.Paciente
+	if err := c.ShouldBindJSON(&paciente); err != nil {
+		log.Printf("Erro no binding do JSON do paciente: %v", err)
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Dados inválidos", "details": err.Error()})
+		return
+	}
+	ctx := c.Request.Context()
+	if err := h.pacienteService.CreatePaciente(ctx, paciente); err != nil {
+		log.Printf("Erro ao criar paciente no serviço/repositório: %v", err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Erro ao criar paciente", "details": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusCreated, gin.H{"message": "Paciente criado com sucesso"})
 }
