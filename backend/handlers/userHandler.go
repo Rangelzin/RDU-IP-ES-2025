@@ -20,7 +20,7 @@ type UserHandler struct {
 func NewUserHandler (userService *services.UserService) *UserHandler {
 	return &UserHandler{userService: userService}
 }
-
+// GET
 func (h *UserHandler) GetUsersHandler(c *gin.Context) {
 	usuarios, err := h.userService.GetAllUsers()
 	if err != nil {
@@ -31,8 +31,24 @@ func (h *UserHandler) GetUsersHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, usuarios)
 }
 
+func (h *UserHandler) GetUserbyCPFHandler(c *gin.Context) {
+	cpf := c.Param("cpf")
 
+	userC, err := h.userService.GetUserbyCPF(c, cpf)
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			c.JSON(http.StatusNotFound, gin.H{"error": "Usuário não encontrado"})
+			return
+		}
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Erro ao buscar usuário"})
+		log.Println("Erro ao buscar usuário: ", err)
+		return
+	}
 
+	c.JSON(http.StatusOK, userC)
+}
+
+// POST
  func (h *UserHandler) CreateUserHandler(c *gin.Context) {
     var user models.Users
 
@@ -53,6 +69,7 @@ func (h *UserHandler) GetUsersHandler(c *gin.Context) {
     })
 }
 
+// DELET
 func (h *UserHandler) DeleteUserHandler(c *gin.Context) {
 	idStr := c.Param("id")
     id, err := strconv.Atoi(idStr)
@@ -77,6 +94,8 @@ func (h *UserHandler) DeleteUserHandler(c *gin.Context) {
     c.JSON(http.StatusOK, gin.H{"mensagem": "Usuário deletado com sucesso"})
 }
 
+<<<<<<< HEAD
+=======
 func (h *UserHandler) GetUserbyCPFHandler(c *gin.Context) {
 	cpf := c.Param("cpf")
 
@@ -93,3 +112,4 @@ func (h *UserHandler) GetUserbyCPFHandler(c *gin.Context) {
 
 	c.JSON(http.StatusOK, userC)
 }
+>>>>>>> a722d8d35acb0e7a71b902ef3e52f03ab4189f7d

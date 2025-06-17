@@ -24,6 +24,7 @@ func NewPacienteHandler(pacienteService *services.PacienteService) *PacienteHand
 	return &PacienteHandler{pacienteService: pacienteService}
 }
 
+// GET
 func (h *PacienteHandler) GetPatientsHandler(c *gin.Context) {
 	pacientes, err := h.pacienteService.GetAllPatientes()
 	if err != nil {

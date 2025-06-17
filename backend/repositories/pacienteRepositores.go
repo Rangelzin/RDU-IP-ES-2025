@@ -5,7 +5,6 @@ import (
 	"backend/models"
 	"time"
 	"database/sql"
-	"fmt"
 	"log"
 	"context"
 	"github.com/gin-gonic/gin"
@@ -87,11 +86,10 @@ func (r *PacienteRepository) FindPatientByCPF(c *gin.Context, cpf *string) (*mod
 		&p.Nacionalidade,
 		&p.Ubs_id,
 		&p.Created_at); 
-		fmt.Print(p)
 	
 	switch{
 	case err == sql.ErrNoRows:
-		log.Printf("No Pacient with CPF %v", cpf)
+		log.Println("No Pacient with CPF ", *cpf)
 		return nil, err
 	case err != nil:
 		return nil, err

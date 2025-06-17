@@ -29,22 +29,40 @@ func NewAutenticacaoService(userRepository *repositories.UserRepository, pacient
 	}
 }
 
-func (s *AuthService) GerarToken(user *models.Paciente) (string, error) {
+func (s *AuthService) GerarToken(user any) (string, error) {
 	var	tokenAss 	string
 	var	err			error
+	var claim		*Claim
 	expirationTime := time.Now().Add(999999 * time.Hour)
 
-	claim := &Claim{
-		Nome: user.Nome_completo,
-		CPF: user.Cpf,
-		Role: "10000",
-		Ubs_id: "01",
-		RegisteredClaims: jwt.RegisteredClaims{
-			ExpiresAt: jwt.NewNumericDate(expirationTime),
-		},
+	switch u := user.(type) {
+	case *models.Paciente:
+		claim = &Claim{
+			Nome: u.Nome_completo,
+			CPF:  u.Cpf,
+			Role: "000000",
+			Ubs_id: "01",
+			RegisteredClaims: jwt.RegisteredClaims{
+				ExpiresAt: jwt.NewNumericDate(expirationTime),
+			},
+		}
+	case *models.Users:
+		claim = &Claim{
+			Nome: u.Nome,
+			CPF:  u.CPF,
+			Role: u.Role,
+			Ubs_id: "01",
+			RegisteredClaims: jwt.RegisteredClaims{
+				ExpiresAt: jwt.NewNumericDate(expirationTime),
+			},
+		}
+	default:
+		return "", fmt.Errorf("tipo de usuário não suportado")
 	}
 
-	token := jwt.NewWithClaims(jwt.SigningMethodES256, claim)
+//	token := jwt.NewWithClaims(jwt.SigningMethodES256, claim)
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claim)
+	
 
 	if tokenAss, err = token.SignedString(s.jwtkey); err != nil {
 		return "", err
@@ -72,7 +90,6 @@ func (s *AuthService) AuthToken(tokenStr string) (*Claim, error) {
 }
 
 func (s *AuthService) UserAuth(c *gin.Context, credentials dto.UserCredentials) (string, error) {
-	var P_user	*models.Paciente
 	var err		error
 	var token	string
 
@@ -80,25 +97,58 @@ func (s *AuthService) UserAuth(c *gin.Context, credentials dto.UserCredentials) 
 	FCredentials = strings.ReplaceAll(FCredentials, "-", "")
 	FCredentials = strings.ReplaceAll(FCredentials, " ", "")
 
-	if len(FCredentials) != 11 {
-		log.Printf("Erro, cpf '%s' inválido!", FCredentials)
-		err = fmt.Errorf("error, cpf '%s' inválido", FCredentials)
-		return "", err
-	}
+	var user any
 
-	if P_user, err = s.pacienteRepository.FindPatientByCPF(c, &FCredentials); err != nil {
-		return "", err
-	}
-
-	if err = bcrypt.CompareHashAndPassword([]byte(P_user.Senha), []byte(credentials.Password)); err != nil {
-		if errors.Is(err, bcrypt.ErrMismatchedHashAndPassword) {
-			return "", fmt.Errorf("credencial inválida: %v", err.Error())
+	for i := 1; i <= 2; i++ {
+		if len(FCredentials) != 11 {
+			log.Printf("Erro, CPF '%s' inválido!", FCredentials)
+			err = fmt.Errorf("error, CPF '%s' inválido", FCredentials)
+			continue
 		}
-		return "", fmt.Errorf("erro ao validar credenciais: %v", err.Error())
+
+		switch i {
+		case 1:
+			user, err = s.pacienteRepository.FindPatientByCPF(c, &FCredentials)
+		case 2:
+			user, err = s.userRepository.GetUserbyCPF(c, FCredentials)
+		}
+
+		if err != nil {
+			continue
+		}
+
+		var senha string
+		switch u := user.(type) {
+		case *models.Paciente:
+			senha = u.Senha		
+		case *models.Users:
+			senha = u.Senha
+		default:
+			err = fmt.Errorf("tipo de usuário desconhecido")
+			continue
+		}
+
+		if err = bcrypt.CompareHashAndPassword([]byte(senha), []byte(credentials.Password)); err != nil {
+			if errors.Is(err, bcrypt.ErrMismatchedHashAndPassword) {
+				return "", fmt.Errorf("credencial inválida: %v", err.Error())
+			}
+			err = fmt.Errorf("erro ao validar credenciais: %v", err.Error())
+			continue
+		}
+
+		if token, err = s.GerarToken(user); err != nil {
+			err = fmt.Errorf("erro ao gerar token: %v", err.Error())
+			continue
+		}
+
+		err = nil
+		break
 	}
 
-	if token, err = s.GerarToken(P_user); err != nil {
-		return "", fmt.Errorf("erro ao gerar token: %v", err.Error())
+	log.Println(err)
+
+	if err != nil {
+		return "", err
 	}
 
 	return token, nil
