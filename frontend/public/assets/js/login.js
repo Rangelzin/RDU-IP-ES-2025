@@ -1,4 +1,4 @@
-import {loginRequisicao} from "../../../API/authAPI.js"
+import { loginRequisicao } from "/app/authAPI.js";
 
 console.log("Script login.js carregado!");
 
@@ -14,7 +14,6 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function realizarLogin() {
-    console.log("FUNÇÂO 1")
     const cpf = document.querySelector("#login").value
     const senha = document.querySelector("#senha").value
 

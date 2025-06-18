@@ -1,7 +1,6 @@
-import "../environment/environment.js"
+import "/environment/environment.js"
 
 export async function loginRequisicao(cpf, psw) {
-    console.log("FUNÇÂO 2")
     const credenciais = { cpf, psw }
 
     const response = await fetch(window.API_ENDERECO + "auth/login", {
@@ -15,8 +14,8 @@ export async function loginRequisicao(cpf, psw) {
             throw new Error(errorData.message);
     }
 
-    const token = await response.json()
-
-    localStorage.setItem("token", token)
-    window.location.replace("/public/pages/main/main_admin.html")
+    const tokenObj = await response.json()
+    
+    localStorage.setItem("token", tokenObj.token)
+    window.location.replace("/main")
 }

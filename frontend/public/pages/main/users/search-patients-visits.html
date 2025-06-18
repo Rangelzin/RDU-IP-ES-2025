@@ -4,13 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Página de Visitas - Agente Comunitário</title>
-    <link rel="stylesheet" href="../assets/css/output.css">
-    <script src="../assets/js/search-patients-visits.js" defer></script> 
+    <link rel="stylesheet" href="/assets/css/output.css">
+    <script src="/assets/js/search-patients-visits.js" defer></script>
+    <script src="/src/utils/auth.js"></script>
 </head>
 <body class="w-screen h-screen flex flex-col">
 
     <header class="flex items-center bg-[var(--color-secondary)] h-20 px-4">
-        <img class="h-16 w-16 mr-4" src="../assets/img/Logo.svg" alt="Logo" />
+        <img class="h-16 w-16 mr-4" src="/assets/img/Logo.svg" alt="Logo" />
         <h1 class="text-xl lg:text-3xl font-sans text-[var(--color-fifth)]">Página de Visitas</h1>
     </header>
 
@@ -22,7 +23,7 @@
             <div class="flex flex-row mx-auto bg-[#D9D9D9] rounded-full w-full max-w-4xl h-12 xl:h-15 shadow-sm ">
                 <input class="pl-6 text-lg xl:text-xl w-full h-full bg-transparent outline-none focus:ring-0" type="text" name="nome" id="searchInput" autocomplete="off" placeholder="Digite o nome do paciente ou CPF"/>
                 <button type="submit" id="searchButton" class="flex items-center justify-center h-10%  w-16 xl:w-20 cursor-pointer text-gray-500 hover:text-[var(--color-primary)]">
-                    <img src="../assets/img/search.svg" alt="Buscar" class="h-full w-full"/>
+                    <img src="/assets/img/search.svg" alt="Buscar" class="h-full w-full"/>
                 </button>
             </div>
             
