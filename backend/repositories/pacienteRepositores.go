@@ -18,8 +18,10 @@ func NewPacienteRepository(db *database.DatabaseCliente) *PacienteRepository {
 	return &PacienteRepository{db: db}
 }
 
-func (r *PacienteRepository) FindAllPatients() (*[]models.Paciente, error) {
-	rows, err := r.db.DB.Query("SELECT * FROM pacientes ORDER BY nome_completo ASC;")
+func (r *PacienteRepository) FindAllPatients(c *gin.context) (*[]models.Paciente, error) {
+
+	ctx := c.Request.context()
+	rows, err := r.db.DB.QueryRowContext("SELECT * FROM pacientes ORDER BY nome_completo ASC;")
 	if err != nil{
 		return nil, err
 	}

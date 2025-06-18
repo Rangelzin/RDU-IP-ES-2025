@@ -19,8 +19,8 @@ func NewPacienteService(pacienteRepository *repositories.PacienteRepository) *Pa
 	return &PacienteService{pacienteRepository: pacienteRepository}
 }
 
-func (s *PacienteService) GetAllPatientes() (*[]models.Paciente, error) {
-	return s.pacienteRepository.FindAllPatients()
+func (s *PacienteService) GetAllPatientes(c *gin.context) (*[]models.Paciente, error) {
+	return s.pacienteRepository.FindAllPatients(c)
 }
 
 
