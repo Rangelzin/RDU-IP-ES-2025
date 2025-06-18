@@ -94,3 +94,24 @@ func (h *UserHandler) DeleteUserHandler(c *gin.Context) {
     c.JSON(http.StatusOK, gin.H{"mensagem": "Usuário deletado com sucesso"})
 }
 
+func (h *UserHandler) UpdateUserHandler(c *gin.Context) {
+	cpf := c.Param("cpf")
+	
+	var user models.Users
+	if err := c.ShouldBindJSON(&user); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "JSON Inválido: " + err.Error()})
+		return
+	}
+
+	if err := h.userService.UpdateUser(c, cpf, &user); err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			c.JSON(http.StatusNotFound, gin.H{"error": "Usuário não encontrado"})
+			return
+		}
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Falha ao atualizar usuário"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Usuário atualizado com sucesso"})
+	
+}

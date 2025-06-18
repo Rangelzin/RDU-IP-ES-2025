@@ -62,3 +62,17 @@ func (s *UserService) DeletarUsuario(id int) error {
 func (s *UserService) GetUserbyCPF(c *gin.Context, cpf string) (*models.Users, error) {
 	return s.userRepository.GetUserbyCPF(c, cpf)
 }
+
+func (s *UserService) UpdateUser(c *gin.Context, cpf string, user *models.Users) error {
+	senha, err := bcrypt.GenerateFromPassword([]byte(user.Senha), bcrypt.DefaultCost)
+	if err != nil {
+		return err
+	}
+
+	user.Senha = string(senha)
+
+	if err != nil {
+		return err
+	}
+	return s.userRepository.UpdateUser(c, cpf, user)
+}

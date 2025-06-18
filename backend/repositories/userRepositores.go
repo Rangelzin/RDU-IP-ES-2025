@@ -3,6 +3,8 @@ package repositories
 import (
 	"backend/database"
 	"backend/models"
+	"database/sql"
+
 	"github.com/gin-gonic/gin"
 	"log"
 
@@ -100,4 +102,37 @@ func (r *UserRepository) GetUserbyCPF(c *gin.Context, cpf string) (*models.Users
 	}
 
 	return &user, nil
+}
+
+func (r *UserRepository) UpdateUser(c *gin.Context, cpf string, user *models.Users) error {
+	query := `UPDATE "users" SET nome = $1, crm = $2, email = $3, senha = $4, role = $5, ubs_id = $6 WHERE cpf = $7`
+
+	ctx := c.Request.Context()
+
+	result, err := r.db.DB.ExecContext(
+		ctx,
+		query,
+		user.Nome,
+		user.Crm,
+		user.Email,
+		user.Senha, 
+		user.Role,
+		user.Ubs_id,
+		cpf,
+	)
+	if err != nil {
+		return err
+	}
+	
+	//Verifica se alguma linha realmente foi afetada
+	rowsAffected, err := result.RowsAffected()
+	if err != nil {
+		return err
+	}
+	if rowsAffected == 0 {
+		return sql.ErrNoRows
+	}
+
+	return nil
+
 }
