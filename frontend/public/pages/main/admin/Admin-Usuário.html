@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Administração de Usuários</title>
+    <link href="../../../assets/css/output.css" rel="stylesheet" />
+    <style>
+        
+
+        body {
+            background-color: var(--color-quaternary); /* Fundo geral da página */
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden; /* Mantido para o body principal */
+            font-family: 'Inter', sans-serif; /* Exemplo de fonte */
+        }
+
+        /* Estilos da Sidebar */
+        #menu-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 80px;
+            background-color: var(--color-primary);
+            transition: width 0.3s ease;
+            z-index: 20;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        #menu-wrapper.expanded {
+            width: 280px;
+        }
+
+        /* Ajuste do conteúdo principal para a sidebar */
+        .content-area {
+            flex: 1;
+            margin-left: 80px;
+            transition: margin-left 0.3s ease, width 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            width: calc(100% - 80px);
+            overflow-x: hidden; /* Adicionado para garantir que o conteúdo não transborde */
+        }
+
+        .content-area.expanded-sidebar {
+            margin-left: 280px;
+            width: calc(100% - 280px);
+        }
+
+        header {
+            z-index: 10;
+        }
+
+        /* Ajustes para os itens do menu */
+        .js-menu-div {
+            transition: background-color 0.2s ease, border-radius 0.2s ease, padding 0.2s ease;
+            width: 100%;
+        }
+
+        .js-menu-div.hover-bg-secondary:hover {
+            background-color: var(--color-secondary);
+            border-radius: 9999px;
+        }
+        .js-menu-div.expanded-hover-px:hover {
+            padding-left: 1.25rem;
+        }
+
+        /* Estilos específicos para a tabela para evitar scroll horizontal */
+        .min-w-full {
+            min-width: 100%; /* Garante que a tabela use 100% da largura do seu contêiner */
+            table-layout: fixed; /* Ajuda a controlar larguras de coluna */
+        }
+
+        .min-w-full th, .min-w-full td {
+            /* Adicionado max-width para cada célula para forçar quebra de linha em telas menores */
+            max-width: 150px; /* Ajuste conforme necessário para o conteúdo */
+            overflow: hidden; /* Esconde o conteúdo que transborda */
+            text-overflow: ellipsis; /* Adiciona '...' para texto cortado */
+            white-space: normal; /* Permite que o texto quebre linha */
+            word-wrap: break-word; /* Força a quebra de palavra em caso de palavra muito longa */
+        }
+        /* Ajustes específicos para colunas que podem ser mais curtas */
+        .min-w-full th:nth-child(3), .min-w-full td:nth-child(3), /* CPF */
+        .min-w-full th:nth-child(4), .min-w-full td:nth-child(4), /* Status */
+        .min-w-full th:nth-child(6), .min-w-full td:nth-child(6)  /* CRM */ {
+            max-width: 100px; /* Pode ser menor */
+        }
+        .min-w-full th:nth-child(7), .min-w-full td:nth-child(7) /* Ações */ {
+            max-width: 120px; /* Ajuste para os botões */
+        }
+
+        /* Estilos para o status (verde/vermelho) */
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px; /* Full rounded */
+            font-size: 0.75rem;
+            font-weight: 600;
+            line-height: 1;
+            white-space: nowrap;
+        }
+        .status-active {
+            background-color: #D1FAE5; /* green-100 */
+            color: #065F46; /* green-800 */
+        }
+        .status-inactive {
+            background-color: #FEE2E2; /* red-100 */
+            color: #991B1B; /* red-800 */
+        }
+
+        /* Estilos responsivos */
+        @media (max-width: 768px) {
+            #menu-wrapper {
+                width: 60px;
+            }
+            #menu-wrapper.expanded {
+                width: 200px;
+            }
+            .content-area {
+                margin-left: 60px;
+                width: calc(100% - 60px);
+            }
+            .content-area.expanded-sidebar {
+                margin-left: 200px;
+                width: calc(100% - 200px);
+            }
+            /* Ajuste de padding/font-size para tabelas em telas menores */
+            .min-w-full th, .min-w-full td {
+                padding-left: 0.75rem; /* px-3 */
+                padding-right: 0.75rem; /* px-3 */
+                font-size: 0.7rem; /* um pouco menor */
+            }
+        }
+
+        @media (max-width: 480px) {
+            #menu-wrapper {
+                width: 0;
+                overflow: hidden;
+            }
+            #menu-wrapper.expanded {
+                width: 0;
+            }
+            .content-area {
+                margin-left: 0;
+                width: 100%;
+            }
+            .content-area.expanded-sidebar {
+                margin-left: 0;
+                width: 100%;
+            }
+            /* Oculta colunas menos importantes em telas muito pequenas */
+            /* Ajuste conforme os campos de USUÁRIO */
+            .min-w-full th:nth-child(3), .min-w-full td:nth-child(3), /* CPF */
+            .min-w-full th:nth-child(6), .min-w-full td:nth-child(6)  /* CRM */ {
+                display: none;
+            }
+        }
+    </style>
+    <script src="/src/utils/auth.js"></script>
+</head>
+<body class="w-screen h-screen flex flex-col font-sans">
+
+    <div class="content-area flex flex-col flex-1">
+        <header class="flex items-center bg-[var(--color-primary)] h-20 px-4">
+            <img class="h-18 w-18 mr-4" src="../../../assets/img/Logo.svg" alt="Logo" />
+            <h1 class="text-3xl font-sans text-[var(--color-fifth)]">Administração de Usuários</h1>
+        </header>
+
+        <main class="flex flex-1">
+            <section class="flex-1 bg-gray-100 p-6 overflow-auto">
+                <div class="flex flex-wrap items-center gap-4 mb-6">
+                    <select id="filterStatus" class="bg-white border border-gray-300 text-sm rounded px-3 py-2">
+                        <option value="">Todos os Status</option>
+                        <option value="ativo">Ativo</option>
+                        <option value="inativo">Inativo</option>
+                    </select>
+
+                    <select id="filterRole" class="bg-white border border-gray-300 text-sm rounded px-3 py-2">
+                        <option value="">Todas as Profissões</option>
+                        <option value="enfermeiro">Enfermeiro(a)</option>
+                        <option value="agente">Agente Comunitário</option>
+                        <option value="medico">Médico(a) Ginecologista</option>
+                        <option value="outros">Outros</option>
+                    </select>
+
+                    <input type="text" id="searchInput" placeholder="Buscar por nome, CPF ou e-mail..." class="bg-white border border-gray-300 text-sm rounded px-3 py-2 w-60" />
+
+                    <button id="btnNovoUsuario" class="bg-purple-600 hover:bg-purple-700 text-white px-5 py-2.5 rounded-lg text-sm font-semibold shadow-md ml-auto transition duration-300 ease-in-out transform hover:scale-105">
+                        + Novo Usuário
+                    </button>
+                </div>
+
+                <div class="bg-white rounded-md overflow-hidden shadow">
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-[var(--color-primary)]">
+                                <tr>
+                                    <th scope="col" class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">Nome</th>
+                                    <th scope="col" class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">E-mail</th>
+                                    <th scope="col" class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">CPF</th>
+                                    <th scope="col" class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">Status</th>
+                                    <th scope="col" class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">Profissão</th>
+                                    <th scope="col" class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">CRM</th>
+                                    <th scope="col" class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="userTableBody" class="bg-white divide-y divide-gray-200">
+                                </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div id="statusMessage" class="mt-4 text-center text-gray-600"></div>
+            </section>
+        </main>
+    </div>
+
+    <sidebar-left></sidebar-left>
+
+    <script>
+        let allUsers = []; // Armazena todos os usuários buscados do backend
+
+        // --- FUNÇÕES DE AUTENTICAÇÃO ---
+
+        // Função para obter o token do localStorage
+        function getToken() {
+            return localStorage.getItem('userToken');
+        }
+
+        // Função para redirecionar para a página de login se não houver token ou se for inválido
+        function redirectToLogin(message = "Sessão expirada ou não autorizado. Faça login novamente.") {
+            alert(message);
+            localStorage.removeItem('userToken'); // Limpa o token para evitar loop com token inválido
+            // Substitua 'login.html' pelo caminho real da sua página de login
+            window.location.href = 'login.html'; 
+        }
+
+        // Verifica a autenticação ao carregar a página
+        function checkAuthenticationAndRedirect() {
+            if (!getToken()) {
+                redirectToLogin("Você precisa estar logado para acessar esta página.");
+            }
+        }
+
+        // --- FUNÇÕES DE DADOS E RENDERIZAÇÃO ---
+
+        // Função para buscar os usuários do backend
+        async function fetchUsers() {
+            const token = getToken(); // Obtém o token
+
+            if (!token) { // Verificação redundante, mas útil
+                console.error("Token de autenticação não encontrado ao tentar buscar usuários.");
+                redirectToLogin(); // Redireciona se, por algum motivo, o token sumiu
+                return;
+            }
+
+            try {
+                const response = await fetch("http://localhost:8080/api/users", {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}` // ADICIONA O TOKEN AQUI
+                    }
+                });
+
+                if (!response.ok) {
+                    if (response.status === 401 || response.status === 403) {
+                        // Se for erro de autenticação/autorização, redireciona
+                        redirectToLogin("Sessão expirada ou não autorizado. Faça login novamente.");
+                        return;
+                    }
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                allUsers = await response.json();
+                filtrarERenderizar();
+            } catch (error) {
+                console.error("Erro ao buscar usuários:", error);
+                document.getElementById("userTableBody").innerHTML = `<tr><td colspan="7" class="px-6 py-3 text-center text-red-500">Erro ao carregar usuários: ${error.message}</td></tr>`;
+            }
+        }
+
+        // Função para renderizar os usuários na tabela
+        function renderUsers(usersToRender) {
+            const userTableBody = document.getElementById("userTableBody");
+            const statusMessageDiv = document.getElementById('statusMessage');
+
+            userTableBody.innerHTML = ""; // Limpa a tabela antes de renderizar
+
+            if (usersToRender.length === 0) {
+                statusMessageDiv.textContent = 'Nenhum usuário encontrado com os critérios de busca/filtro.';
+                return;
+            } else {
+                statusMessageDiv.textContent = '';
+            }
+
+            usersToRender.forEach(u => {
+                const row = `
+                    <tr>
+                        <td class="px-6 py-4 text-sm text-gray-900">${u.nome || "N/A"}</td>
+                        <td class="px-6 py-4 text-sm text-gray-900">${u.email || "N/A"}</td>
+                        <td class="px-6 py-4 text-sm text-gray-900">${u.cpf || "N/A"}</td>
+                        <td class="px-6 py-4 text-sm text-gray-900">
+                            <span class="status-badge ${u.status ? 'status-active' : 'status-inactive'}">
+                                ${u.status ? 'Ativo' : 'Inativo'}
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 text-sm text-gray-900">${u.role || "N/A"}</td>
+                        <td class="px-6 py-4 text-sm text-gray-900">${u.crm || "N/A"}</td>
+                        <td class="px-6 py-4 text-right text-sm font-medium">
+                            <div class="flex items-center space-x-2">
+                                <button
+                                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded text-xs"
+                                    onclick="editarUsuario('${u.id}')"
+                                >
+                                    Editar
+                                </button>
+                                <button
+                                    class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded text-xs"
+                                    onclick="excluirUsuario('${u.id}')"
+                                >
+                                    Deletar
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+                userTableBody.insertAdjacentHTML('beforeend', row);
+            });
+        }
+
+        
+        function filtrarERenderizar() {
+            const searchTerm = document.getElementById("searchInput").value.toLowerCase();
+            const filterStatus = document.getElementById("filterStatus").value;
+            const filterRole = document.getElementById("filterRole").value;
+
+            const filteredUsers = allUsers.filter(user => {
+                const matchesSearch = user.nome.toLowerCase().includes(searchTerm) ||
+                                      user.cpf.toLowerCase().includes(searchTerm) ||
+                                      user.email.toLowerCase().includes(searchTerm);
+
+                const matchesStatus = filterStatus === "" ||
+                                      (filterStatus === "ativo" && user.status) ||
+                                      (filterStatus === "inativo" && !user.status);
+                
+                const matchesRole = filterRole === "" || (user.role && user.role.toLowerCase() === filterRole.toLowerCase());
+
+                return matchesSearch && matchesStatus && matchesRole;
+            });
+
+            renderUsers(filteredUsers);
+        }
+
+       
+        document.addEventListener('DOMContentLoaded', () => {
+            checkAuthenticationAndRedirect(); 
+            fetchUsers(); 
+
+  
+            document.getElementById("searchInput").addEventListener("input", filtrarERenderizar);
+            document.getElementById("filterStatus").addEventListener("change", filtrarERenderizar);
+            document.getElementById("filterRole").addEventListener("change", filtrarERenderizar);
+
+            // Botão "Novo Usuário" (redireciona para a página de cadastro)
+            document.getElementById('btnNovoUsuario').addEventListener('click', () => {
+                window.location.href = 'cadastrar_usuario.html';
+            });
+        });
+
+        // Função para excluir um usuário
+        async function excluirUsuario(userId) {
+            if (!confirm("Tem certeza que deseja excluir este usuário? Esta ação não pode ser desfeita.")) {
+                return;
+            }
+
+            const token = getToken(); // Pega o token
+            if (!token) {
+                console.error("Token de autenticação não encontrado ao tentar excluir.");
+                redirectToLogin();
+                return;
+            }
+
+            try {
+                const response = await fetch(`http://localhost:8080/api/users/${userId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}` // ADICIONA O TOKEN AQUI
+                    }
+                });
+
+                if (response.ok) {
+                    alert("Usuário excluído com sucesso!");
+                    fetchUsers(); // Recarrega a lista após a exclusão
+                } else {
+                    if (response.status === 401 || response.status === 403) {
+                        redirectToLogin("Sessão expirada ou não autorizado para excluir. Faça login novamente.");
+                        return;
+                    }
+                    const errorData = await response.json();
+                    alert("Erro ao excluir usuário: " + (errorData.message || "Erro desconhecido."));
+                }
+            } catch (error) {
+                console.error("Erro na requisição DELETE:", error);
+                alert("Erro ao conectar com o servidor para excluir o usuário.");
+            }
+        }
+
+        // Função para editar um usuário (placeholder)
+        function editarUsuario(userId) {
+            alert("Funcionalidade de edição para o usuário com ID: " + userId + " (a ser implementada).");
+            // Exemplo: window.location.href = `editar_usuario.html?id=${userId}`;
+        }
+
+        // === WEB COMPONENT (SIDEBAR) ===
+        class Siderbar extends HTMLElement {
+            connectedCallback() {
+                this.innerHTML = `
+                <div id="menu-wrapper" class="flex flex-col justify-between">
+                    <div id="icons1" class="flex flex-col items-center justify-center">
+                        <div id="btn-abrir" class="js-menu-div hover-bg-secondary flex flex-row cursor-pointer items-center justify-center">
+                            <img src="../../../assets/img/menu.svg" alt="Voltar" class="rotate-180 w-12 h-12 m-2">
+                            <p class="text-white text-2xl p-2 js-menu-label hidden">Menu</p>
+                        </div>
+                        <div class="js-menu-div hover-bg-secondary flex flex-row cursor-pointer items-center justify-center">
+                            <img src="../../../assets/img/dashbord.svg" alt="Dashboard" class="w-10 h-10 m-2">
+                            <p class="text-white text-2xl p-2 js-menu-label hidden">Página Principal</p>
+                        </div>
+                        <div class="js-menu-div hover-bg-secondary flex flex-row cursor-pointer items-center justify-center">
+                            <img src="../../../assets/img/Group 8.svg" class="w-10 h-10 m-2">
+                            <p class="text-white text-2xl p-2 js-menu-label hidden">Nova Ficha</p>
+                        </div>
+                        <div class="js-menu-div hover-bg-secondary flex flex-row cursor-pointer items-center justify-center">
+                            <img src="../../../assets/img/search2.svg" alt="Buscar" class="fill-white w-10 h-10 m-2">
+                            <p class="text-white text-2xl p-2 js-menu-label hidden">Buscar</p>
+                        </div>
+                        <div class="js-menu-div hover-bg-secondary flex flex-row cursor-pointer items-center justify-center">
+                            <a href="Admin-Usuário.html" class="flex items-center justify-center w-full">
+                                <img src="../../../assets/img/admin_users.svg" alt="Administrar Usuários" class="w-10 h-10 m-2">
+                                <p class="text-white text-2xl p-2 js-menu-label hidden">Administrar Usuários</p>
+                            </a>
+                        </div>
+                    </div>
+                    <div id="icons2" class="flex flex-col items-center justify-center">
+                        <div class="js-menu-div hover-bg-secondary flex flex-row cursor-pointer items-center justify-center">
+                            <img src="../../../assets/img/defaulPerfil_IMG/perfil_02.svg" class="w-10 h-10 m-2">
+                            <p class="text-white text-2xl p-2 js-menu-label hidden">Perfil</p>
+                        </div>
+                        <div class="js-menu-div hover-bg-secondary flex flex-row cursor-pointer items-center justify-center">
+                            <img src="../../../assets/img/gear-fill.svg" alt="Configurações" class="w-10 h-10 m-2">
+                            <p class="text-white text-2xl p-2 js-menu-label hidden">Configurações</p>
+                        </div>
+                    </div>
+                </div>`;
+
+                const btnAbrir = this.querySelector('#btn-abrir');
+
+                btnAbrir.addEventListener('click', () => {
+                    const menuWrapper = this.querySelector('#menu-wrapper');
+                    const contentArea = document.querySelector('.content-area');
+                    const labels = this.querySelectorAll('.js-menu-label');
+                    const menuDivs = this.querySelectorAll('.js-menu-div');
+                    const menuIcon = this.querySelector('#btn-abrir img');
+
+                    menuWrapper.classList.toggle('expanded');
+                    contentArea.classList.toggle('expanded-sidebar');
+
+                    menuIcon.classList.toggle('rotate-180');
+                    menuIcon.classList.toggle('rotate-0');
+
+                    labels.forEach(label => {
+                        label.classList.toggle('hidden');
+                        label.classList.toggle('block');
+                    });
+
+                    menuDivs.forEach(div => {
+                        div.classList.toggle('justify-start');
+                        div.classList.toggle('justify-center');
+                        div.classList.toggle('w-full');
+                        div.classList.toggle('expanded-hover-px');
+                    });
+                });
+            }
+        }
+
+        customElements.define('sidebar-left', Siderbar);
+    </script>
+</body>
+</html>

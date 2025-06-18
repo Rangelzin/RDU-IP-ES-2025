@@ -4,54 +4,46 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Dashboard Administrativo - Estatísticas</title>
-  <link href="../assets/css/output.css" rel="stylesheet" />
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="/src/utils/auth.js"></script>
+  <link href="../../../assets/css/output.css" rel="stylesheet" />
 </head>
 <body class="w-screen h-screen flex flex-col">
 
-  <!-- Header -->
   <header class="flex items-center bg-[var(--color-secondary)] h-20 px-4">
-    <img class="h-16 w-16 mr-4" src="../assets/img/Logo.svg" alt="Logo" />
+    <img class="h-16 w-16 mr-4" src="../../../assets/img/Logo.svg" alt="Logo" />
     <h1 class="text-3xl text-[var(--color-fifth)] font-semibold">Dashboard administrativo - estatísticas</h1>
   </header>
 
   <main class="flex flex-1">
 
-    <!-- Sidebar  -->
     <aside class="w-0 lg:w-20 bg-[var(--color-secondary)]"></aside>
-     
-    <!-- Conteúdo Principal -->
+      
     <section class="flex-1 bg-white p-6 space-y-8 overflow-auto">
 
-      <!-- Título -->
       <h2 class="text-2xl font-semibold text-[var(--color-primary)]">Dashboard Administrativo</h2>
 
-      <!-- Cards Estatísticos -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <div class="bg-pink-100 rounded-xl p-6 flex flex-col items-center text-center shadow-md hover:bg-pink-200 cursor-pointer transition-colors">
-          <img src="../assets/img/Atendimento.svg" alt="" class="h-15 mb-3" />
+          <img src="../../../assets/img/Atendimento.svg" alt="" class="h-15 mb-3" />
           <h3 class="text-md font-bold text-pink-600">Total de Atendimentos</h3>
           <span class="text-3xl font-extrabold text-pink-800 mt-2">450</span>
         </div>
         <div class="bg-pink-100 rounded-xl p-6 flex flex-col items-center text-center shadow-md hover:bg-pink-200 cursor-pointer transition-colors">
-          <img src="../assets/img/Exame.svg" alt="Exames" class="h-15 mb-3" />
+          <img src="../../../assets/img/Exame.svg" alt="Exames" class="h-15 mb-3" />
           <h3 class="text-md font-bold text-pink-600">Exames Realizados</h3>
           <span class="text-3xl font-extrabold text-pink-800 mt-2">300</span>
         </div>
         <div class="bg-pink-100 rounded-xl p-4 flex flex-col items-center text-center shadow-md hover:bg-pink-200 cursor-pointer transition-colors">
-          <img src="../assets/img/woman2.svg" alt="" class="h-17 mb-3" />
+          <img src="../../../assets/img/woman2.svg" alt="" class="h-17 mb-3" />
           <h3 class="text-md font-bold text-pink-600">Pacientes Cadastrados</h3>
           <span class="text-3xl font-extrabold text-pink-800 mt-2">500</span>
         </div>
        <div class="bg-pink-100 rounded-xl p-4 flex flex-col items-center text-center shadow-md hover:bg-pink-200 cursor-pointer transition-colors">
-          <img src="../assets/img/doctorfiles.svg" alt="" class="h-17 mb-3" />
+          <img src="../../../assets/img/doctorfiles.svg" alt="" class="h-17 mb-3" />
           <h3 class="text-md font-bold text-pink-600">Consultas Realizadas</h3>
           <span class="text-3xl font-extrabold text-pink-800 mt-2">500</span>
         </div>
       </div>
 
-      <!-- Gráficuzinho  -->
       <div class="bg-gray-100 rounded-xl p-6">
         <h3 class="text-lg font-semibold text-gray-800 mb-4">Pacientes Atendidos vs Agendados por Dia da Semana</h3>
         <canvas id="graficoAtendimento"></canvas>
@@ -59,6 +51,8 @@
 
     </section>
   </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <script>
   const ctx = document.getElementById('graficoAtendimento').getContext('2d');
@@ -102,6 +96,6 @@
       }
     }
   });
-</script>
+  </script>
 </body>
 </html>
