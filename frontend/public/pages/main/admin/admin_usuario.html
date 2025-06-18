@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Página Inicial - Sistema de Rastreamento (Backend Simulado)</title> <link href="../assets/css/output.css" rel="stylesheet" />
+  <script src="/src/utils/auth.js"></script>
+  <script type="module" src="/assets/js/carregarUsuarios.js"></script>
+</head>
+<body class="w-screen h-screen flex flex-col font-sans"> <header class="flex items-center bg-[var(--color-secondary)] h-20 px-4">
+    <img class="h-18 w-18 mr-4" src="../assets/img/Logo.svg" alt="Logo" />
+    <h1 class="text-3xl font-sans text-[var(--color-fifth)]">Pesquisar Usuário</h1> </header>
+
+  <main class="flex flex-1">
+
+    <aside class="w-20 bg-[var(--color-secondary)]"></aside>
+
+    <section class="flex-1 bg-gray-100 p-6 overflow-auto">
+
+      <div class="flex flex-wrap items-center gap-4 mb-6">
+        <select id="filtroStatus" class="bg-white border border-gray-300 text-sm rounded px-3 py-2">
+          <option value="todos">Todos os Status</option>
+          <option value="ativo">Ativo</option>
+          <option value="inativo">Inativo</option>
+        </select>
+
+        <select id="filtroCargo" class="bg-white border border-gray-300 text-sm rounded px-3 py-2">
+          <option value="todos">Todos os cargos</option>
+          <option value="médico">Médico</option>
+          <option value="enfermeiro">Enfermeiro</option>
+          <option value="agente comunitário">Agente Comunitário</option>
+        </select>
+
+        <input type="text" id="buscaNome" placeholder="Buscar por nome..." class="bg-white border border-gray-300 text-sm rounded px-3 py-2 w-60" />
+
+        <button id="btnNovoUsuario" class="bg-purple-600 hover:bg-purple-700 text-white px-5 py-2.5 rounded-lg text-sm font-semibold shadow-md ml-auto transition duration-300 ease-in-out transform hover:scale-105">
+          + Novo Usuário
+        </button>
+      </div>
+
+      <div class="bg-white rounded-md overflow-hidden shadow">
+        <div class="overflow-x-auto">
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-800">
+              <tr>
+                <th scope="col" class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">Usuário</th>
+                <th scope="col" class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">Perfil</th>
+                <th scope="col" class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">E-mail</th>
+                <th scope="col" class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">Status</th> <th scope="col" class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">Ações</th> </tr>
+            </thead>
+            <tbody id="tabelaUsuarios" class="bg-white divide-y divide-gray-200">
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="statusMessage" class="mt-4 text-center text-gray-600"></div>
+
+    </section>
+  </main>
+</body>
+</html>

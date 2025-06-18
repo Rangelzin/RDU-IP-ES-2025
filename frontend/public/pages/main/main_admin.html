@@ -25,7 +25,7 @@
       <!-- Linha 1 -->
       <div class="mx-auto my-auto flex flex-col gap-20 lg:gap-32 lg:flex-row mb-20">
         <!-- Card 1 - Paciente -->
-        <div class="w-60 h-35 lg:w-75 lg:h-50 bg-[var(--color-quaternary)] rounded-xl hover:bg-[#bfb0d1] cursor-pointer">
+        <div id="paciente" class="w-60 h-35 lg:w-75 lg:h-50 bg-[var(--color-quaternary)] rounded-xl hover:bg-[#bfb0d1] cursor-pointer">
           <div class="h-10 lg:h-12 bg-[var(--color-tertiary)] rounded-t-xl">
             <h3 class="text-xl pt-3 pl-5 font-semibold text-[var(--color-fifth)]">Paciente</h3>
           </div>
@@ -34,7 +34,7 @@
         </div>
 
         <!-- Card 2 - Dashboard -->
-        <div class="w-60 h-35 lg:w-75 lg:h-50 bg-[var(--color-quaternary)] rounded-xl hover:bg-[#bfb0d1] cursor-pointer">
+        <div id="dashboard" class="w-60 h-35 lg:w-75 lg:h-50 bg-[var(--color-quaternary)] rounded-xl hover:bg-[#bfb0d1] cursor-pointer">
           <div class="h-10 lg:h-12 bg-[var(--color-tertiary)] rounded-t-xl">
             <h3 class="text-xl pt-3 pl-5 font-semibold text-[var(--color-fifth)]">Dashboard Admin</h3>
           </div>
@@ -46,7 +46,7 @@
       <!-- Linha 2 -->
       <div class="mx-auto flex flex-col gap-20 lg:gap-32 lg:flex-row">
         <!-- Card 3 - Usuário -->
-        <div class="w-60 h-35 lg:w-75 lg:h-50 bg-[var(--color-quaternary)] rounded-xl hover:bg-[#bfb0d1] cursor-pointer">
+        <div id="usuario" class="w-60 h-35 lg:w-75 lg:h-50 bg-[var(--color-quaternary)] rounded-xl hover:bg-[#bfb0d1] cursor-pointer">
           <div class="h-10 lg:h-12 bg-[var(--color-tertiary)] rounded-t-xl">
             <h3 class="text-xl pt-3 pl-5 font-semibold text-[var(--color-fifth)]">Usuário</h3>
           </div>
@@ -55,7 +55,7 @@
         </div>
 
         <!-- Card 4 - Cadastrar Usuário -->
-        <div class="w-60 h-35 lg:w-75 lg:h-50 bg-[var(--color-quaternary)] rounded-xl hover:bg-[#bfb0d1] cursor-pointer">
+        <div id="usuario-criar" class="w-60 h-35 lg:w-75 lg:h-50 bg-[var(--color-quaternary)] rounded-xl hover:bg-[#bfb0d1] cursor-pointer">
           <div class="h-10 lg:h-12 bg-[var(--color-tertiary)] rounded-t-xl">
             <h3 class="text-xl pt-3 pl-5 font-semibold text-[var(--color-fifth)]">Cadastrar</h3>
           </div>
@@ -66,8 +66,23 @@
 
       <div class="mt-10 text-center text-sm text-gray-500">© 2025 Aplicativo de Saúde. Todos os direitos reservados.</div>
     </section>
-
   </main>
+  <script>
+    document.getElementById("paciente").addEventListener("click", () => {
+      window.location.href = "/admin/paciente";
+    });
 
+    document.getElementById("dashboard").addEventListener("click", () => {
+      window.location.href = "/admin/dashboard";
+    });
+
+    document.getElementById("usuario").addEventListener("click", () => {
+      window.location.href = "/admin/usuario";
+    });
+
+    document.getElementById("usuario-criar").addEventListener("click", () => {
+      window.location.href = "/admin/usuario/criar";
+    });
+  </script>
 </body>
 </html>
