@@ -1,189 +1,437 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Gerenciamento de Pacientes (Backend Simulado)</title>
-    <link href="../assets/css/output.css" rel="stylesheet" />
-    <script src="/src/utils/auth.js"></script>
+    <link href="../../../assets/css/output.css" rel="stylesheet" />
+    <style>
+        /* Definindo as variáveis CSS para cores (se você usa no Tailwind, elas devem estar no tailwind.config.js) */
 
-  </head>
-  <body class="w-screen h-screen flex flex-col font-sans">
+        body {
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden; /* Mantido para o body principal */
+        }
 
-    <header class="flex items-center bg-[var(--color-secondary)] h-20 px-4">
-      <img class="h-18 w-18 mr-4" src="../assets/img/Logo.svg" alt="Logo" />
-      <h1 class="text-3xl font-sans text-[var(--color-fifth)]">Pesquisar Paciente</h1>
-    </header>
+        /* Estilos da Sidebar */
+        #menu-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 80px;
+            background-color: var(--color-primary);
+            transition: width 0.3s ease;
+            z-index: 20;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
 
-    <main class="flex flex-1">
+        #menu-wrapper.expanded {
+            width: 280px;
+        }
 
-      <aside class="w-20 bg-[var(--color-secondary)]"></aside>
+        /* Ajuste do conteúdo principal para a sidebar */
+        .content-area {
+            flex: 1;
+            margin-left: 80px;
+            transition: margin-left 0.3s ease, width 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            width: calc(100% - 80px);
+            /* Adicionado para garantir que o conteúdo não transborde */
+            overflow-x: hidden;
+        }
 
-      <section class="flex-1 bg-gray-100 p-6 overflow-auto">
+        .content-area.expanded-sidebar {
+            margin-left: 280px;
+            width: calc(100% - 280px);
+        }
 
-        <div class="flex flex-wrap items-center gap-4 mb-6">
-          <select id="filtroFase" class="bg-white border border-gray-300 text-sm rounded px-3 py-2">
-            <option value="todas">Todas as fases</option>
-            <option value="inicial">Inicial</option>
-            <option value="intermediária">Intermediária</option>
-            <option value="final">Final</option>
-          </select>
+        header {
+            z-index: 10;
+        }
 
-          <select id="filtroIdade" class="bg-white border border-gray-300 text-sm rounded px-3 py-2">
-            <option value="todas">Todas as idades</option>
-            <option value="criança">Criança</option>
-            <option value="adolescente">Adolescente</option>
-            <option value="adulto">Adulto</option>
-            <option value="idoso">Idoso</option>
-          </select>
+        /* Ajustes para os itens do menu */
+        .js-menu-div {
+            transition: background-color 0.2s ease, border-radius 0.2s ease, padding 0.2s ease;
+            width: 100%;
+        }
 
-          <input type="text" id="buscaNome" placeholder="Buscar por nome..." class="bg-white border border-gray-300 text-sm rounded px-3 py-2 w-60" />
+        .js-menu-div.hover-bg-secondary:hover {
+            background-color: var(--color-secondary);
+            border-radius: 9999px;
+        }
+        .js-menu-div.expanded-hover-px:hover {
+            padding-left: 1.25rem;
+        }
 
-          <button id="btnNovoPaciente" class="bg-purple-600 hover:bg-purple-700 text-white px-5 py-2.5 rounded-lg text-sm font-semibold shadow-md ml-auto transition duration-300 ease-in-out transform hover:scale-105">
-            + Novo Paciente
-          </button>
-        </div>
+        /* Estilos específicos para a tabela para evitar scroll horizontal */
+        .min-w-full {
+            min-width: 100%; /* Garante que a tabela use 100% da largura do seu contêiner */
+            table-layout: fixed; /* Ajuda a controlar larguras de coluna */
+        }
 
-        <div class="bg-white rounded-md overflow-hidden shadow"> <div class="overflow-x-auto">
-            <table class="min-w-full divide-y divide-gray-200">
-              <thead class="bg-gray-800"> <tr>
-                  <th scope="col" class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">Paciente</th>
-                  <th scope="col" class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">CPF</th>
-                  <th scope="col" class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">ID</th>
-                  <th scope="col" class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">Contato</th>
-                  <th scope="col" class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">Consulta</th>
-                  <th scope="col" class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">Idade</th>
-                  <th scope="col" class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">Fase</th>
-                  <th scope="col" class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">Ações</th>
-                </tr>
-              </thead>
-              <tbody id="tabelaPacientes" class="bg-white divide-y divide-gray-200">
-              </tbody>
-            </table>
-          </div>
-        </div>
+        .min-w-full th, .min-w-full td {
+            /* Adicionado max-width para cada célula para forçar quebra de linha em telas menores */
+            max-width: 150px; /* Ajuste conforme necessário para o conteúdo */
+            overflow: hidden; /* Esconde o conteúdo que transborda */
+            text-overflow: ellipsis; /* Adiciona '...' para texto cortado */
+            white-space: normal; /* Permite que o texto quebre linha */
+            word-wrap: break-word; /* Força a quebra de palavra em caso de palavra muito longa */
+        }
+        /* Ajustes específicos para colunas que podem ser mais curtas */
+        .min-w-full th:nth-child(3), .min-w-full td:nth-child(3), /* ID */
+        .min-w-full th:nth-child(6), .min-w-full td:nth-child(6), /* Idade */
+        .min-w-full th:nth-child(7), .min-w-full td:nth-child(7)  /* Fase */ {
+            max-width: 80px; /* Pode ser menor */
+        }
+         .min-w-full th:nth-child(8), .min-w-full td:nth-child(8) /* Ações */ {
+            max-width: 120px; /* Ajuste para os botões */
+        }
 
-        <div id="statusMessage" class="mt-4 text-center text-gray-600"></div>
 
-      </section>
-    </main>
+        /* Estilos responsivos */
+        @media (max-width: 768px) {
+            #menu-wrapper {
+                width: 60px;
+            }
+            #menu-wrapper.expanded {
+                width: 200px;
+            }
+            .content-area {
+                margin-left: 60px;
+                width: calc(100% - 60px);
+            }
+            .content-area.expanded-sidebar {
+                margin-left: 200px;
+                width: calc(100% - 200px);
+            }
+            /* Ajuste de padding/font-size para tabelas em telas menores */
+            .min-w-full th, .min-w-full td {
+                padding-left: 1rem; /* px-4 */
+                padding-right: 1rem; /* px-4 */
+                font-size: 0.75rem; /* text-xs */
+            }
+        }
+
+        @media (max-width: 480px) {
+            #menu-wrapper {
+                width: 0;
+                overflow: hidden;
+            }
+            #menu-wrapper.expanded {
+                width: 0;
+            }
+            .content-area {
+                margin-left: 0;
+                width: 100%;
+            }
+            .content-area.expanded-sidebar {
+                 margin-left: 0;
+                 width: 100%;
+            }
+             /* Oculta colunas menos importantes em telas muito pequenas */
+            .min-w-full th:nth-child(2), .min-w-full td:nth-child(2), /* CPF */
+            .min-w-full th:nth-child(4), .min-w-full td:nth-child(4), /* Contato */
+            .min-w-full th:nth-child(5), .min-w-full td:nth-child(5)  /* Consulta */ {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body class="w-screen h-screen flex flex-col font-sans">
+
+    <div class="content-area flex flex-col flex-1">
+        <header class="flex items-center bg-[var(--color-primary)] h-20 px-4">
+            <img class="h-18 w-18 mr-4" src="../../../assets/img/Logo.svg" alt="Logo" />
+            <h1 class="text-3xl font-sans text-[var(--color-fifth)]">Pesquisar Paciente</h1>
+        </header>
+
+        <main class="flex flex-1">
+            <section class="flex-1 bg-gray-100 p-6 overflow-auto">
+                <div class="flex flex-wrap items-center gap-4 mb-6">
+                    <select id="filtroFase" class="bg-white border border-gray-300 text-sm rounded px-3 py-2">
+                        <option value="todas">Todas as fases</option>
+                        <option value="inicial">Inicial</option>
+                        <option value="intermediária">Intermediária</option>
+                        <option value="final">Final</option>
+                    </select>
+
+                    <select id="filtroIdade" class="bg-white border border-gray-300 text-sm rounded px-3 py-2">
+                        <option value="todas">Todas as idades</option>
+                        <option value="criança">Criança</option>
+                        <option value="adolescente">Adolescente</option>
+                        <option value="adulto">Adulto</option>
+                        <option value="idoso">Idoso</option>
+                    </select>
+
+                    <input type="text" id="buscaNome" placeholder="Buscar por nome..." class="bg-white border border-gray-300 text-sm rounded px-3 py-2 w-60" />
+
+                    <button id="btnNovoPaciente" class="bg-purple-600 hover:bg-purple-700 text-white px-5 py-2.5 rounded-lg text-sm font-semibold shadow-md ml-auto transition duration-300 ease-in-out transform hover:scale-105">
+                        + Novo Paciente
+                    </button>
+                </div>
+
+                <div class="bg-white rounded-md overflow-hidden shadow">
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-[var(--color-primary)]">
+                                <tr>
+                                    <th scope="col" class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">Paciente</th>
+                                    <th scope="col" class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">CPF</th>
+                                    <th scope="col" class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">ID</th>
+                                    <th scope="col" class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">Contato</th>
+                                    <th scope="col" class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">Consulta</th>
+                                    <th scope="col" class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">Idade</th>
+                                    <th scope="col" class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">Fase</th>
+                                    <th scope="col" class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabelaPacientes" class="bg-white divide-y divide-gray-200">
+                                </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="flex justify-center items-center mt-6 space-x-2">
+                    <button id="prevPage" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l">
+                        Anterior
+                    </button>
+                    <span id="pageInfo" class="text-gray-700">Página 1 de 1</span>
+                    <button id="nextPage" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r">
+                        Próxima
+                    </button>
+                </div>
+
+                <div id="statusMessage" class="mt-4 text-center text-gray-600"></div>
+            </section>
+        </main>
+    </div>
+
+    <sidebar-left></sidebar-left>
 
     <script>
-      // --- SIMULAÇÃO DE BACKEND (NÃO USAR EM PRODUÇÃO) ---
-      // Este objeto simula as operações de um backend (GET, POST, PUT, DELETE),
-      // retornando Promisses para simular requisições assíncronas de rede.
-      const mockBackend = {
-        _pacientes: [ // Dados internos que seriam gerenciados por um banco de dados real
-          { nome: "Daenerys Targaryen", cpf: "123.456.789-00", id: "PT-1001", contato: "DanyTargaryen@gmail.com | (123) 98765-4321 | IP: 192.168.1.1", consulta: "29/12/2013", fase: "inicial", idade: "adulto" },
-          { nome: "Arya Stark", cpf: "987.654.321-11", id: "PT-1002", contato: "AryaStark@gmail.com | (21) 91234-5678 | IP: 10.0.0.2", consulta: "12/02/2001", fase: "intermediária", idade: "adolescente" },
-          { nome: "Cersei Lannister", cpf: "111.222.333-44", id: "PT-1004", contato: "CerseiLannister@gmail.com | (31) 99876-5432 | IP: 172.16.0.1", consulta: "03/06/2025", fase: "final", idade: "idoso" },
-          { nome: "Sansa Stark", cpf: "222.333.444-55", id: "PT-1005", contato: "SansaStark@gmail.com | (11) 90011-2233 | IP: 192.168.0.25", consulta: "15/08/2023", fase: "intermediária", idade: "adulto" },
-          { nome: "Brienne de Tarth", cpf: "333.444.555-66", id: "PT-1006", contato: "BrienneTarth@gmail.com | (85) 99888-7766 | IP: 10.1.2.3", consulta: "20/04/2022", fase: "final", idade: "adulto" },
-          { nome: "Ygritte", cpf: "444.555.666-77", id: "PT-1007", contato: "Ygritte@gmail.com | (91) 91111-3344 | IP: 192.168.10.10", consulta: "01/11/2024", fase: "inicial", idade: "adulto" }
-        ],
+        // === MOCK BACKEND DE DADOS ===
+        const mockPacientes = [
+            { paciente: "Daenerys Targaryen", cpf: "123.456.789-00", id: "PT-1001", contato: "dany.targaryen@email.com (123) 98765-4321", consulta: "29/12/2013", idade: "Adulto", fase: "Inicial" },
+            { paciente: "Arya Stark", cpf: "987.654.321-11", id: "PT-1002", contato: "arya.stark@email.com (21) 91234-5678", consulta: "12/02/2001", idade: "Adolescente", fase: "Intermediária" },
+            { paciente: "Tyrion Lannister", cpf: "666.777.888-99", id: "PT-1003", contato: "tyrion@email.com (21) 98765-1234", consulta: "25/01/2024", idade: "Adulto", fase: "Final" },
+            { paciente: "Sansa Stark", cpf: "222.333.444-55", id: "PT-1004", contato: "sansa.stark@email.com (11) 90011-2233", consulta: "15/08/2023", idade: "Adulto", fase: "Intermediária" },
+            { paciente: "Jon Snow", cpf: "555.666.777-88", id: "PT-1005", contato: "jon.snow@email.com (11) 99999-8888", consulta: "10/05/2025", idade: "Adulto", fase: "Inicial" },
+            { paciente: "Cersei Lannister", cpf: "111.222.333-44", id: "PT-1006", contato: "cersei.lannister@email.com (31) 99876-5432", consulta: "03/06/2025", idade: "Idoso", fase: "Final" },
+            { paciente: "Brienne de Tarth", cpf: "333.444.555-66", id: "PT-1007", contato: "brienne.tarth@email.com (85) 99888-7766", consulta: "20/04/2022", idade: "Adulto", fase: "Final" },
+            { paciente: "Ygritte", cpf: "444.555.666-77", id: "PT-1008", contato: "ygritte@email.com (91) 91111-2222", consulta: "01/11/2024", idade: "Adulto", fase: "Inicial" },
+            { paciente: "Margaery Tyrell", cpf: "777.888.999-00", id: "PT-1009", contato: "margaery@email.com (31) 91234-5678", consulta: "05/03/2025", idade: "Adolescente", fase: "Inicial" },
+            { paciente: "Joffrey Baratheon", cpf: "888.999.000-11", id: "PT-1010", contato: "joffrey@email.com (85) 98765-4321", consulta: "18/07/2023", idade: "Criança", fase: "Intermediária" },
+            { paciente: "Missandei", cpf: "999.000.111-22", id: "PT-1011", contato: "missandei@email.com (11) 91111-2222", consulta: "22/09/2024", idade: "Adulto", fase: "Final" },
+            { paciente: "Gendry Baratheon", cpf: "000.111.222-33", id: "PT-1012", contato: "gendry@email.com (21) 93333-4444", consulta: "01/01/2025", idade: "Adulto", fase: "Inicial" },
+            { paciente: "Samwell Tarly", cpf: "123.098.765-43", id: "PT-1013", contato: "samwell@email.com (31) 95555-6666", consulta: "14/02/2025", idade: "Adulto", fase: "Intermediária" },
+        ];
 
-        // Simula uma requisição GET para buscar todos os pacientes
-        getPacientes: function() {
-          return new Promise(resolve => {
-            setTimeout(() => { // Simula um atraso de rede de 500ms
-              resolve(JSON.parse(JSON.stringify(this._pacientes))); // Retorna uma cópia para evitar mutação direta
-            }, 500);
-          });
+        // === VARIÁVEIS DE PAGINAÇÃO ===
+        const pacientesPorPagina = 5; // ALTERADO: Agora 5 pacientes por página
+        let paginaAtual = 1;
+        let totalPaginas = 1;
+        let dadosFiltrados = [];
+
+        // === FUNÇÕES DO MOCK BACKEND ===
+        async function fetchPacientes(page, fase, idade, busca) {
+            return new Promise(resolve => {
+                setTimeout(() => {
+                    let resultados = [...mockPacientes];
+
+                    if (fase !== 'todas') {
+                        resultados = resultados.filter(p => p.fase.toLowerCase() === fase.toLowerCase());
+                    }
+                    if (idade !== 'todas') {
+                        resultados = resultados.filter(p => p.idade.toLowerCase() === idade.toLowerCase());
+                    }
+                    if (busca) {
+                        const termoBusca = busca.toLowerCase();
+                        resultados = resultados.filter(p => p.paciente.toLowerCase().includes(termoBusca));
+                    }
+
+                    dadosFiltrados = resultados;
+                    const totalRegistros = resultados.length;
+                    const totalPaginasCalculado = Math.ceil(totalRegistros / pacientesPorPagina);
+
+                    const inicio = (page - 1) * pacientesPorPagina;
+                    const fim = inicio + pacientesPorPagina;
+                    const pacientesPaginados = resultados.slice(inicio, fim);
+
+                    resolve({
+                        data: pacientesPaginados,
+                        totalPaginas: totalPaginasCalculado,
+                        totalRegistros: totalRegistros
+                    });
+                }, 300);
+            });
         }
-        // As funções de atualização e criação não são necessárias aqui, pois os botões apenas redirecionam.
-      };
-      // --- FIM DA SIMULAÇÃO DE BACKEND ---
 
-      // Variável para armazenar a lista de pacientes obtida do backend
-      let pacientesAtuais = [];
-      // Referência ao elemento de mensagem de status
-      const statusMessage = document.getElementById("statusMessage");
+        // === RENDERIZAÇÃO DA TABELA E PAGINAÇÃO ===
+        async function renderizarTabela() {
+            const tabelaCorpo = document.getElementById('tabelaPacientes');
+            const pageInfoSpan = document.getElementById('pageInfo');
+            const statusMessageDiv = document.getElementById('statusMessage');
+            const prevButton = document.getElementById('prevPage');
+            const nextButton = document.getElementById('nextPage');
 
-      // Seleção de elementos HTML para filtros e tabela
-      const buscaNome = document.getElementById("buscaNome");
-      const filtroFase = document.getElementById("filtroFase");
-      const filtroIdade = document.getElementById("filtroIdade");
-      const tabela = document.getElementById("tabelaPacientes");
-      const btnNovoPaciente = document.getElementById("btnNovoPaciente"); // Seleção do botão "Novo Paciente"
+            const filtroFase = document.getElementById('filtroFase').value;
+            const filtroIdade = document.getElementById('filtroIdade').value;
+            const buscaNome = document.getElementById('buscaNome').value;
 
-      // Função assíncrona para carregar os pacientes do "backend"
-      async function carregarPacientes() {
-        statusMessage.textContent = "Carregando pacientes..."; // Mensagem de carregamento
-        try {
-          pacientesAtuais = await mockBackend.getPacientes();
-          statusMessage.textContent = ""; // Limpa a mensagem de carregamento
-          renderTabela(); // Renderiza a tabela com os dados atualizados
-        } catch (error) {
-          console.error("Erro ao carregar pacientes:", error);
-          statusMessage.textContent = `Erro ao carregar pacientes: ${error.message}`; // Exibe erro
-          // Ajuste colspan para 8 para incluir a nova coluna "Ações"
-          tabela.innerHTML = `<tr><td colspan="8" class="px-6 py-6 text-center text-red-500 text-lg font-semibold bg-red-50">Erro ao carregar pacientes.</td></tr>`;
+            statusMessageDiv.textContent = 'Carregando pacientes...';
+            tabelaCorpo.innerHTML = '';
+
+            const { data, totalPaginas: newTotalPaginas, totalRegistros } = await fetchPacientes(paginaAtual, filtroFase, filtroIdade, buscaNome);
+
+            totalPaginas = newTotalPaginas;
+
+            if (totalRegistros === 0) { // Alterado para verificar totalRegistros
+                statusMessageDiv.textContent = 'Nenhum paciente encontrado com os critérios de busca/filtro.';
+                pageInfoSpan.textContent = `Página 0 de 0`; // Ajuste para 0 de 0
+            } else {
+                statusMessageDiv.textContent = '';
+                data.forEach(paciente => {
+                    const row = tabelaCorpo.insertRow();
+                    row.className = 'bg-white hover:bg-gray-50';
+                    row.innerHTML = `
+                        <td class="px-6 py-4 text-sm text-gray-900">${paciente.paciente}</td>
+                        <td class="px-6 py-4 text-sm text-gray-900">${paciente.cpf}</td>
+                        <td class="px-6 py-4 text-sm text-gray-900">${paciente.id}</td>
+                        <td class="px-6 py-4 text-sm text-gray-900">${paciente.contato}</td>
+                        <td class="px-6 py-4 text-sm text-gray-900">${paciente.consulta}</td>
+                        <td class="px-6 py-4 text-sm text-gray-900">${paciente.idade}</td>
+                        <td class="px-6 py-4 text-sm text-gray-900">${paciente.fase}</td>
+                        <td class="px-6 py-4 text-right text-sm font-medium">
+                            <a href="#" class="text-indigo-600 hover:text-indigo-900">Editar</a>
+                            <a href="#" class="text-red-600 hover:text-red-900 ml-4">Excluir</a>
+                        </td>
+                    `;
+                });
+                pageInfoSpan.textContent = `Página ${paginaAtual} de ${totalPaginas} (${totalRegistros} registros)`;
+            }
+
+            prevButton.disabled = paginaAtual === 1;
+            nextButton.disabled = paginaAtual >= totalPaginas || totalPaginas === 0; // Ajuste no nextButton para totalPaginas === 0
+
+            // Se a página atual exceder o total de páginas após um filtro, volte para a última página válida
+            // Ou se não houver resultados, resete para a página 1 (e 0 de 0)
+            if (totalRegistros > 0 && paginaAtual > totalPaginas) {
+                paginaAtual = totalPaginas;
+                renderizarTabela();
+            } else if (totalRegistros === 0 && paginaAtual !== 1) {
+                paginaAtual = 1; // Reseta para 1 se não houver resultados
+                renderizarTabela(); // Para garantir que a exibição "0 de 0" seja consistente
+            }
         }
-      }
 
-      // Função para redirecionar para a tela de edição de paciente
-      function editarPaciente(pacienteId) {
-        window.location.href = `editar-paciente.html?id=${pacienteId}`;
-      }
+        // === EVENT LISTENERS ===
 
-      // Função para redirecionar para a tela de criação de novo paciente
-      function abrirNovoPaciente() {
-        window.location.href = `novo-paciente.html`;
-      }
+        document.addEventListener('DOMContentLoaded', () => {
+            renderizarTabela();
 
-      // Função para renderizar/atualizar a tabela de pacientes
-      function renderTabela() {
-        const nomeBusca = buscaNome.value.toLowerCase().trim();
-        const fase = filtroFase.value;
-        const idade = filtroIdade.value;
+            document.getElementById('prevPage').addEventListener('click', () => {
+                if (paginaAtual > 1) {
+                    paginaAtual--;
+                    renderizarTabela();
+                }
+            });
 
-        tabela.innerHTML = ""; // Limpar o corpo da tabela
+            document.getElementById('nextPage').addEventListener('click', () => {
+                if (paginaAtual < totalPaginas) {
+                    paginaAtual++;
+                    renderizarTabela();
+                }
+            });
 
-        const filtrados = pacientesAtuais.filter(p => {
-          const nomeMatch = p.nome.toLowerCase().includes(nomeBusca);
-          const faseMatch = fase === "todas" || p.fase === fase;
-          const idadeMatch = idade === "todas" || p.idade === idade;
-          return nomeMatch && faseMatch && idadeMatch;
+            document.getElementById('filtroFase').addEventListener('change', () => {
+                paginaAtual = 1;
+                renderizarTabela();
+            });
+
+            document.getElementById('filtroIdade').addEventListener('change', () => {
+                paginaAtual = 1;
+                renderizarTabela();
+            });
+
+            document.getElementById('buscaNome').addEventListener('input', () => {
+                paginaAtual = 1;
+                renderizarTabela();
+            });
         });
 
-        if (filtrados.length === 0) {
-          // Ajustado colspan para 8
-          tabela.innerHTML = `
-            <tr>
-              <td colspan="8" class="px-6 py-6 text-center text-gray-500 text-lg font-semibold bg-gray-50">Nenhum paciente encontrado.</td>
-            </tr>
-          `;
-          return;
+        // === WEB COMPONENT (SIDEBAR) ===
+        class Siderbar extends HTMLElement {
+            connectedCallback() {
+                this.innerHTML = `
+                <div id="menu-wrapper" class="flex flex-col justify-between">
+                    <div id="icons1" class="flex flex-col items-center justify-center">
+                        <div id="btn-abrir" class="js-menu-div hover-bg-secondary flex flex-row cursor-pointer items-center justify-center">
+                            <img src="../../../assets/img/menu.svg" alt="Voltar" class="rotate-180 w-12 h-12 m-2">
+                            <p class="text-white text-2xl p-2 js-menu-label hidden">Menu</p>
+                        </div>
+                        <div class="js-menu-div hover-bg-secondary flex flex-row cursor-pointer items-center justify-center">
+                            <img src="../../../assets/img/dashbord.svg" alt="Dashboard" class="w-10 h-10 m-2">
+                            <p class="text-white text-2xl p-2 js-menu-label hidden">Página Principal</p>
+                        </div>
+                        <div class="js-menu-div hover-bg-secondary flex flex-row cursor-pointer items-center justify-center">
+                            <img src="../../../assets/img/Group 8.svg" class="w-10 h-10 m-2">
+                            <p class="text-white text-2xl p-2 js-menu-label hidden">Nova Ficha</p>
+                        </div>
+                        <div class="js-menu-div hover-bg-secondary flex flex-row cursor-pointer items-center justify-center">
+                            <img src="../../../assets/img/search2.svg" alt="Buscar" class="fill-white w-10 h-10 m-2">
+                            <p class="text-white text-2xl p-2 js-menu-label hidden">Buscar</p>
+                        </div>
+                    </div>
+                    <div id="icons2" class="flex flex-col items-center justify-center">
+                        <div class="js-menu-div hover-bg-secondary flex flex-row cursor-pointer items-center justify-center">
+                            <img src="../../../assets/img/defaulPerfil_IMG/perfil_02.svg" class="w-10 h-10 m-2">
+                            <p class="text-white text-2xl p-2 js-menu-label hidden">Perfil</p>
+                        </div>
+                        <div class="js-menu-div hover-bg-secondary flex flex-row cursor-pointer items-center justify-center">
+                            <img src="../../../assets/img/gear-fill.svg" alt="Configurações" class="w-10 h-10 m-2">
+                            <p class="text-white text-2xl p-2 js-menu-label hidden">Configurações</p>
+                        </div>
+                    </div>
+                </div>`;
+
+                const btnAbrir = this.querySelector('#btn-abrir');
+
+                btnAbrir.addEventListener('click', () => {
+                    const menuWrapper = this.querySelector('#menu-wrapper');
+                    const contentArea = document.querySelector('.content-area');
+                    const labels = this.querySelectorAll('.js-menu-label');
+                    const menuDivs = this.querySelectorAll('.js-menu-div');
+                    const menuIcon = this.querySelector('#btn-abrir img');
+
+                    menuWrapper.classList.toggle('expanded');
+                    contentArea.classList.toggle('expanded-sidebar');
+
+                    menuIcon.classList.toggle('rotate-180');
+                    menuIcon.classList.toggle('rotate-0');
+
+                    labels.forEach(label => {
+                        label.classList.toggle('hidden');
+                        label.classList.toggle('block');
+                    });
+
+                    menuDivs.forEach(div => {
+                        div.classList.toggle('justify-start');
+                        div.classList.toggle('justify-center');
+                        div.classList.toggle('w-full');
+                        div.classList.toggle('expanded-hover-px');
+                    });
+                });
+            }
         }
 
-        filtrados.forEach((paciente, index) => { // Adicione 'index' para o efeito zebra
-          const tr = document.createElement("tr");
-          
-          tr.className = `hover:bg-gray-100 ${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}`;
-
-          tr.innerHTML = `
-            <td class="px-6 py-3 font-medium text-gray-900">${paciente.nome}</td>
-            <td class="px-6 py-3 whitespace-nowrap text-gray-700">${paciente.cpf}</td>
-            <td class="px-6 py-3 whitespace-nowrap text-gray-700">${paciente.id}</td>
-            <td class="px-6 py-3 text-gray-700 break-words max-w-xs">${paciente.contato}</td>
-            <td class="px-6 py-3 whitespace-nowrap text-gray-700">${paciente.consulta}</td>
-            <td class="px-6 py-3 whitespace-nowrap capitalize text-gray-700">${paciente.idade}</td>
-            <td class="px-6 py-3 whitespace-nowrap capitalize text-gray-700">${paciente.fase}</td>
-            <td class="px-6 py-3 whitespace-nowrap text-right text-sm font-medium">
-              <button onclick="editarPaciente('${paciente.id}')" class="text-indigo-600 hover:text-indigo-900 font-medium">Editar</button>
-            </td>
-          `;
-          tabela.appendChild(tr);
-        });
-      }
-
-      buscaNome.addEventListener("input", renderTabela);
-      filtroFase.addEventListener("change", renderTabela);
-      filtroIdade.addEventListener("change", renderTabela);
-      btnNovoPaciente.addEventListener("click", abrirNovoPaciente);
-
-      carregarPacientes();
+        customElements.define('sidebar-left', Siderbar);
     </script>
-
-  </body>
+</body>
 </html>

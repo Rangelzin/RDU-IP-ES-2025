@@ -4,8 +4,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>Cadastrar Usuário</title>
-    <link href="../assets/css/output.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../../../assets/css/output.css">
     <style>
+      /* Definindo as variáveis CSS para cores (essenciais para o Tailwind e estilos customizados) */
+     
+
+      body {
+        background-color: var(--color-quaternary); /* Usando a variável para o background */
+      }
+
       @media (max-height: 800px) {
         body {
           overflow-y: auto;
@@ -24,11 +31,11 @@
     </style>
     <script src="/src/utils/auth.js"></script>
   </head>
-  <body class="bg-(--color-quaternary)">
+  <body class="bg-[var(--color-quaternary)]">
     <main class="min-h-screen w-screen flex items-center justify-center p-4">
       <div class="form-container w-full lg:w-3/4 xl:w-9/12 2xl:w-7/12 bg-[var(--color-fifth)] shadow-[0_0px_40px_rgba(0,0,0,0.10)] lg:shadow-[0_0px_40px_rgba(0,0,0,0.25)] rounded-2xl p-6">
         <div class="flex flex-col items-center">
-          <img src="../assets/img/Woman.svg" class="h-12 w-12 object-contain" alt="Usuário" />
+          <img src="../../../assets/img/Woman.svg" class="h-12 w-12 object-contain" alt="Usuário" />
           <h1 class="mt-1 font-extrabold text-2xl text-[var(--color-primary)] text-center">Cadastro de Profissional da Saúde</h1>
         </div>
 
@@ -37,7 +44,7 @@
             <div>
               <label for="nome" class="px-3 text-start font-extrabold text-sm text-[var(--color-tertiary)]">Nome</label>
               <div class="flex items-center bg-[#D9D9D9] rounded-2xl mt-1">
-                <img src="../assets/img/person.svg" class="h-10 w-10 p-2" />
+                <img src="../../../assets/img/person.svg" class="h-10 w-10 p-2" />
                 <input type="text" id="nome" name="nome" placeholder="Digite o nome" required
                   class="w-full text-lg py-3 placeholder:text-base bg-transparent outline-none focus:ring-0" />
               </div>
@@ -46,7 +53,7 @@
             <div>
               <label for="cpf" class="px-3 text-start font-extrabold text-sm text-[var(--color-tertiary)]">CPF</label>
               <div class="flex items-center bg-[#D9D9D9] rounded-2xl mt-1">
-                <img src="../assets/img/CPF.svg" class="h-10 w-10 p-2" />
+                <img src="../../../assets/img/CPF.svg" class="h-10 w-10 p-2" />
                 <input type="text" id="cpf" name="cpf" placeholder="Digite o CPF" required
                   class="w-full text-lg py-3 placeholder:text-base bg-transparent outline-none focus:ring-0" />
               </div>
@@ -55,23 +62,23 @@
             <div>
               <label for="email" class="px-3 text-start font-extrabold text-sm text-[var(--color-tertiary)]">E-mail</label>
               <div class="flex items-center bg-[#D9D9D9] rounded-2xl mt-1">
-                <img src="../assets/img/email.svg" class="h-10 w-10 p-2" />
+                <img src="../../../assets/img/email.svg" class="h-10 w-10 p-2" />
                 <input type="email" id="email" name="email" placeholder="Digite o e-mail" required
                   class="w-full text-lg py-3 placeholder:text-base bg-transparent outline-none focus:ring-0" />
               </div>
             </div>
 
             <div>
-              <label for="profissao" class="px-3 text-start font-extrabold text-sm text-[var(--color-tertiary)]">Profissão</label>
+              <label for="role" class="px-3 text-start font-extrabold text-sm text-[var(--color-tertiary)]">Profissão</label>
               <div class="flex items-center bg-[#D9D9D9] rounded-2xl mt-1">
-                <img src="../assets/img/enfermeira.svg" class="h-10 w-10 p-2" />
-                <select id="profissao" name="profissao"
-                  class="w-full text-lg py-3 bg-transparent placeholder:text-base outline-none focus:ring-0">
+                <img src="../../../assets/img/enfermeira.svg" class="h-10 w-10 p-2" />
+                <select id="role" name="role"
+                  class="w-full text-lg py-3 bg-transparent placeholder:text-base outline-none focus:ring-0" required>
                   <option value="">Selecione a profissão</option>
-                  <option value="enfermeiro(a)">Enfermeiro(a)</option>
+                  <option value="enfermeiro">Enfermeiro(a)</option>
                   <option value="agente">Agente Comunitário</option>
                   <option value="medico">Médico(a) Ginecologista</option>
-                  <option value="Outros">Outros</option>
+                  <option value="outros">Outros</option>
                 </select>
               </div>
             </div>
@@ -81,7 +88,7 @@
                 CRM <span class="text-xs">(Opcional)</span>
               </label>
               <div class="flex items-center mt-1 rounded-2xl bg-[#D9D9D9] overflow-hidden"> 
-                <img src="../assets/img/CRM.svg" class="h-10 w-10 p-2" /> 
+                <img src="../../../assets/img/CRM.svg" class="h-10 w-10 p-2" /> 
                 <input
                   type="text"
                   id="crm"
@@ -96,7 +103,7 @@
             <div>
               <label for="senha" class="px-3 text-start font-extrabold text-sm text-[var(--color-tertiary)]">Senha</label>
               <div class="flex items-center bg-[#D9D9D9] rounded-2xl mt-1">
-                <img src="../assets/img/lock.svg" class="h-10 w-10 p-2" />
+                <img src="../../../assets/img/lock.svg" class="h-10 w-10 p-2" />
                 <input type="password" id="senha" name="senha" placeholder="Digite a senha" required
                   class="w-full text-lg py-3 placeholder:text-base bg-transparent outline-none focus:ring-0" />
               </div>
@@ -141,7 +148,7 @@
     </main>
 
     <script>
-      // Validação de CPF
+      // Validação de CPF (mantido como estava)
       document.getElementById("formUsuario").addEventListener("submit", function (e) {
         const cpf = document.getElementById("cpf").value.replace(/[^\d]/g, "");
         if (!/^\d{11}$/.test(cpf) || /^(\d)\1{10}$/.test(cpf)) {
@@ -156,38 +163,45 @@
         console.log("Permissões selecionadas:", permissoesMarcadas);
       });
 
-      // Ativa ou desativa o CRM conforme a profissão
-      const profissaoSelect = document.getElementById("profissao");
+      // Ativa ou desativa o CRM conforme a profissão (agora 'role')
+      const roleSelect = document.getElementById("role"); // ID alterado para 'role'
       const crmInput = document.getElementById("crm");
 
       // Estado inicial do CRM
       crmInput.disabled = true;
       crmInput.classList.add("bg-red-100", "cursor-not-allowed");
 
-      profissaoSelect.addEventListener("change", function () {
+      roleSelect.addEventListener("change", function () {
         if (this.value === "medico") {
           crmInput.disabled = false;
           crmInput.classList.remove("bg-red-100", "cursor-not-allowed");
-          crmInput.classList.add("cursor-text"); 
+          crmInput.classList.add("cursor-text", "bg-[#D9D9D9]");
           crmInput.placeholder = "Digite o CRM (apenas para médicos)";
         } else {
           crmInput.disabled = true;
           crmInput.value = "";
-          crmInput.classList.remove("cursor-text"); 
+          crmInput.classList.remove("cursor-text", "bg-[#D9D9D9]");
           crmInput.classList.add("bg-red-100", "cursor-not-allowed");
           crmInput.placeholder = "Campo disponível apenas para médicos";
         }
       });
 
+      // Lógica de envio do formulário via Fetch API
       document.getElementById("formUsuario").addEventListener("submit", async function (e) {
         e.preventDefault();
 
         const nome = document.getElementById("nome").value;
         const cpf = document.getElementById("cpf").value;
         const email = document.getElementById("email").value;
-        const profissao = document.getElementById("profissao").value;
+        const role = document.getElementById("role").value; // Coletando o valor da 'role'
         const crm = document.getElementById("crm").value;
         const senha = document.getElementById("senha").value;
+
+        // Validação básica do campo profissão (agora 'role')
+        if (!role) {
+            alert("Por favor, selecione a profissão.");
+            return;
+        }
 
         const permissoes = Array.from(document.querySelectorAll('input[name="permissoes"]:checked'))
           .map(input => input.value);
@@ -196,11 +210,23 @@
           nome,
           cpf,
           email,
-          profissao,
-          crm,
+          role, // Enviando como 'role' para o backend
+          crm: (role === "medico" && crm ? crm : null), // Se for médico E CRM preenchido, envia; senão, null
           senha,
-          permissoes
+          permissoes, // Supondo que o backend pode receber isso ou você tem uma lógica para mapear
+          status: true // Exemplo: define o status como ativo por padrão
         };
+        
+        // Remova propriedades nulas/vazias se o backend não as esperar
+        for (const key in payload) {
+            if (payload[key] === null || payload[key] === undefined || payload[key] === '') {
+                delete payload[key];
+            }
+        }
+        // Exceção para CRM: se for médico, mas CRM não preenchido, pode ser uma string vazia que o backend espera como campo.
+        // Se seu CRM é *string*, um *string* vazio "" é ok, mas se for *string* (ponteiro para string)
+        // no Go, você pode querer enviar `nil` ou omitir. A lógica acima cobre `null` e `undefined`.
+
 
         try {
           const response = await fetch("http://localhost:8080/api/users", {
@@ -214,12 +240,20 @@
           const result = await response.json();
           if (response.ok) {
             alert("Usuário criado com sucesso!");
-            document.getElementById("formUsuario").reset();
+            document.getElementById("formUsuario").reset(); // Limpa o formulário
+            // Re-desabilita o campo CRM após o reset
+            crmInput.disabled = true;
+            crmInput.classList.remove("cursor-text", "bg-[#D9D9D9]");
+            crmInput.classList.add("bg-red-100", "cursor-not-allowed");
+            crmInput.placeholder = "Campo disponível apenas para médicos";
+
           } else {
-            alert("Erro: " + result.error);
+            const errorMessage = result.error || result.message || "Ocorreu um erro desconhecido.";
+            alert("Erro ao criar usuário: " + errorMessage);
           }
         } catch (error) {
-          alert("Erro ao conectar com o servidor.");
+          console.error("Erro na requisição:", error);
+          alert("Erro ao conectar com o servidor. Verifique se o backend está rodando e acessível.");
         }
       });
     </script>
