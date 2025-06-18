@@ -26,7 +26,7 @@ func NewPacienteHandler(pacienteService *services.PacienteService) *PacienteHand
 
 // GET
 func (h *PacienteHandler) GetPatientsHandler(c *gin.Context) {
-	pacientes, err := h.pacienteService.GetAllPatientes()
+	pacientes, err := h.pacienteService.GetAllPatientes(c)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Erro ao buscar pacientes"})
 		log.Println("Erro ao buscar pacientes: ", err)
