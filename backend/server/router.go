@@ -30,7 +30,7 @@ func SetupRouter (deps *Dependencies) *gin.Engine {
 	rg = r.Group("/main")
 	routes.RegisterUserPages(rg)
 
-	// rg = r.Group("/paciente")
+	rg = r.Group("/paciente")
 
 	rg = r.Group("/api")
 	rg.Use(authMiddleware)
