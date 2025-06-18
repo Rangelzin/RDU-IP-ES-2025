@@ -29,7 +29,6 @@ CREATE TABLE "pacientes" (
   "cpf" char(11) UNIQUE NOT NULL,
   "senha" varchar NOT NULL,
   "data_nascimento" date,
-  "idade" integer,
   "logradouro" varchar,
   "numero" varchar,
   "complemento" varchar,
@@ -51,7 +50,7 @@ CREATE TABLE "exames" (
   "id" SERIAL PRIMARY KEY,
   "paciente_id" integer NOT NULL,
   "protocolo" char(14) UNIQUE,
-  "Prontuario" char(10),
+  "prontuario" char(10),
   "data_resultado" date,
   "created_at" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -104,7 +103,7 @@ CREATE TABLE "etapa4_resultado" (
   "adequabilidade_material" boolean,
   "insatisfatoria_por" text,
   "dentro_limites_normalidade" boolean,
-  "Alteracao_celulas_benignas" text,
+  "alteracao_celulas_benignas" text,
   "microbiologia" text,
   "celulas_atipicas_significado_indeterminado" text,
   "atipias_celulas_escamosas" text,
