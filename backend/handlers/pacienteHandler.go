@@ -3,17 +3,14 @@ package handlers
 import (
 	"backend/models"
 	"backend/services"
-	
+
 	"fmt"
+	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"
 	"strconv"
 	"strings"
 	"time"
-
-	"github.com/gin-gonic/gin"
-	
-	
 )
 
 type PacienteHandler struct {
@@ -59,7 +56,6 @@ func (h *PacienteHandler) CreatePaciente(c *gin.Context) {
 	if err := h.pacienteService.CreatePaciente(ctx, paciente); err != nil {
 		log.Printf("Erro ao criar paciente no serviço/repositório: %v", err)
 
-
 		if strings.Contains(err.Error(), "CPF é obrigatório") || strings.Contains(err.Error(), "CPF inválido") {
 			c.JSON(http.StatusBadRequest, gin.H{
 				"error":   "Erro de validação de dados",
@@ -72,6 +68,34 @@ func (h *PacienteHandler) CreatePaciente(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusCreated, gin.H{"message": "Paciente criado com sucesso"})
+}
+
+func (h *PacienteHandler) UpdatePatientHandler(c *gin.Context) {
+	var paciente models.Paciente
+	idStr := c.Param("id")
+	ctx := c.Request.Context()
+
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		log.Printf("Erro: ID do paciente inválido '%s': %v", idStr, err)
+		c.JSON(http.StatusBadRequest, gin.H{"error": "ID do paciente inválido", "details": "O ID deve ser um número inteiro."})
+		return
+	}
+
+	if err = c.ShouldBindJSON(&paciente); err != nil {
+		log.Printf("Erro no binding do JSON para paciente: %v", err)
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Dados inválidos", "details": err.Error()})
+		return
+	}
+
+	if err = h.pacienteService.UptadePatientService(id, paciente, ctx); err != nil {
+		log.Printf("Erro ao atualizar paciente no serviço/repositório: %v", err)
+
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Erro ao atualizar paciente", "details": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusCreated, gin.H{"message": "Paciente atualizado com sucesso"})
 }
 
 func (h *PacienteHandler) DeletePatientHandler(c *gin.Context) {

@@ -7,8 +7,8 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"golang.org/x/crypto/bcrypt"
 	"github.com/gin-gonic/gin"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type PacienteService struct {
@@ -23,14 +23,12 @@ func (s *PacienteService) GetAllPatientes() (*[]models.Paciente, error) {
 	return s.pacienteRepository.FindAllPatients()
 }
 
-
 func (s *PacienteService) GetPatienteByCPF(c *gin.Context) (*models.Paciente, error) {
 
-	cpfParam := c.Param("cpf") 
+	cpfParam := c.Param("cpf")
 	if cpfParam == "" {
 		return nil, errors.New("CPF não fornecido na requisição")
 	}
-
 
 	return s.pacienteRepository.FindPatientByCPF(c, &cpfParam)
 }
@@ -66,5 +64,15 @@ func (s *PacienteService) DeletePatient(id int) error {
 	if rowsAffected == 0 {
 		return fmt.Errorf("paciente com id %d não encontrado", id)
 	}
+	return nil
+}
+
+func (s *PacienteService) UptadePatientService(id int, paciente models.Paciente, ctx context.Context) error {
+
+	err := s.pacienteRepository.UptadePatient(id, ctx, paciente)
+	if err != nil {
+		return fmt.Errorf("erro ao criar paciente no repositório: %w", err)
+	}
+
 	return nil
 }
