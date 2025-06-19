@@ -15,7 +15,7 @@ type Paciente struct {
 	Idade            int       `json:"idade"`
 	Logradouro       string    `json:"logradouro"`
 	Numero           string    `json:"numero"`
-	Complemento      string    `json:"complemento"`
+	Complemento      *string    `json:"complemento"`
 	Bairro           string    `json:"bairro"`
 	Municipio        string    `json:"municipio"`
 	Uf               string    `json:"uf"`
