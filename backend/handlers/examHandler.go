@@ -29,7 +29,7 @@ func (h *ExamHandler) GetExamsHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, exames)
 }
 func (h *ExamHandler) GetExamByPROTOCOLOHandler(c *gin.Context) {
-	protocolo := c.Param("protocolo")
+	protocolo := c.Param("Protocolo")
 
 	if protocolo == "" {
 
@@ -37,7 +37,7 @@ func (h *ExamHandler) GetExamByPROTOCOLOHandler(c *gin.Context) {
 		return
 	}
 
-	exam, err := h.examServ.GetExamByPROTOCOLO(protocolo)
+	exam, err := h.examServ.GetExamByPROTOCOLO(c.Request.Context(), protocolo)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			c.JSON(http.StatusNotFound, gin.H{"error": "Exame não encontrado."})

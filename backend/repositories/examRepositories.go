@@ -7,6 +7,8 @@ import (
 	"fmt"
 	"log"
 	"github.com/gin-gonic/gin"
+	"context"
+	"strings"
 )
 
 type ExamRepository struct {
@@ -43,36 +45,53 @@ func (r *ExamRepository) GetAllExams() (*[]models.Exames, error) {
 	return &exam, nil
 }
 
-func (r *ExamRepository) FindExamByPROTOCOLO(protocolo string) (*models.Exames, error) {
+func (r *ExamRepository) FindExamByPROTOCOLO(ctx context.Context, protocolo string) (*models.Exames, error) {
+    protocolo = strings.TrimSpace(protocolo)
 	query := `
-		SELECT
-			id, paciente_id, paciente_name, protocolo, prontuario, data_resultado, created_at
-		FROM exames
-		WHERE protocolo = $1;` 
+        SELECT
+            e.id,
+            e.paciente_id,
+            p.nome_completo,
+            p.cpf,
+            e.protocolo,
+            e.prontuario,
+            e.data_resultado,
+            e.created_at
+        FROM
+            exames e
+        INNER JOIN
+            pacientes p ON e.paciente_id = p.id
+        WHERE
+            e.protocolo = $1;`
 
-	var e models.Exames
-	row := r.db.DB.QueryRow(query, protocolo) 
-	err := row.Scan(
-		&e.Id,
-		&e.Paciente_id,
-		&e.Paciente_name,
-		&e.Protocolo,
-		&e.Prontuario,
-		&e.Data_resultado,
-		&e.Created_at,
-	)
+    var e models.Exames
 
-	switch {
-	case err == sql.ErrNoRows:
-		log.Printf("No exam found with protocolo:", protocolo) 
-		return nil, sql.ErrNoRows
-	case err != nil:
-		log.Printf("Error scanning exam with protocolo: ", protocolo) 
-		return nil, fmt.Errorf("failed to scan exam: %w", err)
-	default:
-		return &e, nil
-	}
+    row := r.db.DB.QueryRowContext(ctx, query, protocolo)
+
+    err := row.Scan(
+        &e.Id,
+        &e.Paciente_id,
+        &e.Paciente_name,
+        &e.Cpf,
+        &e.Protocolo,
+        &e.Prontuario,
+        &e.Data_resultado,
+        &e.Created_at,
+    )
+
+    switch {
+    case err == sql.ErrNoRows:
+        log.Printf("Nenhum exame encontrado com protocolo: %s", protocolo)
+        return nil, sql.ErrNoRows
+    case err != nil:
+        log.Printf("Erro ao escanear exame com protocolo %s: %v", protocolo, err)
+        return nil, fmt.Errorf("falha ao escanear exame: %w", err)
+    default:
+        return &e, nil
+    }
 }
+
+
 
 func (r *ExamRepository) InsertExam(c *gin.Context, exam *models.Exames) error {
 	query := `INSERT INTO exames (paciente_id, protocolo, prontuario, data_resultado) VALUES ($1,$2,$3,$4)`

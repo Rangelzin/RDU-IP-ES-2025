@@ -9,6 +9,7 @@ import (
 	 "errors"
 	 "strings"
 	 "time"
+	 "context"
 )
 
 type ExamService struct {
@@ -27,8 +28,8 @@ func (s *ExamService) GetExamService() (*[]models.Exames, error) {
 	return s.examRepo.GetAllExams()
 }
 
-func (s *ExamService) GetExamByPROTOCOLO(protocolo string) (*models.Exames, error) {
-	return s.examRepo.FindExamByPROTOCOLO(protocolo)
+func (s *ExamService) GetExamByPROTOCOLO(ctx context.Context, protocolo string) (*models.Exames, error) {
+    return s.examRepo.FindExamByPROTOCOLO(ctx, protocolo)
 }
 
 func (s *ExamService) CreateExam(c *gin.Context, exam *models.Exames) error {
