@@ -6,6 +6,7 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
+	"github.com/gin-gonic/gin"
 )
 
 type ExamRepository struct {
@@ -17,7 +18,7 @@ func NewExamRepository(dbClient *database.DatabaseCliente) *ExamRepository {
 }
 
 func (r *ExamRepository) GetAllExams() (*[]models.Exames, error) {
-	rows, err := r.db.DB.Query("SELECT e.id, e.paciente_id, p.nome_completo, p.cpf, e.protocolo, e.\"Prontuario\", e.data_resultado, e.created_at FROM exames e INNER JOIN pacientes p ON e.paciente_id = p.id;")
+	rows, err := r.db.DB.Query("SELECT e.id, e.paciente_id, p.nome_completo, p.cpf, e.protocolo, e.prontuario, e.data_resultado, e.created_at FROM exames e INNER JOIN pacientes p ON e.paciente_id = p.id;")
 	if err != nil {
 		return nil, err
 	}
@@ -71,4 +72,22 @@ func (r *ExamRepository) FindExamByPROTOCOLO(protocolo string) (*models.Exames, 
 	default:
 		return &e, nil
 	}
+}
+
+func (r *ExamRepository) InsertExam(c *gin.Context, exam *models.Exames) error {
+	query := `INSERT INTO exames (paciente_id, protocolo, prontuario, data_resultado) VALUES ($1,$2,$3,$4)`
+	ctx := c.Request.Context()
+
+	res, err := r.db.DB.ExecContext(ctx, query, exam.Paciente_id, exam.Protocolo, exam.Prontuario, exam.Data_resultado)
+
+	if res != nil {
+		if rowsaffected, err := res.RowsAffected(); err != nil {
+			log.Println("Linhas Afetadas: ", rowsaffected)
+			return err
+		}
+		log.Println("Erro no ExecContext: ", err)
+		return err
+	}
+
+	return nil
 }

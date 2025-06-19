@@ -6,6 +6,8 @@ import (
 	"database/sql"
     "log"
 	"github.com/gin-gonic/gin"
+	"backend/models"
+	"fmt"
 )
 
 type ExamHandler struct {
@@ -48,4 +50,24 @@ func (h *ExamHandler) GetExamByPROTOCOLOHandler(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, exam)
+}
+
+func (h *ExamHandler) CreateExamHandler(c *gin.Context) {
+	var exam models.Exames
+
+	if err := c.ShouldBindJSON(&exam); err != nil {
+		log.Println("Erro ao fazer bind do JSON:", err)
+		c.JSON(http.StatusBadRequest, gin.H{"erro": "JSON inválido"})
+		return
+		}
+
+	if err := h.examServ.CreateExam(c, &exam); err != nil {
+		err = fmt.Errorf("erro ao cadastrar usuário: ", err)
+		log.Println(err)
+		c.JSON(http.StatusInternalServerError, gin.H{"erro": err})
+		return
+	}
+	c.JSON(http.StatusCreated, gin.H{
+		"mensagem": "Exame criado com sucesso",
+	})
 }

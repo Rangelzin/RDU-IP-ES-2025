@@ -41,7 +41,7 @@ func BuildDependencies(db *sql.DB) *Dependencies {
 	userHandler := handlers.NewUserHandler(userService)
 	
 	examRepo := repositories.NewExamRepository(dbCliente)
-	examService := services.NewExamService(examRepo)
+	examService := services.NewExamService(examRepo, pacienteRepo)
 	examHandler := handlers.NewExamHandler(examService)
 
 

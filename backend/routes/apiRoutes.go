@@ -24,4 +24,5 @@ func RegisterAPIUserRoutes(rg *gin.RouterGroup, userHandler *handlers.UserHandle
 func RegisterAPIExamRoutes(rg *gin.RouterGroup, examHandler *handlers.ExamHandler) {
 	rg.GET("/exams", examHandler.GetExamsHandler) 
 	rg.GET("/exams/:Protocolo", examHandler.GetExamByPROTOCOLOHandler) 
+	rg.POST("/exams/:cpf", examHandler.CreateExamHandler)
 }

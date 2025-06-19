@@ -9,7 +9,7 @@ import (
     "strings"
 	"errors"
 	"database/sql"
-	
+	"fmt"
 	"github.com/gin-gonic/gin"
 )
 
@@ -59,8 +59,9 @@ func (h *UserHandler) GetUserbyCPFHandler(c *gin.Context) {
     }
 
     if err := h.userService.CadastraUsuario(c, &user); err != nil {
-		log.Println("Erro ao cadastrar usuário: ", err)
-        c.JSON(http.StatusInternalServerError, gin.H{"erro": "Erro ao cadastrar usuário"})
+		err = fmt.Errorf("erro ao cadastrar usuário: ", err)
+		log.Println(err)
+        c.JSON(http.StatusInternalServerError, gin.H{"erro": err})
         return
     }
 
