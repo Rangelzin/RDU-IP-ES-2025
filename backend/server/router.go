@@ -37,6 +37,7 @@ func SetupRouter (deps *Dependencies) *gin.Engine {
 	routes.RegisterAPIPacienteRoutes(rg, deps.PacienteHandler)
 	routes.RegisterAPIUserRoutes(rg, deps.UserHandler)
 	routes.RegisterAPIExamRoutes(rg, deps.ExamHandler)
+	routes.RegisterAPIAnamneseRoutes(rg, deps.AnamneseHandler)
 
 	
 	r.NoRoute(func(c *gin.Context) {c.File("../frontend/public/pages/404.html")})

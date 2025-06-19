@@ -26,3 +26,7 @@ func RegisterAPIExamRoutes(rg *gin.RouterGroup, examHandler *handlers.ExamHandle
 	rg.GET("/exams/:Protocolo", examHandler.GetExamByPROTOCOLOHandler) 
 	rg.POST("/exams/:cpf", examHandler.CreateExamHandler)
 }
+
+func RegisterAPIAnamneseRoutes(rg *gin.RouterGroup, anamneseHandler *handlers.AnamneseHandler) {
+	rg.POST("/citology_forms/:id/anamnese", anamneseHandler.CreateAnamneseHandler)
+}

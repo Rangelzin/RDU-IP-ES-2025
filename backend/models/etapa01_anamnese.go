@@ -2,7 +2,7 @@ package models
 
 import "time"
 
-type Etepa1Anamnese struct {
+type Etapa01Anamnese struct {
 	Id                    int    `json:"id"`
 	Exame_id              int    `json:"exame_id"`
 	Responsavel_id        int    `json:"responsavel_id"`
@@ -15,7 +15,7 @@ type Etepa1Anamnese struct {
 	Usa_hormonio          int    `json:"usa_hormonio"`
 	Radioterapia          int    `json:"radioterapia"`
 	Ultima_menstruacao    time.Time `json:"ultima_menstruacao"`
-	Sangramento_relação   int    `json:"sangramento_relacao"`
+    Sangramento_relacao  int       `json:"sangramento_relacao"`
 	Sangramento_menopausa int    `json:"sangramento_menopausa"`
 	Created_at            time.Time `json:"created_at"`
 }
