@@ -18,9 +18,6 @@ type Dependencies struct {
 	PacienteHandler *handlers.PacienteHandler
 	UserHandler     *handlers.UserHandler
 	ExamHandler     *handlers.ExamHandler    
-
-	AnamneseHandler *handlers.AnamneseHandler
-	
 	AuthHandler		*auth.AuthHandler
 	 
 }
@@ -46,10 +43,6 @@ func BuildDependencies(db *sql.DB) *Dependencies {
 	examService := services.NewExamService(examRepo, pacienteRepo)
 	examHandler := handlers.NewExamHandler(examService)
 
-	anamneseRepo := repositories.NewAnamneseRepository(dbCliente)
-	anamneseService := services.NewAnamneseService(anamneseRepo)
-	anamneseHandler := handlers.NewAnamneseHandler(anamneseService)
-
 
 	authService := auth.NewAutenticacaoService(userRepo, pacienteRepo, []byte(chaveJwt))
 	authHandler := auth.NewAuthHandler(authService)
@@ -62,7 +55,6 @@ func BuildDependencies(db *sql.DB) *Dependencies {
 		PacienteHandler:	pacienteHandler,
 		UserHandler:		userHandler,
 		ExamHandler:		examHandler,
-		AnamneseHandler: anamneseHandler,
 		AuthHandler: 		authHandler,
 	}
 }

@@ -71,3 +71,23 @@ func (h *ExamHandler) CreateExamHandler(c *gin.Context) {
 		"mensagem": "Exame criado com sucesso",
 	})
 }
+	func (h *ExamHandler) CreateAnamneseHandler(c *gin.Context) {
+	var anamnese models.Etapa01Anamnese
+
+	if err := c.ShouldBindJSON(&anamnese); err != nil {
+		log.Println("Erro ao fazer bind do JSON:", err)
+		c.JSON(http.StatusBadRequest, gin.H{"erro": "JSON inválido"})
+		return
+	}
+
+	if err := h.examServ.CadastraAnamnese(c, &anamnese); err != nil {
+		err = fmt.Errorf("erro ao cadastrar anamnese: %w", err)
+		log.Println(err)
+		c.JSON(http.StatusInternalServerError, gin.H{"erro": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusCreated, gin.H{
+		"mensagem": "Anamnese criada com sucesso",
+	})
+}

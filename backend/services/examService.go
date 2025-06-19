@@ -61,3 +61,11 @@ func (s *ExamService) CreateExam(c *gin.Context, exam *models.Exames) error {
 
 	return nil
 }
+
+func (s *ExamService) CadastraAnamnese(c *gin.Context, anamnese *models.Etapa01Anamnese) error {
+	err := s.examRepo.InsertAnamnese(c, anamnese)
+	if err != nil {
+		return err
+	}
+	return nil
+}
