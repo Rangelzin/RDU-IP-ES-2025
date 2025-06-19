@@ -69,10 +69,16 @@ func (s *PacienteService) DeletePatient(id int) error {
 
 func (s *PacienteService) UptadePatientService(id int, paciente models.Paciente, ctx context.Context) error {
 
+	isCPF := utils.IsValidCPF(paciente.Cpf)
+	if !isCPF {
+		return fmt.Errorf("CPF inválido: %s", paciente.Cpf)
+	} else if paciente.Cpf == "" {
+		return fmt.Errorf("CPF vazio: %s", paciente.Cpf)
+	}
+
 	err := s.pacienteRepository.UptadePatient(id, ctx, paciente)
 	if err != nil {
 		return fmt.Errorf("erro ao criar paciente no repositório: %w", err)
 	}
-
 	return nil
 }
