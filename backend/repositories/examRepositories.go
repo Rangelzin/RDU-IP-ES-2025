@@ -112,11 +112,11 @@ func (r *ExamRepository) InsertExam(c *gin.Context, exam *models.Exames) error {
 }
 
 func (r *ExamRepository) InsertAnamnese(c *gin.Context, anamnese *models.Etapa01Anamnese) error {
-	 query := `INSERT INTO anamnese (
-    exame_id, responsavel_id, motivo_exame, fez_preventivo, ano_ultimo_exame,
-    usa_diu, gravida, usa_pilula, usa_hormonio, radioterapia,
-    ultima_menstruacao, sangramento_relacao, sangramento_menopausa
-) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)`
+	query := `INSERT INTO etapa01_anamnese (
+		exame_id, responsavel_id, motivo_exame, fez_preventivo, ano_ultimo_exame,
+		usa_diu, gravida, usa_pilula, usa_hormonio, radioterapia,
+		ultima_menstruacao, sangramento_relacao, sangramento_menopausa
+	) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)`
 
 	ctx := c.Request.Context()
 
@@ -146,7 +146,7 @@ func (r *ExamRepository) InsertAnamnese(c *gin.Context, anamnese *models.Etapa01
 	}
 
 	return nil
-}	
+}
 
 func (r *ExamRepository) InsertClinico(c *gin.Context, clinico *models.Etapa02Clinico) error {
 	query := `

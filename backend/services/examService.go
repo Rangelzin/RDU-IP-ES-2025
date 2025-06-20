@@ -12,6 +12,7 @@ import (
 	"net/http"
 	"strings"
 	"time"
+	"fmt"
 )
 
 type ExamService struct {
@@ -64,14 +65,39 @@ func (s *ExamService) CreateExam(c *gin.Context, exam *models.Exames) error {
 	return nil
 }
 
-func (s *ExamService) CadastraAnamnese(c *gin.Context, anamnese *models.Etapa01Anamnese) error {
-	err := s.examRepo.InsertAnamnese(c, anamnese)
+func (s *ExamService) CadastraAnamnese(c *gin.Context, protocolo string, anamnese *models.Etapa01Anamnese) error {
+	ctx := c.Request.Context()
+
+	if protocolo == "" {
+		return errors.New("protocolo do exame é obrigatório para o cadastro da anamnese")
+	}
+
+	
+	exam, err := s.examRepo.FindExamByPROTOCOLO(ctx, protocolo)
 	if err != nil {
+		if err == sql.ErrNoRows {
+			
+			return errors.New("exame não encontrado para o protocolo fornecido. Não é possível cadastrar anamnese.")
+		}
+		
+		log.Printf("Erro interno ao buscar exame por protocolo '%s': %v", protocolo, err)
+		return fmt.Errorf("erro interno ao verificar exame: %w", err)
+	}
+
+	anamnese.Exame_id = exam.Id
+
+	err = s.examRepo.InsertAnamnese(c, anamnese)
+	if err != nil {
+		log.Println("Erro ao inserir anamnese no banco de dados: ", err)
+
+		if strings.Contains(err.Error(), "etapa01_anamnese_responsavel_id_fkey") {
+			return errors.New("responsável não encontrado. Verifique o responsavel_id.")
+		}
 		return err
 	}
+
 	return nil
 }
-
 func (s *ExamService) CadastraClinicalStage(c *gin.Context, exam *models.Etapa02Clinico, protocolo string) error {
 
 	examFound, err := s.GetExamByPROTOCOLO(c.Request.Context(), protocolo)

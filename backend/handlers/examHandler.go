@@ -78,18 +78,26 @@ func (h *ExamHandler) CreateExamHandler(c *gin.Context) {
 }
 
 func (h *ExamHandler) CreateAnamneseHandler(c *gin.Context) {
-	var anamnese models.Etapa01Anamnese
-
-	if err := c.ShouldBindJSON(&anamnese); err != nil {
-		log.Println("Erro ao fazer bind do JSON:", err)
-		c.JSON(http.StatusBadRequest, gin.H{"erro": "JSON inválido"})
+	// 1. Pegar o PROTOCOLO do exame da URL (que está no parâmetro ":id")
+	protocolo := c.Param("id") // O parâmetro na URL é ":id", mas estamos interpretando-o como protocolo
+	if protocolo == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"erro": "Protocolo do exame não fornecido na URL."})
 		return
 	}
-
-	if err := h.examServ.CadastraAnamnese(c, &anamnese); err != nil {
-		err = fmt.Errorf("erro ao cadastrar anamnese: %w", err)
-		log.Println(err)
-		c.JSON(http.StatusInternalServerError, gin.H{"erro": err.Error()})
+	var anamnese models.Etapa01Anamnese
+	if err := c.ShouldBindJSON(&anamnese); err != nil {
+		log.Println("Erro ao fazer bind do JSON da anamnese:", err)
+		c.JSON(http.StatusBadRequest, gin.H{"erro": "Dados da anamnese inválidos", "detalhes": err.Error()})
+		return
+	}
+	if err := h.examServ.CadastraAnamnese(c, protocolo, &anamnese); err != nil {
+		if err.Error() == "exame não encontrado para o protocolo fornecido. Não é possível cadastrar anamnese." ||
+			err.Error() == "responsável não encontrado." {
+			c.JSON(http.StatusBadRequest, gin.H{"erro": err.Error()})
+		} else {
+			log.Printf("Erro inesperado ao cadastrar anamnese: %v", err)
+			c.JSON(http.StatusInternalServerError, gin.H{"erro": "Erro ao cadastrar anamnese", "detalhes": err.Error()})
+		}
 		return
 	}
 
