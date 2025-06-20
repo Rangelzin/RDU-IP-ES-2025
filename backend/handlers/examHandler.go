@@ -55,6 +55,7 @@ func (h *ExamHandler) GetExamByPROTOCOLOHandler(c *gin.Context) {
 }
 
 func (h *ExamHandler) CreateExamHandler(c *gin.Context) {
+	cpf := c.Param("cpf")
 	var exam models.Exames
 
 	if err := c.ShouldBindJSON(&exam); err != nil {
@@ -63,8 +64,10 @@ func (h *ExamHandler) CreateExamHandler(c *gin.Context) {
 		return
 	}
 
+		exam.Cpf = cpf
+
 	if err := h.examServ.CreateExam(c, &exam); err != nil {
-		err = fmt.Errorf("erro ao cadastrar usuário: %w", err)
+		err = fmt.Errorf("erro ao cadastrar usuário: ", err)
 		log.Println(err)
 		c.JSON(http.StatusInternalServerError, gin.H{"erro": err})
 		return
