@@ -3,23 +3,25 @@ package services
 import (
 	"backend/models"
 	"backend/repositories"
-	 "backend/utils"
-	 "log"
-	 "github.com/gin-gonic/gin"
-	 "errors"
-	 "strings"
-	 "time"
-	 "context"
+	"backend/utils"
+	"context"
+	"database/sql"
+	"errors"
+	"github.com/gin-gonic/gin"
+	"log"
+	"net/http"
+	"strings"
+	"time"
 )
 
 type ExamService struct {
-	examRepo *repositories.ExamRepository
+	examRepo     *repositories.ExamRepository
 	PacienteRepo *repositories.PacienteRepository
 }
 
 func NewExamService(examRepo *repositories.ExamRepository, pacienteRepo *repositories.PacienteRepository) *ExamService {
 	return &ExamService{
-		examRepo: examRepo,
+		examRepo:     examRepo,
 		PacienteRepo: pacienteRepo,
 	}
 }
@@ -29,21 +31,21 @@ func (s *ExamService) GetExamService() (*[]models.Exames, error) {
 }
 
 func (s *ExamService) GetExamByPROTOCOLO(ctx context.Context, protocolo string) (*models.Exames, error) {
-    return s.examRepo.FindExamByPROTOCOLO(ctx, protocolo)
+	return s.examRepo.FindExamByPROTOCOLO(ctx, protocolo)
 }
 
 func (s *ExamService) CreateExam(c *gin.Context, exam *models.Exames) error {
-	  NCredencial := strings.ReplaceAll(exam.Cpf, ".", "")
-	  NCredencial = strings.ReplaceAll(NCredencial, "-", "")
-	  NCredencial = strings.ReplaceAll(NCredencial, " ", "")
+	NCredencial := strings.ReplaceAll(exam.Cpf, ".", "")
+	NCredencial = strings.ReplaceAll(NCredencial, "-", "")
+	NCredencial = strings.ReplaceAll(NCredencial, " ", "")
 
-	if NCredencial == "" { 
+	if NCredencial == "" {
 		return errors.New("CPF é obrigatório")
 	}
 	if !utils.IsValidCPF(NCredencial) {
 		return errors.New("CPF inválido")
 	}
-	
+
 	FCpf := &NCredencial
 	paciente, err := s.PacienteRepo.FindPatientByCPF(c, FCpf)
 	if err != nil {
@@ -69,3 +71,29 @@ func (s *ExamService) CadastraAnamnese(c *gin.Context, anamnese *models.Etapa01A
 	}
 	return nil
 }
+
+func (s *ExamService) CadastraClinicalStage(c *gin.Context, exam *models.Etapa02Clinico, protocolo string) error {
+
+	examFound, err := s.GetExamByPROTOCOLO(c.Request.Context(), protocolo)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			c.JSON(http.StatusNotFound, gin.H{"error": "Exame não encontrado."})
+			return err
+		} else {
+			log.Printf("Erro ao buscar exame por protocolo '%s': %v", protocolo, err)
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Erro ao buscar exame", "details": err.Error()})
+			return err
+		}
+	}
+
+	exam.Exame_id = examFound.Id
+	exam.Created_at = time.Now()
+
+	err = s.examRepo.InsertClinico(c, exam)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+

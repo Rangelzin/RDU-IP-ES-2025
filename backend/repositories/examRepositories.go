@@ -3,12 +3,14 @@ package repositories
 import (
 	"backend/database"
 	"backend/models"
+	"context"
 	"database/sql"
 	"fmt"
 	"log"
-	"github.com/gin-gonic/gin"
-	"context"
 	"strings"
+
+	"github.com/gin-gonic/gin"
+	"github.com/lib/pq"
 )
 
 type ExamRepository struct {
@@ -91,8 +93,6 @@ func (r *ExamRepository) FindExamByPROTOCOLO(ctx context.Context, protocolo stri
     }
 }
 
-
-
 func (r *ExamRepository) InsertExam(c *gin.Context, exam *models.Exames) error {
 	query := `INSERT INTO exames (paciente_id, protocolo, prontuario, data_resultado) VALUES ($1,$2,$3,$4)`
 	ctx := c.Request.Context()
@@ -147,3 +147,36 @@ func (r *ExamRepository) InsertAnamnese(c *gin.Context, anamnese *models.Etapa01
 
 	return nil
 }	
+
+func (r *ExamRepository) InsertClinico(c *gin.Context, clinico *models.Etapa02Clinico) error {
+	query := `
+	INSERT INTO etapa2_clinico (exame_id, responsavel_id, inspeção_colo,sinais_dst, data_coleta, created_at) 
+	VALUES ($1, $2, $3, $4, $5, $6)
+	`
+
+	ctx := c.Request.Context()
+
+	res, err := r.db.DB.ExecContext(ctx, query,
+		clinico.Exame_id,
+		clinico.Responsavel_id,
+		clinico.Inspecao_colo,
+		clinico.Sinais_dst,
+		clinico.Data_coleta,
+		clinico.Created_at,
+	)
+
+	if err != nil {
+        if pgErr, ok := err.(*pq.Error); ok {    
+            if pgErr.Code == "23505" {
+                return fmt.Errorf("conflito: etapa clínica já existe para este exame")
+            }
+        }
+        log.Println("Erro no ExecContext: ", err)
+        return err
+	}
+	
+	if rowsAffected, err := res.RowsAffected(); err == nil {
+		log.Println("Linhas afetadas:", rowsAffected)
+	}
+	return nil
+}
