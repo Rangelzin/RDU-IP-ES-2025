@@ -5,29 +5,29 @@ class Siderbar extends HTMLElement {
             <div id="menu" class="flex flex-col justify-between bg-[var(--color-primary)] w-20 h-screen ">   
                 <div id="icons1" class="flex flex-col items-center justify-center">
                     <div id="btn-abrir" class="js-menu-div flex flex-row hover:bg-(--color-secondary) hover:rounded-4xl cursor-pointer items-center justify-center">
-                        <img src="../assets/img/menu.svg" alt="Voltar" class="rotate-180 w-12 h-12 m-2 ">
+                        <img src="/assets/img/menu.svg" alt="Voltar" class="rotate-180 w-12 h-12 m-2 ">
                         <p class="text-white text-2xl p-2 js-menu-label hidden">Menu</p>
                     </div> 
                     <div class="js-menu-div flex flex-row hover:bg-(--color-secondary) hover:rounded-4xl cursor-pointer items-center justify-center">
-                        <img src="../assets/img/dashbord.svg" alt="Dashboard" class="w-10 h-10 m-2 ">
+                        <img src="/assets/img/dashbord.svg" alt="Dashboard" class="w-10 h-10 m-2 ">
                         <p class="text-white text-2xl p-2 js-menu-label hidden">Página Principal</p>
                     </div>
                     <div class="js-menu-div flex flex-row hover:bg-(--color-secondary) hover:rounded-4xl cursor-pointer items-center justify-center">
-                        <img src="../assets/img/Group 8.svg" class="w-10 h-10 m-2 ">
+                        <img src="/assets/img/Group 8.svg" class="w-10 h-10 m-2 ">
                         <p class="text-white text-2xl p-2 js-menu-label hidden">Nova Ficha</p>
                     </div>
                     <div class="js-menu-div flex flex-row hover:bg-(--color-secondary) hover:rounded-4xl cursor-pointer items-center justify-center">
-                        <img src="../assets/img/search2.svg" alt="Buscar" class="fill-white w-10 h-10 m-2 ">
+                        <img src="/assets/img/search2.svg" alt="Buscar" class="fill-white w-10 h-10 m-2 ">
                         <p class="text-white text-2xl p-2 js-menu-label hidden">Buscar</p>
                     </div>
                 </div>  
                 <div id="icons2" class="flex flex-col items-center justify-center">
                     <div class="js-menu-div flex flex-row hover:bg-(--color-secondary) hover:rounded-4xl cursor-pointer items-center justify-center">
-                        <img src="../assets/img/defaulPerfil_IMG/perfil_02.svg" class="w-10 h-10 m-2 ">
+                        <img src="/assets/img/defaulPerfil_IMG/perfil_02.svg" class="w-10 h-10 m-2 ">
                         <p class="text-white text-2xl p-2 js-menu-label hidden">Perfil</p>
                     </div>
                     <div class="js-menu-div flex flex-row hover:bg-(--color-secondary) hover:rounded-4xl cursor-pointer items-center justify-center">
-                        <img src="../assets/img/gear-fill.svg" alt="Configurações" class="w-10 h-10 m-2 ">
+                        <img src="/assets/img/gear-fill.svg" alt="Configurações" class="w-10 h-10 m-2 ">
                         <p class="text-white text-2xl p-2 js-menu-label hidden">Configurações</p>
                     </div>
                 </div>

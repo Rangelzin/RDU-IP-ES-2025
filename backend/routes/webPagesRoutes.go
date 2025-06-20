@@ -16,6 +16,7 @@ func RegisterAdminPages(rg *gin.RouterGroup) {
 
 func RegisterUserPages(rg *gin.RouterGroup) {
 	rg.GET("/", func(c *gin.Context) {c.File("../frontend/public/pages/main/main_geral.html")})
+	rg.GET("/usuario/exame", func(c *gin.Context) {c.File("../frontend/public/pages/main/users/exam_page_starterInfo.html")})
 }
 
 

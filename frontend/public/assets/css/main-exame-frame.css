@@ -1,0 +1,141 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wdth,wght@0,62.5..100,100..900;1,62.5..100,100..900&display=swap'); */
+
+:host {
+    --prymari-font-color: #FFFFFF;
+    --input-font-color: #3f055a ;
+    --prymari-color: #F867A0;
+    --secondary-color: #DF96BA;
+    --disabled-input-color: ;
+    --background-color: #7D59AB;
+    --exame-background-color: #F9F4FF;
+    --btn-color: #563A94;
+
+    --border-size: 0.1vw;
+
+    color: var(--prymari-font-color);
+    font-family: "Noto Sans", sans-serif;
+    background-color: var(--background-color);
+    box-sizing: border-box;
+}
+
+
+.body {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+}
+
+/* left side */
+.body-left {
+    width: 20%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: center;
+}
+
+.profile-img {
+    background-color: var(--exame-background-color);
+    border-radius: 100%;
+    width: 50%;
+    aspect-ratio: 1/1;
+
+    margin-top: 10%;
+    border: 3px solid var(--prymari-color);
+}
+.profile-name {
+    margin: 0 5%;
+    font-size: 1.2vw;
+    text-align: center;
+}
+
+.ubs-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 10% 5%;
+}
+.ubs-info > h2, h3{
+    font-size: 0.6vw;
+    margin: 0;
+}
+.ubs-info > h2 {
+    font-weight: 900;
+}
+.ubs-info > h3 {
+    font-weight: 100;
+}
+
+
+/* Mid side */
+.body-mid > h1, h2, label, input, legend {
+    margin: 0;
+}
+
+.body-mid {
+    width: 72%;
+    height: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+.body-mid::-webkit-scrollbar {
+    display: none;
+}
+
+/* right side */
+.body-right {
+    width: 8%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.n-protocolo {
+    margin-top: 30%;
+    height: 80%;
+    writing-mode: vertical-rl;
+    text-orientation: upright;
+    font-weight: 900;
+    font-size: 1.6vw;
+
+}
+
+.btn-next, .btn-download {
+    cursor: pointer;
+    margin: 0.4vw;
+    background-color: var(--btn-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.6vw;
+    width: 50%;
+    aspect-ratio: 1 / 1;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.btn-next > img, .btn-download > img {
+    width: 50%;
+    display: block; 
+}
+
+.btn-next:hover, .btn-download:hover {
+    background-color: hsl(259, 50%, 52%);
+}
+/* 
+       __
+      {0O}
+      \__/
+      /^/
+     ( (        
+    /  \_____
+   (_________)
+  (___________)Oo
+
+ */
