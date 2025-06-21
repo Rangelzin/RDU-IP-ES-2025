@@ -4,24 +4,16 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Página Inicial - Sistema de Rastreamento</title>
-  <link href="../../assets/css/output.css" rel="stylesheet" />
-  </style>
-  <script src="/src/utils/auth.js"></script>
+  <link href="/assets/css/output.css" rel="stylesheet" />
+  <script src="../../../src/components/main-frame.js"></script>
+  <script src="../../../src/components/siderbar-left.js"></script> 
+  <!-- <script src="/src/utils/auth.js"></script> -->
 </head>
-<body class="w-screen h-screen flex flex-col">
+<body class="w-screen h-screen flex flex-row">
 
-  <!-- Header -->
-  <header class="flex items-center bg-[var(--color-secondary)] h-20 px-4">
-    <img class="h-18 w-18 mr-4" src="../../assets/img/Logo.svg" alt="Logo" />
-    <h1 class="text-3xl font-sans text-[var(--color-fifth)]">Página Inicial</h1>
-  </header>
-
-  <!-- Main Content -->
-  <main class="flex flex-1">
-    
-    <!-- Ações do Usuário -->
-    <section class="flex flex-col flex-1 p-6 ">
-      <h2 class=" text-2xl font-bold text-[var(--color-tertiary)] mb-6">Ações do usuário</h2>
+  <sidebar-left></sidebar-left>
+  <main-frame id="Pagina Geral" class="with-aside">
+    <h2 class=" text-2xl font-bold text-[var(--color-tertiary)] mb-6">Ações do usuário</h2>
 
       <div class=" mx-auto my-auto flex flex-col  gap-20 lg:gap-30 lg:flex-row">
         <!-- Card 1 -->
@@ -50,11 +42,8 @@
       </div>
 
       <div class="mt-10 text-center text">© 2025 Aplicativo de Saúde. Todos os direitos reservados.</div>
-    </section>
-
-    <!-- Sidebar -->
-    <aside class="w-0 lg:w-20 bg-[var(--color-secondary)]"></aside>
-  </main>
+  </main-frame>      
+   
 
 </body>
 </html>

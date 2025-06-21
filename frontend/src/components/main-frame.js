@@ -20,10 +20,10 @@ class MainFrame extends HTMLElement {
         }
       </style>
 
-      <link rel="stylesheet" href="../assets/css/output.css">
+      <link rel="stylesheet" href="/assets/css/output.css">
       
       <header class="flex items-center bg-[var(--color-secondary)] h-20 px-4 shrink-0">
-        <img class="h-16 w-16 mr-4" src="../assets/img/Logo.svg" alt="Logo" />
+      <img class="h-16 w-16 mr-4" src="/assets/img/Logo.svg" alt="Logo" />
         <h1 class="text-xl lg:text-3xl font-sans text-[var(--color-fifth)]">${pageId}</h1>
       </header>
       
