@@ -180,3 +180,71 @@ func (r *ExamRepository) InsertClinico(c *gin.Context, clinico *models.Etapa02Cl
 	}
 	return nil
 }
+
+func (r *ExamRepository) InsertLaboratorio(c *gin.Context, lab *models.Etapa03Lab) error {
+	query := `INSERT INTO etapa3_laboratorio (
+		exame_id, responsavel_id, laboratorio_nome, laboratorio_cnes, numero_exame, recebido_em
+	) VALUES ($1, $2, $3, $4, $5, $6)`
+
+	ctx := c.Request.Context()
+
+	res, err := r.db.DB.ExecContext(ctx, query,
+		lab.Exame_id,
+		lab.Responsavel_id,
+		lab.Laboratorio_nome,
+		lab.Laboratorio_cnes,
+		lab.Numero_exame,
+		lab.Recebido_em,
+	)
+
+	if err != nil {
+		log.Println("Erro no ExecContext para laboratório: ", err)
+		return err
+	}
+
+	if rowsAffected, err := res.RowsAffected(); err == nil {
+		log.Println("Linhas afetadas em etapa3_laboratorio:", rowsAffected)
+	}
+
+	return nil
+}
+
+func (r *ExamRepository) InsertResultado(c *gin.Context, res *models.Etapa04Resultado) error {
+	query := `INSERT INTO etapa4_resultado (
+		exame_id, responsavel_id, amostra_rejeitada, epitelios_representados, adequabilidade_material,
+		insatisfatoria_por, dentro_limites_normalidade, alteracao_celulas_benignas, microbiologia,
+		celulas_atipicas_significado_indeterminado, atipias_celulas_escamosas, atipias_celulas_glandulares,
+		outras_neoplasias_malignas, celulas_endometriais_pos_menopausa_ou_mais40, observacoes_gerais,
+		screening_citotecnico, responsavel, data_resultado
+	) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18)`
+
+	ctx := c.Request.Context()
+
+	_, err := r.db.DB.ExecContext(ctx, query,
+		res.Exame_id,
+		res.Responsavel_id,
+		res.Amostra_rejeitada,
+		res.Epitelios_representados,
+		res.Adequabilidade_material,
+		res.Insatisfatoria_por,
+		res.Dentro_limites_normalidade,
+		res.Alteracao_celulas_benignas,
+		res.Microbiologia,
+		res.Celulas_atipicas_significado_indeterminado,
+		res.Atipias_celulas_escamosas,
+		res.Atipias_celulas_glandulares,
+		res.Outras_neoplasias_malignas,
+		res.Celulas_endometriais_pos_menopausa_ou_mais40,
+		res.Observacoes_gerais,
+		res.Screening_citotecnico,
+		res.Responsavel,
+		res.Data_resultado,
+	)
+
+	if err != nil {
+		log.Println("Erro no ExecContext para resultado: ", err)
+		return err
+	}
+
+	return nil
+}

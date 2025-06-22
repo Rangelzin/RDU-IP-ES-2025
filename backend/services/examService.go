@@ -123,3 +123,46 @@ func (s *ExamService) CadastraClinicalStage(c *gin.Context, exam *models.Etapa02
 	return nil
 }
 
+func (s *ExamService) CadastraLaboratorio(c *gin.Context, protocolo string, lab *models.Etapa03Lab) error {
+	exam, err := s.GetExamByPROTOCOLO(c.Request.Context(), protocolo)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return errors.New("exame não encontrado para o protocolo fornecido")
+		}
+		return fmt.Errorf("erro ao buscar exame: %w", err)
+	}
+
+	lab.Exame_id = exam.Id
+
+	err = s.examRepo.InsertLaboratorio(c, lab)
+	if err != nil {
+		if strings.Contains(err.Error(), "etapa3_laboratorio_responsavel_id_fkey") {
+			return errors.New("responsável não encontrado. Verifique o responsavel_id")
+		}
+		return err
+	}
+
+	return nil
+}
+
+func (s *ExamService) CadastraResultado(c *gin.Context, protocolo string, res *models.Etapa04Resultado) error {
+	exam, err := s.GetExamByPROTOCOLO(c.Request.Context(), protocolo)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return errors.New("exame não encontrado para o protocolo fornecido")
+		}
+		return fmt.Errorf("erro ao buscar exame: %w", err)
+	}
+
+	res.Exame_id = exam.Id
+
+	err = s.examRepo.InsertResultado(c, res)
+	if err != nil {
+		if strings.Contains(err.Error(), "etapa4_resultado_responsavel_id_fkey") {
+			return errors.New("responsável não encontrado. Verifique o responsavel_id")
+		}
+		return err
+	}
+
+	return nil
+}

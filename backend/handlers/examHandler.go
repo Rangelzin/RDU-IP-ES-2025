@@ -137,3 +137,60 @@ func (h *ExamHandler) CreateClinicoHandler(c *gin.Context) {
 		"mensagem": "Etapa clinica do exame criada com sucesso",
 	})
 }
+
+func (h *ExamHandler) CreateLaboratorioHandler(c *gin.Context) {
+	protocolo := c.Param("id")
+	if protocolo == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"erro": "Protocolo do exame não fornecido na URL."})
+		return
+	}
+
+	var lab models.Etapa03Lab
+	if err := c.ShouldBindJSON(&lab); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"erro": "Dados de laboratório inválidos", "detalhes": err.Error()})
+		return
+	}
+
+	if err := h.examServ.CadastraLaboratorio(c, protocolo, &lab); err != nil {
+		if strings.Contains(err.Error(), "exame não encontrado") || strings.Contains(err.Error(), "responsável não encontrado") {
+			c.JSON(http.StatusBadRequest, gin.H{"erro": err.Error()})
+		} else {
+			log.Printf("Erro ao cadastrar informações do laboratório: %v", err)
+			c.JSON(http.StatusInternalServerError, gin.H{"erro": "Erro ao cadastrar informações do laboratório", "detalhes": err.Error()})
+		}
+		return
+	}
+
+	c.JSON(http.StatusCreated, gin.H{
+		"mensagem": "Informações do laboratório criadas com sucesso",
+	})
+}
+
+func (h *ExamHandler) CreateResultadoHandler(c *gin.Context) {
+	protocolo := c.Param("id")
+	if protocolo == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"erro": "Protocolo do exame não fornecido na URL."})
+		return
+	}
+
+	var res models.Etapa04Resultado
+	if err := c.ShouldBindJSON(&res); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"erro": "Dados de resultado inválidos", "detalhes": err.Error()})
+		return
+	}
+
+	if err := h.examServ.CadastraResultado(c, protocolo, &res); err != nil {
+		if strings.Contains(err.Error(), "exame não encontrado") || strings.Contains(err.Error(), "responsável não encontrado") {
+			c.JSON(http.StatusBadRequest, gin.H{"erro": err.Error()})
+		} else {
+			log.Printf("Erro ao cadastrar resultado do exame: %v", err)
+			c.JSON(http.StatusInternalServerError, gin.H{"erro": "Erro ao cadastrar resultado do exame", "detalhes": err.Error()})
+		}
+		return
+	}
+
+	c.JSON(http.StatusCreated, gin.H{
+		"mensagem": "Resultado do exame criado com sucesso",
+	})
+}
+
