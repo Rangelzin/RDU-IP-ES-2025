@@ -3,60 +3,92 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Página Inicial - Sistema de Rastreamento (Backend Simulado)</title> <link href="../assets/css/output.css" rel="stylesheet" />
-  <script src="/src/utils/auth.js"></script>
-  <script type="module" src="/assets/js/carregarUsuarios.js"></script>
+  <title>Administração de Usuários - Sistema de Rastreamento</title>
+
+  <link href="../../assets/css/output.css" rel="stylesheet" />
+  <script src="../../src/utils/auth.js" defer></script>
+  <script src="../../src/components/siderbar-left.js" defer></script>
+  <script type="module" src="/assets/js/carregarUsuarios.js" defer></script>
+
+  <style>
+    .content-area.expanded-sidebar {
+      margin-left: 280px;
+      width: calc(100vw - 280px);
+    }
+
+    .js-menu-div {
+      transition: background-color 0.2s ease, border-radius 0.2s ease, padding 0.2s ease;
+      width: 100%;
+    }
+    .js-menu-div.hover-bg-secondary:hover {
+      background-color: var(--color-secondary);
+      border-radius: 9999px;
+    }
+    .js-menu-div.expanded-hover-px:hover {
+      padding-left: 1.25rem;
+    }
+
+    .min-w-full th:nth-child(1), .min-w-full td:nth-child(1) { width: 18%; }
+    .min-w-full th:nth-child(2), .min-w-full td:nth-child(2) { width: 18%; }
+    .min-w-full th:nth-child(3), .min-w-full td:nth-child(3) { width: 14%; }
+    .min-w-full th:nth-child(4), .min-w-full td:nth-child(4) { width: 10%; }
+    .min-w-full th:nth-child(5), .min-w-full td:nth-child(5) { width: 10%; text-align: center; }
+    .min-w-full th:nth-child(6), .min-w-full td:nth-child(6) { width: 12%; }
+    .min-w-full th:nth-child(7), .min-w-full td:nth-child(7) { width: 18%; text-align: center; }
+  </style>
 </head>
-<body class="w-screen h-screen flex flex-col font-sans"> <header class="flex items-center bg-[var(--color-secondary)] h-20 px-4">
-    <img class="h-18 w-18 mr-4" src="../assets/img/Logo.svg" alt="Logo" />
-    <h1 class="text-3xl font-sans text-[var(--color-fifth)]">Pesquisar Usuário</h1> </header>
+<body class="w-screen h-screen flex flex-row font-sans">
+  <sidebar-left class="flex flex-col h-screen"></sidebar-left>
 
-  <main class="flex flex-1">
+  <div class="content-area flex flex-col flex-1">
+    <header class="flex items-center bg-[var(--color-primary)] h-20 px-4">
+      <img class="h-18 w-18 mr-4" src="/assets/img/Logo.svg" alt="Logo" />
+      <h1 class="text-3xl font-sans text-[var(--color-fifth)]">Administração de Usuários</h1>
+    </header>
 
-    <aside class="w-20 bg-[var(--color-secondary)]"></aside>
-
-    <section class="flex-1 bg-gray-100 p-6 overflow-auto">
-
-      <div class="flex flex-wrap items-center gap-4 mb-6">
-        <select id="filtroStatus" class="bg-white border border-gray-300 text-sm rounded px-3 py-2">
-          <option value="todos">Todos os Status</option>
-          <option value="ativo">Ativo</option>
-          <option value="inativo">Inativo</option>
-        </select>
-
-        <select id="filtroCargo" class="bg-white border border-gray-300 text-sm rounded px-3 py-2">
-          <option value="todos">Todos os cargos</option>
-          <option value="médico">Médico</option>
-          <option value="enfermeiro">Enfermeiro</option>
-          <option value="agente comunitário">Agente Comunitário</option>
-        </select>
-
-        <input type="text" id="buscaNome" placeholder="Buscar por nome..." class="bg-white border border-gray-300 text-sm rounded px-3 py-2 w-60" />
-
-        <button id="btnNovoUsuario" class="bg-purple-600 hover:bg-purple-700 text-white px-5 py-2.5 rounded-lg text-sm font-semibold shadow-md ml-auto transition duration-300 ease-in-out transform hover:scale-105">
-          + Novo Usuário
-        </button>
-      </div>
-
-      <div class="bg-white rounded-md overflow-hidden shadow">
-        <div class="overflow-x-auto">
-          <table class="min-w-full divide-y divide-gray-200">
-            <thead class="bg-gray-800">
-              <tr>
-                <th scope="col" class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">Usuário</th>
-                <th scope="col" class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">Perfil</th>
-                <th scope="col" class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">E-mail</th>
-                <th scope="col" class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">Status</th> <th scope="col" class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">Ações</th> </tr>
-            </thead>
-            <tbody id="tabelaUsuarios" class="bg-white divide-y divide-gray-200">
-            </tbody>
-          </table>
+    <main class="flex flex-1">
+      <section class="flex-1 bg-gray-100 p-6 overflow-auto">
+        <div class="flex flex-wrap items-center gap-4 mb-6">
+          <input type="text" id="buscaNome" placeholder="Buscar por nome..." class="bg-white border border-gray-300 text-sm rounded px-3 py-2 w-72" />
+          <select id="filtroCargo" class="bg-white border border-gray-300 text-sm rounded px-3 py-2">
+            <option value="todos">Cargo (Todos)</option>
+            <option value="admin">Administrador</option>
+            <option value="medico">Médico</option>
+            <option value="enfermeiro">Enfermeiro</option>
+          </select>
+          <select id="filtroStatus" class="bg-white border border-gray-300 text-sm rounded px-3 py-2">
+            <option value="todos">Status (Todos)</option>
+            <option value="ativo">Ativo</option>
+            <option value="inativo">Inativo</option>
+          </select>
+          <button id="btnNovoUsuario" class="bg-purple-600 hover:bg-purple-700 text-white px-5 py-2.5 rounded-lg text-sm font-semibold shadow-md ml-auto transition duration-300 ease-in-out transform hover:scale-105">
+            + Novo Usuário
+          </button>
         </div>
-      </div>
 
-      <div id="statusMessage" class="mt-4 text-center text-gray-600"></div>
+        <div class="bg-white rounded-md overflow-hidden shadow">
+          <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+              <thead class="bg-[var(--color-primary)]">
+                <tr>
+                  <th class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">Nome</th>
+                  <th class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">Email</th>
+                  <th class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">CPF</th>
+                  <th class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">CRM</th>
+                  <th class="px-6 py-4 text-sm font-semibold text-white uppercase tracking-wider">Status</th>
+                  <th class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">Cargo</th>
+                  <th class="px-6 py-4 text-center text-sm font-semibold text-white uppercase tracking-wider">Ações</th>
+                </tr>
+              </thead>
+              <tbody id="tabelaUsuarios" class="bg-white divide-y divide-gray-200"></tbody>
+            </table>
+          </div>
+        </div>
 
-    </section>
-  </main>
+        <!-- Área de paginação -->
+        <div id="statusMessage" class="mt-4 text-center text-gray-600"></div>
+      </section>
+    </main>
+  </div>
 </body>
 </html>
