@@ -24,7 +24,7 @@
     margin-top: 2%;
     padding-bottom: 2%;
     color: var(--prymari-color);
-    height: 100vh;
+    height: 100%;
 }
 
 
@@ -54,7 +54,7 @@
 }
 .sub-title {
     width: 100%;
-    font-size: 0.8vw;
+    font-size: 0.85vw;
     text-align: end;
 }
 
@@ -98,7 +98,7 @@ input:not([disabled]) {
 }
 label, legend {
     margin: 0;
-    font-size: 0.9vw;
+    font-size: 0.85vw;
     font-weight: 800;
 }
 
@@ -306,7 +306,7 @@ label, legend {
     display: none;
 }
 .input-escolariedade > label {
-    font-size: 0.9vw;
+    font-size: 0.8vw;
     position: relative;
     padding-left: 2.6%; 
     cursor: pointer;

@@ -1,8 +1,10 @@
-import { registraPaciente } from "/app/pacienteRegister.js";
+import { registraPaciente } from "/app/creatPatient.js";
+import { buscarPacientePeloCPF } from "/app/getPatientCPF.js";
+import { registraExame } from "/app/creatExame.js";
+
 
 class ExamLayoutStarterInfo extends HTMLElement {
   connectedCallback() {
-    this.getFormData = getFormData;
     const shadow = this.attachShadow({ mode: 'open' });
 
     shadow.innerHTML = `
@@ -27,7 +29,7 @@ class ExamLayoutStarterInfo extends HTMLElement {
                         <input autocomplete="off" name="cnes" id="cnes" type="text" value="6423434" disabled>
                     </div>
                     <div class="input-n-protocolo">
-                        <label for="n-protocolo">N° Protocolo</label>
+                        <label for="n-protocolo">N° Protocolo </label>
                         <div>
                             <input autocomplete="off" name="n-protocolo" id="n-protocolo" type="text" maxlength="14">
                             <label for="n-protocolo ">(n° gerado automaticamente pelo SISCAN)</label>
@@ -270,7 +272,7 @@ class ExamLayoutStarterInfo extends HTMLElement {
 
         if (respApiIBGE.status === 200) {
             const ibgeList = await respApiIBGE.json();
-            const i = IBGE_binSearsh(addressInfo.city.toUpperCase(), ibgeList);
+            const i = IBGE_binSearsh(addressInfo.city, ibgeList);
             if (i !== -1) codIBGE.value = ibgeList[i].codigo_ibge;
         }
 
@@ -280,12 +282,17 @@ class ExamLayoutStarterInfo extends HTMLElement {
         bairro.value = addressInfo.neighborhood;
     }
 
+    function normalize(str) {
+    return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase();
+    }
+
     function IBGE_binSearsh(city, IBGElist) {
+        city = normalize(city)
         let min = 0, max = IBGElist.length - 1;
         while (min <= max) {
             let mid = (min + max) >> 1;
-            if (IBGElist[mid].nome === city) return mid;
-            else if (city > IBGElist[mid].nome) min = mid + 1;
+            if (normalize(IBGElist[mid].nome) == city) return mid;
+            else if (city > normalize(IBGElist[mid].nome)) min = mid + 1;
             else max = mid - 1;
         }
         return -1;
@@ -295,7 +302,7 @@ class ExamLayoutStarterInfo extends HTMLElement {
         racaInputText.disabled = !radioIndigenaEtinia.checked;
     }
 
-    function getFormData() {
+    function getPacienteData() {
         const shadow = this.shadowRoot;
 
         const getValue = id => shadow.querySelector(`#${id}`)?.value?.trim() || "";
@@ -337,11 +344,13 @@ class ExamLayoutStarterInfo extends HTMLElement {
         const [dia, mes, ano] = dataNascimento.split('/');
         const dataNascimentoFormatada = `${ano}-${mes}-${dia}T00:00:00Z`;
 
+        const Fcpf = cpf.replace(/[\s.-]/g, '')
+
         return {
             nome_completo: nomeCompleto,
             nome_mae: nomeMae,
             apelido: apelido,
-            cpf: cpf,
+            cpf: Fcpf,
             data_nascimento: dataNascimentoFormatada,
             logradouro: logradouro,
             numero: numero,
@@ -355,23 +364,69 @@ class ExamLayoutStarterInfo extends HTMLElement {
             escolaridade: escolaridade,
             cartao_sus: cartaoSus,
             raca_cor: racaCor,
-            nacionalidade: nacionalidade
+            nacionalidade: nacionalidade,
+            ubs_id: 1
         };
     }
 
+    function getExameData() {
+        const shadow = this.shadowRoot;
 
-    document.addEventListener("getFormData", () => {
+        const getValue = id => shadow.querySelector(`#${id}`)?.value?.trim() || "";
+
+        const protocolo = getValue("n-protocolo");
+        const prontuario = getValue("prontuario");
+
+        return {
+            protocolo: protocolo,
+            prontuario: prontuario,
+            paciente_id: 0 
+        };
+    }
+
+    this.getPacienteData = getPacienteData;
+    this.getExameData = getExameData;
+
+    async function creatPatientAndExam() {
         const componente = document.querySelector("exam-starter-info");
         if (!componente) return;
 
-        const patientData = componente.getFormData();
+        const cpf = shadow.querySelector("#cpf")?.value?.trim();
+        const Fcpf = cpf.replace(/[\s.-]/g, '');
 
-        registraPaciente(patientData)
+        try {
+            if (!/^\d{11}$/.test(Fcpf)) return;
+            await buscarPacientePeloCPF(Fcpf);
+        } catch (e) {
+            const patientData = componente.getPacienteData();
+            try {
+                await registraPaciente(patientData);
+                await buscarPacientePeloCPF(Fcpf);
+            } catch (e2) {
+                return e2.message;
+            }
+        }
+        
+        try {
+            const exame = componente.getExameData()
+            registraExame(exame, Fcpf)
+        } catch (e) {
+            return e.message
+        }
+        
+        return null;
+    }
 
-        sessionStorage.setItem("forms", JSON.stringify(data));
+    document.addEventListener("getFormData", async () => {
+        
+        const err = await creatPatientAndExam();
+        if (err != null){
+            console.log("Erro ao registrar paciente: "+ err)
+            return
+        }
+
+        window.location.replace("/main/usuario/exame/1")
     }); 
-
-
 
 
 // Masks
@@ -427,15 +482,11 @@ class ExamLayoutStarterInfo extends HTMLElement {
         e.target.maxLength = 11;
         e.target.value = v;
     }
-    
-
-    if (!customElements.get('exam-starter-info')) {
-        customElements.define('exam-starter-info', ExamLayoutStarterInfo);
-    }
-  }
-  
+  } 
 }
 
 if (!customElements.get('exam-starter-info')) {
-  customElements.define('exam-starter-info', ExamLayoutStarterInfo);
+    customElements.define('exam-starter-info', ExamLayoutStarterInfo);
 }
+
+
