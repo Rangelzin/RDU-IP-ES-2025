@@ -13,10 +13,11 @@ func SetupRouter (deps *Dependencies) *gin.Engine {
 	r.Static("/app", "../frontend/app")
 	r.Static("/environment", "../frontend/environment")
 	r.Static("/src", "../frontend/src")
+	r.Static("/configs", "../configs")
 	
 	r.Use(middleware.CORSMiddleware())
 	r.Use(middleware.TimingMiddleware())
-	// authMiddleware := deps.Middleware.AuthenticatorMiddleware()
+	authMiddleware := deps.Middleware.AuthenticatorMiddleware()
 
 	rg := r.Group("/")
 	routes.RegisterAuthPages(rg)
@@ -30,10 +31,10 @@ func SetupRouter (deps *Dependencies) *gin.Engine {
 	rg = r.Group("/main")
 	routes.RegisterUserPages(rg)
 
-	rg = r.Group("/paciente")
+	//rg = r.Group("/paciente")
 
 	rg = r.Group("/api")
-	// rg.Use(authMiddleware)	
+	rg.Use(authMiddleware)	
 	routes.RegisterAPIPacienteRoutes(rg, deps.PacienteHandler)
 	routes.RegisterAPIUserRoutes(rg, deps.UserHandler)
 	routes.RegisterAPIExamRoutes(rg, deps.ExamHandler)

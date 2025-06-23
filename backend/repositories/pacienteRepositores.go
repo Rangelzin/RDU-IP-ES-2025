@@ -152,45 +152,52 @@ func (r *PacienteRepository) DeletePatientByID(id int) (int64, error) {
 }
 
 func (r *PacienteRepository) UptadePatient(id int, ctx context.Context, p models.Paciente) error {
-	query := ` 
-	
-	UPDATE pacientes
-	SET nome_completo = $1, 
-		nome_mae = $2, 
-		apelido = $3, 
-		data_nascimento = $4, 
-		logradouro = $5, 
-		numero  = $6, 
-		complemento = $7, 
-		bairro = $8, 
-		municipio = $9, 
-		uf = $10,
-		cep = $11, 
-		telefone = $12, 
-		ponto_referencia = $13, 
-		escolaridade = $14, 
-		cartao_sus = $15,
-		raca_cor = $16, 
-		nacionalidade = $17, 
-		ubs_id = $18
-	WHERE id = $19
-	`
+    query := ` 
+    
+    UPDATE pacientes
+    SET nome_completo = $1, 
+        nome_mae = $2, 
+        apelido = $3, 
+        data_nascimento = $4, 
+        logradouro = $5, 
+        numero  = $6, 
+        complemento = $7, 
+        bairro = $8, 
+        municipio = $9, 
+        uf = $10,
+        cep = $11, 
+        telefone = $12, 
+        ponto_referencia = $13, 
+        escolaridade = $14, 
+        cartao_sus = $15,
+        raca_cor = $16, 
+        nacionalidade = $17, 
+        ubs_id = $18
+    WHERE id = $19
+    `
 
-	res, err := r.db.DB.ExecContext(ctx, query,
-		p.Nome_completo, p.Nome_mae, p.Apelido, p.Data_nascimento, p.Logradouro,
-		p.Numero, p.Complemento, p.Bairro, p.Municipio, p.Uf,
-		p.Cep, p.Telefone, p.Ponto_referencia, p.Escolaridade, p.Cartao_sus,
-		p.Raca_cor, p.Nacionalidade, p.Ubs_id, id)
+    res, err := r.db.DB.ExecContext(ctx, query,
+        p.Nome_completo, p.Nome_mae, p.Apelido, p.Data_nascimento, p.Logradouro,
+        p.Numero, p.Complemento, p.Bairro, p.Municipio, p.Uf,
+        p.Cep, p.Telefone, p.Ponto_referencia, p.Escolaridade, p.Cartao_sus,
+        p.Raca_cor, p.Nacionalidade, p.Ubs_id, id)
 
-	if err != nil {
-		log.Printf("Erro ao executar UPTADE para paciente: %v", err)
-		return err
-	}
-	if rowsAffected, err := res.RowsAffected(); err != nil {
-		log.Printf("Erro ao verificar após inserir paciente: %v", err)
-	} else {
-		log.Printf("Paciente inserido com sucesso. Linhas afetadas: %d", rowsAffected)
-	}
+    if err != nil {
+        log.Printf("Erro ao executar UPDATE para paciente: %v", err)
+        return err
+    }
 
-	return nil
+    rowsAffected, err := res.RowsAffected()
+    if err != nil {
+        log.Printf("Erro ao obter linhas afetadas após UPDATE: %v", err)
+        return err
+    }
+
+    if rowsAffected == 0 {
+        log.Printf("UPDATE do paciente ID %d executado, mas nenhuma linha foi afetada (dados idênticos).", id)
+        return nil
+    }
+
+    log.Printf("Paciente ID %d atualizado com sucesso. Linhas afetadas: %d", id, rowsAffected)
+    return nil
 }

@@ -1,6 +1,7 @@
 import { registraPaciente } from "/app/creatPatient.js";
 import { buscarPacientePeloCPF } from "/app/getPatientCPF.js";
 import { registraExame } from "/app/creatExame.js";
+import { updatePatient } from "/app/putPatient.js";
 
 
 class ExamLayoutStarterInfo extends HTMLElement {
@@ -22,11 +23,11 @@ class ExamLayoutStarterInfo extends HTMLElement {
                 <div class ="ln">
                     <div class="input-uf">
                         <label for="uf">UF</label>
-                        <input maxlength="2" autocomplete="off" name="uf" id="uf" type="text" value="GO" disabled>
+                        <input maxlength="2" autocomplete="off" name="uf" id="uf" type="text" disabled>
                     </div>
                     <div class="input-cnes">
                         <label for="cnes ">CNES da unidade de Saúde</label>
-                        <input autocomplete="off" name="cnes" id="cnes" type="text" value="6423434" disabled>
+                        <input autocomplete="off" name="cnes" id="cnes" type="text" disabled>
                     </div>
                     <div class="input-n-protocolo">
                         <label for="n-protocolo">N° Protocolo </label>
@@ -39,13 +40,13 @@ class ExamLayoutStarterInfo extends HTMLElement {
                 <div class ="ln">
                     <div class="input-unidade-de-saude">
                         <label for="unidade-de-saude ">Unidade de Saúde</label>
-                        <input autocomplete="off" name="unidade-de-saude" id="unidade-de-saude" type="text" value="TRS TERAPIA RENAL SUBSTITUTIVA" disabled>
+                        <input autocomplete="off" name="unidade-de-saude" id="unidade-de-saude" type="text" disabled>
                     </div>
                 </div>
                 <div class ="ln">
                     <div class="input-municipio">
                         <label for="municipio ">Município</label>
-                        <input autocomplete="off" name="municipio" id="municipio" type="text" value="Goiânia" disabled>
+                        <input autocomplete="off" name="municipio" id="municipio" type="text" disabled>
                     </div>
                     <div class="input-prontuario">
                         <label for="prontuario ">Prontuário</label>
@@ -150,7 +151,7 @@ class ExamLayoutStarterInfo extends HTMLElement {
                         <label for="complemento">Complemento</label>
                         <input autocomplete="off" id="complemento" name="complemento" type="text">
                     </div>
-                    <div class="input-numero">
+                    <div class="input-numero"> <!-- RESTAURADO: Div para agrupar o label e input do número -->
                         <label for="numero">Número</label>
                         <input autocomplete="off" id="numero" name="numero" type="text">
                     </div>
@@ -206,7 +207,7 @@ class ExamLayoutStarterInfo extends HTMLElement {
     const uf = shadow.querySelector('#uf-mulher');
     const municipio = shadow.querySelector('#municipio-mulher');
     const codIBGE = shadow.querySelector('#codigo-municipio');
-    const lorgadouro = shadow.querySelector('#logradouro');
+    const logradouro = shadow.querySelector('#logradouro');
     const bairro = shadow.querySelector('#bairro');
     const bornDate = shadow.querySelector('#date');
     const age = shadow.querySelector('#idade');
@@ -218,11 +219,35 @@ class ExamLayoutStarterInfo extends HTMLElement {
     const ddd = shadow.querySelector('#ddd');
     const telefoneCelular = shadow.querySelector('#telefone-celular');
 
+    // Mapeamento dos inputs para fácil acesso
+    const inputs = {
+        'nome-completo': shadow.querySelector('#nome-completo'),
+        'nome-mae': shadow.querySelector('#nome-mae'),
+        'apelido-mulher': shadow.querySelector('#apelido-mulher'),
+        'cpf': shadow.querySelector('#cpf'),
+        'date': shadow.querySelector('#date'),
+        'logradouro': shadow.querySelector('#logradouro'),
+        'numero': shadow.querySelector('#numero'),
+        'complemento': shadow.querySelector('#complemento'),
+        'bairro': shadow.querySelector('#bairro'),
+        'municipio-mulher': shadow.querySelector('#municipio-mulher'),
+        'uf-mulher': shadow.querySelector('#uf-mulher'),
+        'cep': shadow.querySelector('#cep'),
+        'ddd': shadow.querySelector('#ddd'),
+        'telefone-celular': shadow.querySelector('#telefone-celular'),
+        'ponto-referencia': shadow.querySelector('#ponto-referencia'),
+        'cart-sus': shadow.querySelector('#cart-sus'),
+        'nacionalidade': shadow.querySelector('#nacionalidade'),
+        'input-text': shadow.querySelector('#input-text'), // Campo para etnia
+        'idade': shadow.querySelector('#idade') // Campo de idade
+    };
+
     cep.addEventListener('change', autoFill_EdressByCEP);
     bornDate.addEventListener('change', ageFill);
     nProtocol.addEventListener('input', (e) => autoFill_InputToSessionStorageeValue(e, 'numero-protocolo'));
     compName.addEventListener('input', (e) => autoFill_InputToSessionStorageeValue(e, 'profile-name'));
     fieldsetRacaCor.addEventListener('input', textAbleLogic);
+    cpf.addEventListener('change', handleCpfBlur); // Adicionado evento de blur ao CPF
 
     cpf.addEventListener('input', cpf_Mask);
     cartSus.addEventListener('input', cartSus_Mask);
@@ -243,6 +268,189 @@ class ExamLayoutStarterInfo extends HTMLElement {
         document.dispatchEvent(storageEvent);
     }
 
+    // Função para preencher o formulário com os dados do paciente
+    async function fillFormWithPatientData(patientData) {
+        inputs['nome-completo'].value = patientData.nome_completo || '';
+        inputs['nome-mae'].value = patientData.nome_mae || '';
+        inputs['apelido-mulher'].value = patientData.apelido || '';
+        
+        // Formatar data de nascimento
+        if (patientData.data_nascimento) {
+            const dateObj = new Date(patientData.data_nascimento);
+            const day = String(dateObj.getDate()).padStart(2, '0');
+            const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+            const year = dateObj.getFullYear();
+            inputs['date'].value = `${day}/${month}/${year}`;
+            ageFill(); // Recalcula a idade após preencher a data de nascimento
+        } else {
+            inputs['date'].value = '';
+        }
+
+        inputs['logradouro'].value = patientData.logradouro || '';
+        inputs['numero'].value = patientData.numero || '';
+        inputs['complemento'].value = patientData.complemento || '';
+        inputs['bairro'].value = patientData.bairro || '';
+        inputs['municipio-mulher'].value = patientData.municipio || '';
+        inputs['uf-mulher'].value = patientData.uf || '';
+        
+        inputs['cep'].value = patientData.cep ? patientData.cep.replace(/(\d{5})(\d)/, "$1-$2") : ''; // Aplica máscara
+        
+        // Dividir telefone em DDD e número
+        if (patientData.telefone) {
+            const tel = String(patientData.telefone).replace(/\D/g, ''); // Limpa o telefone
+            if (tel.length >= 2) {
+                inputs['ddd'].value = `(${tel.substring(0, 2)})`; // Aplica máscara DDD
+                inputs['telefone-celular'].value = tel.substring(2).replace(/(\d{5})(\d{4})/, "$1-$2"); // Aplica máscara celular
+            } else {
+                inputs['ddd'].value = tel;
+                inputs['telefone-celular'].value = '';
+            }
+        } else {
+            inputs['ddd'].value = '';
+            inputs['telefone-celular'].value = '';
+        }
+
+        inputs['ponto-referencia'].value = patientData.ponto_referencia || '';
+        inputs['cart-sus'].value = patientData.cartao_sus ? patientData.cartao_sus.replace(/(\d{3})(\d{4})(\d{4})(\d{4})/, "$1 $2 $3 $4") : ''; // Aplica máscara
+        inputs['nacionalidade'].value = patientData.nacionalidade || '';
+
+        // Preencher raca_cor (radio buttons e campo de texto)
+        const racaCorRadios = shadow.querySelectorAll('input[name="raça-cor"]');
+        let racaCorFound = false;
+        racaCorRadios.forEach(radio => {
+            let radioValue = radio.value;
+            let etniaValue = '';
+
+            // Se for indígena, verifica se o valor da API corresponde e extrai a etnia
+            if (patientData.raca_cor && patientData.raca_cor.startsWith('indigena-etinia:')) {
+                radioValue = 'indigena-etinia';
+                etniaValue = patientData.raca_cor.split(':')[1] || '';
+            }
+
+            if (radioValue === patientData.raca_cor) {
+                radio.checked = true;
+                racaCorFound = true;
+            } else if (radio.value === 'indigena-etinia' && patientData.raca_cor && patientData.raca_cor.startsWith('indigena-etinia:')) {
+                radio.checked = true;
+                inputs['input-text'].value = etniaValue;
+                inputs['input-text'].disabled = false;
+                racaCorFound = true;
+            }
+        });
+        // Se a raça/cor da API não corresponder a nenhum rádio, desmarca todos e desabilita o campo de etnia
+        if (!racaCorFound) {
+            racaCorRadios.forEach(radio => radio.checked = false);
+            inputs['input-text'].value = '';
+            inputs['input-text'].disabled = true;
+        }
+
+
+        // Preencher escolaridade (radio buttons)
+        const escolaridadeRadios = shadow.querySelectorAll('input[name="escolariedade"]');
+        escolaridadeRadios.forEach(radio => {
+            if (radio.value === patientData.escolaridade) {
+                radio.checked = true;
+            } else {
+                radio.checked = false;
+            }
+        });
+
+        const storageEvent = new CustomEvent("sessionStorageUpdated", {
+                detail: { key: "profile-name", value: inputs['nome-completo'].value },
+                bubbles: true,
+                composed: true
+        });
+        document.dispatchEvent(storageEvent);
+    };
+
+    // Função para lidar com o evento de 'blur' no campo CPF
+    async function handleCpfBlur() {
+        const rawCpf = cpf.value.replace(/\D/g, ''); // Remove formatação
+
+        if (rawCpf.length === 11) {
+            try {
+                const patientData = await buscarPacientePeloCPF(rawCpf);
+                fillFormWithPatientData(patientData);
+                console.log("Paciente encontrado e formulário preenchido!");
+            } catch (error) {
+                console.error("Erro ao buscar paciente:", error);
+                // Verifica se o erro é um 404 (Not Found)
+                if (error.message.includes("404") || error.message.includes("Erro HTTP: 404")) {
+                    console.log("Paciente não encontrado. Não foram feitas alterações no formulário.");
+                } else {
+                    console.log("Erro ao buscar paciente: " + error.message + ". Não foram feitas alterações no formulário.");
+                }
+                // Nenhuma ação para limpar ou desabilitar inputs aqui, conforme solicitado
+            }
+        } else if (rawCpf.length > 0) {
+            console.log("CPF inválido. Por favor, insira um CPF com 11 dígitos.");
+            // Nenhuma ação para limpar ou desabilitar inputs aqui, conforme solicitado
+        } else {
+            // CPF vazio, nenhuma ação de limpeza, conforme solicitado
+        }
+
+        
+    };
+
+    fillUbsInfo(shadow)
+    async function fillUbsInfo(shadow) {
+        async function loadUbsConfig() {
+            try {
+                const response = await fetch('/configs/ubs_config.json'); // Caminho para o arquivo JSON
+                if (!response.ok) {
+                    console.error(`Erro ao carregar ubs_config.json: ${response.status} ${response.statusText}`);
+                    return null;
+                }
+                return await response.json();
+            } catch (error) {
+                console.error("Erro na leitura do arquivo de configuração da UBS:", error);
+                return null;
+            }
+        }
+
+        const cnesInput = shadow.querySelector('#cnes');
+        const unidadeSaudeInput = shadow.querySelector('#unidade-de-saude');
+        const municipioInput = shadow.querySelector('#municipio');
+        const ufInput = shadow.querySelector('#uf');
+
+        const inputsToManage = [
+            { element: cnesInput, configKey: 'cnes', targetValue: null },
+            { element: unidadeSaudeInput, configKey: 'ubs_name', targetValue: null }, // Mapeia para ubs_name no JSON
+            { element: municipioInput, configKey: 'municipio', targetValue: null },
+            { element: ufInput, configKey: 'uf', targetValue: null }
+        ];
+
+        const config = await loadUbsConfig();
+
+        if (config) {
+            // Preenche e gerencia o estado dos inputs
+            inputsToManage.forEach(item => {
+                const element = item.element;
+                const configValue = config[item.configKey];
+
+                if (element) {
+                    if (configValue && String(configValue).trim() !== '') {
+                        element.value = configValue;
+                        element.disabled = true; // Desabilita se preenchido com sucesso do config
+                    } else {
+                        element.value = ''; // Limpa se o valor do config for vazio
+                        element.disabled = false; // Habilita para preenchimento manual
+                    }
+                }
+            });
+
+        } else {   
+            inputsToManage.forEach(item => {
+                console.log(inputsToManage)
+                if (item.element) {
+                    item.element.value = ''; // Garante que estejam vazios
+                    item.element.disabled = false; // Habilita para preenchimento manual
+                }
+            });
+            console.warn("Não foi possível carregar as configurações da UBS. Campos de UBS habilitados para preenchimento manual.");
+        }
+    }
+
     function ageFill() {
         if (bornDate.value === "") return;
 
@@ -260,9 +468,12 @@ class ExamLayoutStarterInfo extends HTMLElement {
     }
 
     async function autoFill_EdressByCEP() {
-        const URL_CEP_API = `https://brasilapi.com.br/api/cep/v1/${cep.value}`;
+        const URL_CEP_API = `https://brasilapi.com.br/api/cep/v1/${cep.value.replace(/\D/g, '')}`; // Limpa o CEP para a API
         const respApiCEP = await fetch(URL_CEP_API);
-        if (respApiCEP.status !== 200) return;
+        if (respApiCEP.status !== 200) {
+            console.log("CEP não encontrado ou inválido.");
+            return;
+        }
 
         const addressInfo = await respApiCEP.json();
         if (!addressInfo.state) return;
@@ -278,7 +489,7 @@ class ExamLayoutStarterInfo extends HTMLElement {
 
         uf.value = addressInfo.state;
         municipio.value = addressInfo.city;
-        lorgadouro.value = addressInfo.street;
+        logradouro.value = addressInfo.street;
         bairro.value = addressInfo.neighborhood;
     }
 
@@ -323,8 +534,9 @@ class ExamLayoutStarterInfo extends HTMLElement {
         const municipio = getValue("municipio-mulher");
         const uf = getValue("uf-mulher");
         const cep = getValue("cep").replace(/\D/g, "");
-        const ddd = getValue("ddd").replace(/\D/g, "");
-        const celular = getValue("telefone-celular").replace(/\D/g, "");
+        const dddVal = getValue("ddd").replace(/\D/g, "");
+        const celularVal = getValue("telefone-celular").replace(/\D/g, "");
+        const telefone = `${dddVal}${celularVal}`;
         const pontoReferencia = getValue("ponto-referencia");
         const escolaridade = shadow.querySelector('input[name="escolariedade"]:checked')?.value || "";
         const cartaoSus = getValue("cart-sus").replace(/\D/g, "");
@@ -341,10 +553,15 @@ class ExamLayoutStarterInfo extends HTMLElement {
             }
         }
 
-        const [dia, mes, ano] = dataNascimento.split('/');
-        const dataNascimentoFormatada = `${ano}-${mes}-${dia}T00:00:00Z`;
+        const [day, month, year] = dataNascimento.split('/');
+        // Garante o formato 'YYYY-MM-DD' para a API Go
+        const dataNascimentoFormatada = dataNascimento ? `${year}-${month}-${day}T00:00:00Z` : '';
+
 
         const Fcpf = cpf.replace(/[\s.-]/g, '')
+
+        // Gera a senha: 3 primeiras letras do nome (minúsculas) + 5 primeiros dígitos do CPF
+        const senha = (nomeCompleto.substring(0, 3).toLowerCase() + Fcpf.substring(0, 5));
 
         return {
             nome_completo: nomeCompleto,
@@ -359,13 +576,14 @@ class ExamLayoutStarterInfo extends HTMLElement {
             municipio: municipio,
             uf: uf,
             cep: cep,
-            telefone: `${ddd}${celular}`,
+            telefone: telefone,
             ponto_referencia: pontoReferencia,
             escolaridade: escolaridade,
             cartao_sus: cartaoSus,
             raca_cor: racaCor,
             nacionalidade: nacionalidade,
-            ubs_id: 1
+            senha: senha,
+            ubs_id: 1 // Valor fixo conforme o backend
         };
     }
 
@@ -391,37 +609,125 @@ class ExamLayoutStarterInfo extends HTMLElement {
         const componente = document.querySelector("exam-starter-info");
         if (!componente) return;
 
-        const cpf = shadow.querySelector("#cpf")?.value?.trim();
-        const Fcpf = cpf.replace(/[\s.-]/g, '');
+        const cpfValue = shadow.querySelector("#cpf")?.value?.trim();
+        const Fcpf = cpfValue.replace(/[\s.-]/g, '');
+
+        if (!/^\d{11}$/.test(Fcpf)) {
+            return "CPF inválido. Por favor, insira um CPF com 11 dígitos numéricos.";
+        }
+        
+        const patientData = componente.getPacienteData();
 
         try {
-            if (!/^\d{11}$/.test(Fcpf)) return;
-            await buscarPacientePeloCPF(Fcpf);
-        } catch (e) {
-            const patientData = componente.getPacienteData();
-            try {
-                await registraPaciente(patientData);
-                await buscarPacientePeloCPF(Fcpf);
+            console.log(Fcpf)
+            const paciente = await buscarPacientePeloCPF(Fcpf);
+            console.log("Paciente encontrado. Tentando atualizar:", paciente.id, patientData);
+            try {// Se chegou aqui, o paciente já existe. Tenta atualizar.
+                await updatePatient(paciente.id, patientData); // Usa updatePatient
+                console.log("Paciente atualizado com sucesso.");
             } catch (e2) {
-                return e2.message;
+                console.error("Erro ao atualizar dados do paciente:", e2);
+                return "Erro ao atualizar dados do paciente: " + e2.message;
             }
+            
+        } catch (e) {
+                try {
+                    console.log("Paciente não encontrado. Registrando novo paciente:", patientData);
+                    await registraPaciente(patientData);
+                    console.log("Paciente registrado com sucesso.");
+                } catch (e2) {
+                    console.error("Erro ao registrar paciente:", e2);
+                    return "Erro ao registrar paciente: " + e2.message;
+                }
         }
         
         try {
-            const exame = componente.getExameData()
-            registraExame(exame, Fcpf)
+            const exame = componente.getExameData();
+            console.log("Registrando exame para o CPF:", Fcpf, "Dados do exame:", exame);
+            await registraExame(exame, Fcpf);
+            console.log("Exame registrado com sucesso.");
         } catch (e) {
-            return e.message
+            console.error("Erro ao registrar exame:", e);
+            return "Erro ao registrar exame: " + e.message;
         }
         
         return null;
     }
 
+    function validateFormFields(shadowRoot) {
+        const errors = [];
+
+        const nProtocoloInput = shadowRoot.querySelector('#n-protocolo');
+        const prontuarioInput = shadowRoot.querySelector('#prontuario');
+
+        if (nProtocoloInput && nProtocoloInput.value.trim().length !== nProtocoloInput.maxLength) {
+            errors.push(`O campo "N° Protocolo" deve ser preenchido com ${nProtocoloInput.maxLength} caracteres.`);
+        }
+        if (prontuarioInput && prontuarioInput.value.trim().length !== prontuarioInput.maxLength) {
+            errors.push(`O campo "Prontuário" deve ser preenchido com ${prontuarioInput.maxLength} caracteres.`);
+        }
+
+        const requiredFields = shadowRoot.querySelectorAll('input[required], textarea[required], select[required]');
+
+        requiredFields.forEach(field => {
+            // Ignora campos desabilitados, pois não são esperados para preenchimento
+            if (field.disabled) {
+                return;
+            }
+
+            let isFieldValid = true;
+            let fieldName = field.previousElementSibling ? field.previousElementSibling.textContent.replace(' *', '').trim() : field.placeholder || field.id;
+            
+            if (fieldName === field.id && field.placeholder) {
+                fieldName = field.placeholder;
+            } else if (fieldName === field.id) {
+                fieldName = `Campo ${field.id}`;
+            }
+
+
+            if (field.type === 'radio') {
+                const radioGroupName = field.name;
+                const radiosInGroup = shadowRoot.querySelectorAll(`input[type="radio"][name="${radioGroupName}"]`);
+                const isAnyRadioChecked = Array.from(radiosInGroup).some(radio => radio.checked);
+                if (!isAnyRadioChecked) {
+                    isFieldValid = false;
+                    errors.push(`Selecione uma opção para "${fieldName}".`);
+                }
+            } else if (field.type === 'checkbox') {
+                if (!field.checked) {
+                    isFieldValid = false;
+                    errors.push(`O campo "${fieldName}" é obrigatório e deve ser marcado.`);
+                }
+            } else if (field.tagName === 'SELECT') {
+                if (!field.value || field.value.trim() === '') {
+                    isFieldValid = false;
+                    errors.push(`Selecione uma opção para "${fieldName}".`);
+                }
+            } else {
+                if (!field.value || field.value.trim() === '') {
+                    isFieldValid = false;
+                    errors.push(`O campo "${fieldName}" é obrigatório.`);
+                }
+            }
+        });
+
+        if (errors.length > 0) {
+            alert("Por favor, corrija os seguintes erros:\n\n" + errors.join("\n"));
+            return false;
+        }
+
+        return true;
+    }
+
     document.addEventListener("getFormData", async () => {
+        if (!validateFormFields(shadow)) {
+            return; // Se a validação falhar, interrompe a execução
+        }
         
         const err = await creatPatientAndExam();
         if (err != null){
-            console.log("Erro ao registrar paciente: "+ err)
+            console.log("Erro ao registrar paciente/exame: "+ err)
+            alert(err); // Exibe o erro para o usuário
             return
         }
 
@@ -488,5 +794,3 @@ class ExamLayoutStarterInfo extends HTMLElement {
 if (!customElements.get('exam-starter-info')) {
     customElements.define('exam-starter-info', ExamLayoutStarterInfo);
 }
-
-
