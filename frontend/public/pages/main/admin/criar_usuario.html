@@ -10,7 +10,7 @@
      
 
       body {
-        background-color: var(--color-quaternary); /* Usando a variável para o background */
+        background-color: var(--color-quaternary); 
       }
 
       @media (max-height: 800px) {
@@ -35,6 +35,10 @@
   <body class="bg-[var(--color-quaternary)]">
     <main class="min-h-screen w-screen flex items-center justify-center p-4">
       <div class="form-container w-full lg:w-3/4 xl:w-9/12 2xl:w-7/12 bg-[var(--color-fifth)] shadow-[0_0px_40px_rgba(0,0,0,0.10)] lg:shadow-[0_0px_40px_rgba(0,0,0,0.25)] rounded-2xl p-6">
+        <div class="text-right mb-4">
+            <a href="/admin/usuario" class="text-sm text-pink-600 font-semibold hover:underline">&larr; Voltar</a>
+        </div>
+        
         <div class="flex flex-col items-center">
           <img src="/assets/img/Woman.svg" class="h-12 w-12 object-contain" alt="Usuário" />
           <h1 class="mt-1 font-extrabold text-2xl text-[var(--color-primary)] text-center">Cadastro de Profissional da Saúde</h1>
@@ -76,9 +80,9 @@
                 <select id="role" name="role"
                   class="w-full text-lg py-3 bg-transparent placeholder:text-base outline-none focus:ring-0" required>
                   <option value="">Selecione a profissão</option>
-                  <option value="enfermeiro">Enfermeiro(a)</option>
+                  <option value="Enfermeiro(a)">Enfermeiro(a)</option>
                   <option value="agente">Agente Comunitário</option>
-                  <option value="medico">Médico(a) Ginecologista</option>
+                  <option value="medico_ginecologista">Médico(a) Ginecologista</option>
                   <option value="outros">Outros</option>
                 </select>
               </div>

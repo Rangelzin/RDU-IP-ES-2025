@@ -28,13 +28,12 @@
       padding-left: 1.25rem;
     }
 
-    .min-w-full th:nth-child(1), .min-w-full td:nth-child(1) { width: 18%; }
-    .min-w-full th:nth-child(2), .min-w-full td:nth-child(2) { width: 18%; }
-    .min-w-full th:nth-child(3), .min-w-full td:nth-child(3) { width: 14%; }
-    .min-w-full th:nth-child(4), .min-w-full td:nth-child(4) { width: 10%; }
-    .min-w-full th:nth-child(5), .min-w-full td:nth-child(5) { width: 10%; text-align: center; }
-    .min-w-full th:nth-child(6), .min-w-full td:nth-child(6) { width: 12%; }
-    .min-w-full th:nth-child(7), .min-w-full td:nth-child(7) { width: 18%; text-align: center; }
+    .min-w-full th:nth-child(1), .min-w-full td:nth-child(1) { width: 20%; } 
+    .min-w-full th:nth-child(2), .min-w-full td:nth-child(2) { width: 20%; } 
+    .min-w-full th:nth-child(3), .min-w-full td:nth-child(3) { width: 15%; }
+    .min-w-full th:nth-child(4), .min-w-full td:nth-child(4) { width: 10%; } 
+    .min-w-full th:nth-child(5), .min-w-full td:nth-child(5) { width: 15%; } 
+    .min-w-full th:nth-child(6), .min-w-full td:nth-child(6) { width: 20%; text-align: center; }
   </style>
 </head>
 <body class="w-screen h-screen flex flex-row font-sans">
@@ -52,14 +51,10 @@
           <input type="text" id="buscaNome" placeholder="Buscar por nome..." class="bg-white border border-gray-300 text-sm rounded px-3 py-2 w-72" />
           <select id="filtroCargo" class="bg-white border border-gray-300 text-sm rounded px-3 py-2">
             <option value="todos">Cargo (Todos)</option>
-            <option value="admin">Administrador</option>
-            <option value="medico">Médico</option>
-            <option value="enfermeiro">Enfermeiro</option>
-          </select>
-          <select id="filtroStatus" class="bg-white border border-gray-300 text-sm rounded px-3 py-2">
-            <option value="todos">Status (Todos)</option>
-            <option value="ativo">Ativo</option>
-            <option value="inativo">Inativo</option>
+            <option value="medico_ginecologista">Médico(a) Ginecologista</option> 
+            <option value="enfermeira">Enfermeiro(a)</option>
+            <option value="agente_comunitario">Agente Comunitário</option> 
+            <option value="outros">Outros</option>
           </select>
           <button id="btnNovoUsuario" class="bg-purple-600 hover:bg-purple-700 text-white px-5 py-2.5 rounded-lg text-sm font-semibold shadow-md ml-auto transition duration-300 ease-in-out transform hover:scale-105">
             + Novo Usuário
@@ -75,7 +70,6 @@
                   <th class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">Email</th>
                   <th class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">CPF</th>
                   <th class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">CRM</th>
-                  <th class="px-6 py-4 text-sm font-semibold text-white uppercase tracking-wider">Status</th>
                   <th class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">Cargo</th>
                   <th class="px-6 py-4 text-center text-sm font-semibold text-white uppercase tracking-wider">Ações</th>
                 </tr>
@@ -85,7 +79,6 @@
           </div>
         </div>
 
-        <!-- Área de paginação -->
         <div id="statusMessage" class="mt-4 text-center text-gray-600"></div>
       </section>
     </main>
