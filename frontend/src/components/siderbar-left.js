@@ -2,7 +2,7 @@ class Siderbar extends HTMLElement {
     connectedCallback() {
         // Passo 1: Definir o HTML do componente, adicionando IDs para os elementos interativos
         this.innerHTML = `
-            <div id="menu" class="flex flex-col justify-between bg-[var(--color-primary)] w-20 h-screen ">   
+            <div id="menu" class="hidden lg:flex flex-col justify-between bg-[var(--color-primary)] w-20 h-screen ">   
                 <div id="icons1" class="flex flex-col items-center justify-center">
                     <div id="btn-abrir" class="js-menu-div flex flex-row hover:bg-(--color-secondary) hover:rounded-4xl cursor-pointer items-center justify-center">
                         <img src="/assets/img/menu.svg" alt="Voltar" class="rotate-180 w-12 h-12 m-2 ">

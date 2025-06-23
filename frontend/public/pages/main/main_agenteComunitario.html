@@ -4,24 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Página Inicial - Agente Comunitário</title>
-    <link rel="stylesheet" href="../../assets/css/output.css">
+    <link rel="stylesheet" href="/assets/css/output.css">
+    <script src="/src/components/main-frame.js"></script>
+    <script src="/src/components/siderbar-left.js"></script> 
     <script src="/src/utils/auth.js"></script>
 </head>
-<body class="w-screen h-screen flex flex-col">
-    <!-- Header -->
-    <header class="flex items-center bg-[var(--color-secondary)] h-20 px-4">
-        <img class="h-18 w-18 mr-4" src="../../assets/img/Logo.svg" alt="Logo" />
-        <div class="flex flex-col lg:flex-row items-start justify-start">
-            <h1 class="lg:text-3xl font-sans text-[var(--color-fifth)]">Página Inicial</h1>
-            <div class="lg:block hidden mx-1 text-3xl font-sans text-[var(--color-fifth)]">-</div>
-            <h1 class="lg:text-3xl font-sans text-[#B9B9B9]">Agente Comunitário de Saúde</h1>
-        </div>
-    </header>
-    <!-- Main Content -->
-    <main class="flex flex-1">
-        <!-- Ações do Usuário -->
-        <section class="flex flex-col flex-1 items-center justify-center p-6">
-            <div class="w-full flex justify-start">
+<body class="w-screen h-screen flex flex-row">
+   <sidebar-left></sidebar-left>
+   <main-frame id="Pagina ACS" class="with-aside">
+        <div class="w-full flex justify-start">
                 <h2 class="block underline text-xl md:text-2xl lg:text-3xl font-semibold text-[var(--color-tertiary)] mb-6 text-left">Ações do usuário</h2>
             </div>
             <div class="flex flex-col flex-2 items-start xl:items-center justify-center gap-20 lg:gap-30 lg:flex-row flex-wrap">
@@ -48,9 +39,7 @@
                 </div>
             </div>
             <div class="mt-10 text-center">© 2025 Aplicativo de Saúde. Todos os direitos reservados.</div>
-        </section>
-        <!-- Sidebar -->
-        <aside class="hidden lg:block w-20 bg-[var(--color-secondary)]"></aside>
-    </main>
+   </main-frame>
+    
 </body>
 </html>
