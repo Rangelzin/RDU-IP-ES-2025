@@ -1,6 +1,7 @@
 class ExamLayout extends HTMLElement {
   connectedCallback() {
     const shadow = this.attachShadow({ mode: 'open' });
+    fillUbsInfo(shadow)
 
     // Define o conteúdo HTML do shadow DOM
     shadow.innerHTML = `
@@ -13,8 +14,8 @@ class ExamLayout extends HTMLElement {
                     <h2 class="profile-name" id="profile-name"></h2>
                 </div>
                 <div class="ubs-info">
-                    <h2 class="ubs-name">TRS TERAPIA RENAL SUBSTITUTIVA</h2>
-                    <h3 class="ubs-addres">R. 1-A, 305 - St. Aeroporto, Goiânia - GO, 74075-070</h3>
+                    <h2 class="ubs-name"></h2>
+                    <h3 class="ubs-addres"></h3>
                 </div>
             </div>
 
@@ -39,6 +40,31 @@ class ExamLayout extends HTMLElement {
     script.src = '/assets/js/main-exame-script.js';
     script.defer = true;
     shadow.appendChild(script);
+
+    async function fillUbsInfo(shadowRoot) {
+        async function loadUbsConfig() {
+            try {
+                const response = await fetch('/configs/ubs_config.json'); // Caminho para o arquivo JSON
+                if (!response.ok) {
+                    console.error(`Erro ao carregar ubs_config.json: ${response.status} ${response.statusText}`);
+                    return null;
+                }
+                return await response.json();
+            } catch (error) {
+                console.error("Erro na leitura do arquivo de configuração da UBS:", error);
+                return null;
+            }
+        }
+
+        const config = await loadUbsConfig();
+        if (config) {
+            const ubsNameEl = shadowRoot.querySelector('.ubs-name');
+            const ubsAddressEl = shadowRoot.querySelector('.ubs-addres');
+ 
+            if (ubsNameEl) ubsNameEl.textContent = config.ubs_name || '';
+            if (ubsAddressEl) ubsAddressEl.textContent = config.ubs_address || '';
+        }
+    }
 
     // Cria o evento personalizado
     const getFormData = new CustomEvent("getFormData", {

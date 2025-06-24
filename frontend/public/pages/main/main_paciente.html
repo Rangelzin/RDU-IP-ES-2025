@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel do Paciente</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="/assets/css/output.css" rel="stylesheet" />
+    <script src="/src/components/main-frame.js"></script>
+    <script src="/src/components/siderbar-left.js"></script> 
     <script src="/src/utils/auth.js"></script>
     <style>
         :root {
@@ -17,162 +19,19 @@
             --color-white: #FFFFFF;
             --color-text-dark: #1F2937;
             --color-text-medium: #6B7280;
-            --color-text-light: #A0AEC0;
             --color-green-risk: #10B981;
             --color-gray-border: #E5E7EB;
         }
 
-        *,
-        *::before,
-        *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-            background-color: var(--color-white);
-            color: var(--color-text-dark);
-            line-height: 1.5;
-        }
-
-        .pagina-container {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        .faixa-superior {
-            background-color: var(--color-secondary);
-            padding: 0.8rem 1.75rem;
-            display: flex;
-            align-items: center;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-        }
-
-        .area-logo {
-            display: flex;
-            align-items: center;
-        }
-
-        .logo-imagem { 
-            height: 3.75rem;
-            width: auto; 
-            margin-right: 1rem;
-        }
-
-        .texto-cabecalho-app {
-            color: var(--color-white);
-            font-weight: 700;
-            font-size: 1.55rem;
-        }
-
-        .conteudo-wrapper {
-            display: flex;
-            flex-grow: 1;
-        }
-
-        .faixa-lateral-direita {
-            background-color: var(--color-secondary);
-            width: 5.5rem;
-        }
-
-        @media (max-width: 767px) {
-             .faixa-lateral-direita {
-                display: none;
-            }
-        }
-
-        .conteudo-principal {
-            flex-grow: 1;
-            padding: 1.5rem;
-            overflow-y: auto;
-            background-color: var(--color-white);
-        }
-
-        .conteudo-principal-interno {
-            max-width: 70rem;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        @media (min-width: 640px) {
-            .conteudo-principal {
-                padding: 2.25rem;
-            }
-        }
-        @media (min-width: 768px) {
-            .conteudo-principal {
-                padding: 2.75rem;
-            }
-            .faixa-lateral-direita {
-                display: block;
-            }
-        }
+        /* Os estilos abaixo são os mesmos que você já tinha, para manter o visual dos cartões */
 
         .cartao-status-principal {
             background-color: var(--color-fifth);
             border-radius: 1.25rem;
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
             padding: 2.25rem;
-            position: relative;
-        }
-
-        .cartao-status-cabecalho {
-            text-align: right;
-        }
-
-        @media (min-width: 768px) {
-            .cartao-status-cabecalho {
-                position: absolute;
-                top: 2rem;
-                right: 2rem;
-            }
-        }
-
-        .cartao-status-cabecalho h2 {
-            font-size: 1rem;
-            font-weight: 600;
-            color: var(--color-text-dark);
-        }
-
-        .avaliacao-risco {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            margin-top: 0.5rem;
-        }
-
-        .rotulo-risco {
-            font-size: 0.875rem;
-            color: var(--color-text-medium);
-        }
-
-        .barra-risco-fundo {
-            width: 5.5rem;
-            height: 1.125rem;
-            background-color: var(--color-gray-border);
-            border-radius: 9999px;
-            margin-top: 0.25rem;
-            overflow: hidden;
-        }
-
-        .barra-risco-preenchimento {
-            width: 33.3333%;
-            height: 100%;
-            background-color: var(--color-green-risk);
-            border-radius: 9999px;
-        }
-
-        .saudacao-paciente {
-            margin-bottom: 1.75rem;
-            padding-top: 0.80rem;
-        }
-        @media (min-width: 768px) {
-             .saudacao-paciente {
-                padding-top: 0;
-             }
+            width: 100%;
+            max-width: 70rem;
         }
 
         .saudacao-paciente h1 {
@@ -201,12 +60,7 @@
             margin-top: 1.5rem;
             display: grid;
             gap: 1.70rem;
-        }
-
-        @media (min-width: 768px) {
-            .grade-mini-cartoes-status {
-                grid-template-columns: repeat(3, minmax(0, 1fr));
-            }
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
         }
 
         .mini-cartao {
@@ -236,7 +90,7 @@
         }
 
         .mini-cartao-valor {
-            font-weight: 650;
+            font-weight: 600; /* Usei 600 em vez de 650 para compatibilidade */
             color: var(--color-text-dark);
             font-size: 1rem;
         }
@@ -245,6 +99,8 @@
             margin-top: 2rem;
             display: grid;
             gap: 2rem;
+            width: 100%;
+            max-width: 70rem;
         }
 
         @media (min-width: 1024px) {
@@ -258,9 +114,8 @@
             border-radius: 1.1rem;
             padding: 1.8rem;
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            position: relative;
         }
-
+        
         .cartao-info-cabecalho {
             display: flex;
             justify-content: space-between;
@@ -310,129 +165,86 @@
             color: var(--color-text-dark);
             margin-bottom: 0.5rem;
         }
-         .cartao-info-conteudo .titulo-conteudo + .detalhe-conteudo {
-            margin-top: 0.125rem;
-        }
-        .cartao-info-conteudo p + .titulo-conteudo {
-            margin-top: 0.75rem;
-        }
-
-        .rodape-pagina {
-            text-align: center;
-            color: var(--color-black);
-            font-size: 0.875rem;
-            padding-top: 2rem;
-            padding-bottom: 2rem;
-            margin-top: 2rem;
-        }
-
     </style>
 </head>
-<body>
+<body class="w-screen h-screen flex flex-row bg-gray-100">
 
-    <div class="pagina-container">
-        <header class="faixa-superior">
-            <div class="area-logo">
-                <img src="../assets/img/Logo.svg" alt="Logo SISCAN" class="logo-imagem">
-                <span class="texto-cabecalho-app">Main Paciente</span>
-            </div>
-        </header>
+    <sidebar-left></sidebar-left>
 
-        <div class="conteudo-wrapper">
-            <main class="conteudo-principal">
-                <div class="conteudo-principal-interno">
-
-                    <section class="cartao-status-principal">
-                        <!-- <div class="cartao-status-cabecalho">
-                            <h2>Seus Status de Saúde</h2>
-                            <div class="avaliacao-risco">
-                                <span class="rotulo-risco">Classificação de risco</span>
-                                <div class="barra-risco-fundo">
-                                    <div class="barra-risco-preenchimento"></div>
-                                </div>
-                            </div>
-                        </div> -->
-
-                        <div class="saudacao-paciente">
-                            <h1>Olá, Paciente!</h1>
-                            <div class="foto-paciente-container">
-                                <img src="https://randomuser.me/portraits/women/72.jpg" alt="Foto do Paciente" class="foto-paciente">
-                            </div>
-                        </div>
-
-                        <div class="grade-mini-cartoes-status">
-                            <div class="mini-cartao">
-                                <div class="mini-cartao-icone-fundo">
-                                    <i class="fas fa-calendar-check"></i>
-                                </div>
-                                <div>
-                                    <p class="mini-cartao-rotulo">Último Exame</p>
-                                    <p class="mini-cartao-valor">15/03/2025</p>
-                                </div>
-                            </div>
-                            <div class="mini-cartao">
-                                <div class="mini-cartao-icone-fundo">
-                                    <i class="fas fa-poll"></i>
-                                </div>
-                                <div>
-                                    <p class="mini-cartao-rotulo">Resultado</p>
-                                    <p class="mini-cartao-valor">Negativo</p>
-                                </div>
-                            </div>
-                            <div class="mini-cartao">
-                                <div class="mini-cartao-icone-fundo">
-                                    <i class="fas fa-calendar-alt"></i>
-                                </div>
-                                <div>
-                                    <p class="mini-cartao-rotulo">Próximo Exame</p>
-                                    <p class="mini-cartao-valor">Agendada</p>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-
-                    <section class="grade-cartoes-inferiores">
-                        <div class="cartao-info">
-                            <div class="cartao-info-cabecalho">
-                                <h3>Últimos Exames </h3>
-                                <button class="botao-historico">Histórico de Exames</button>
-                            </div>
-                            <div class="cartao-info-conteudo">
-                                <p class="titulo-conteudo">Papanicolau</p>
-                                <p class="detalhe-conteudo">Data: 15/03/2025 - Resultado: Sem alterações.</p>
-                                <p class="titulo-conteudo">Teste de HPV</p>
-                                <p class="detalhe-conteudo">Data: 15/03/2025 - Resultado: Negativo para tipos de alto risco.</p>
-                                <p class="titulo-conteudo">Colposcopia</p>
-                                <p class="detalhe-conteudo">Data: 02/11/2024 - Achados: JEC visível, sem lesões.</p>
-                            </div>
-                        </div>
-
-                        <div class="cartao-info">
-                            <div class="cartao-info-cabecalho">
-                                <h3>Últimas Notificações</h3>
-                                <button class="botao-historico">Histórico de Notificações</button>
-                            </div>
-                            <div class="cartao-info-conteudo">
-                                <p class="titulo-conteudo">Agendamento</p>
-                                <p class="detalhe-conteudo">Lembrete: Consulta de rotina e Papanicolau agendados para 15/03/2026.</p>
-                                <p class="titulo-conteudo">Resultado Disponível</p>
-                                <p class="detalhe-conteudo">Os resultados do seu último Papanicolau estão disponíveis no portal.</p>
-                                <p class="titulo-conteudo">Orientações</p>
-                                <p class="detalhe-conteudo">Não se esqueça da importância do autoexame e das consultas regulares.</p>
-                            </div>
-                        </div>
-                    </section>
-
-                    <footer class="rodape-pagina">
-                        <p>© 2025 Aplicativo de Saúde. Todos os direitos reservados.</p>
-                    </footer>
+    <main-frame id="Painel do Paciente" class="with-aside">
+        
+        <section class="cartao-status-principal">
+            <div class="saudacao-paciente">
+                <h1>Olá, Paciente!</h1>
+                <div class="foto-paciente-container">
+                    <img src="https://randomuser.me/portraits/women/72.jpg" alt="Foto do Paciente" class="foto-paciente">
                 </div>
-            </main>
-            <aside class="faixa-lateral-direita">
-            </aside>
-        </div>
-    </div>
+            </div>
 
-    <script src="main_paciente.js" defer></script>
+            <div class="grade-mini-cartoes-status">
+                <div class="mini-cartao">
+                    <div class="mini-cartao-icone-fundo">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <div>
+                        <p class="mini-cartao-rotulo">Último Exame</p>
+                        <p class="mini-cartao-valor">15/03/2025</p>
+                    </div>
+                </div>
+                <div class="mini-cartao">
+                    <div class="mini-cartao-icone-fundo">
+                        <i class="fas fa-poll"></i>
+                    </div>
+                    <div>
+                        <p class="mini-cartao-rotulo">Resultado</p>
+                        <p class="mini-cartao-valor">Negativo</p>
+                    </div>
+                </div>
+                <div class="mini-cartao">
+                    <div class="mini-cartao-icone-fundo">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <div>
+                        <p class="mini-cartao-rotulo">Próximo Exame</p>
+                        <p class="mini-cartao-valor">Agendada</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="grade-cartoes-inferiores">
+            <div class="cartao-info">
+                <div class="cartao-info-cabecalho">
+                    <h3>Últimos Exames</h3>
+                    <button class="botao-historico">Histórico de Exames</button>
+                </div>
+                <div class="cartao-info-conteudo">
+                    <p class="titulo-conteudo">Papanicolau</p>
+                    <p class="detalhe-conteudo">Data: 15/03/2025 - Resultado: Sem alterações.</p>
+                    <p class="titulo-conteudo">Teste de HPV</p>
+                    <p class="detalhe-conteudo">Data: 15/03/2025 - Resultado: Negativo para tipos de alto risco.</p>
+                    <p class="titulo-conteudo">Colposcopia</p>
+                    <p class="detalhe-conteudo">Data: 02/11/2024 - Achados: JEC visível, sem lesões.</p>
+                </div>
+            </div>
+
+            <div class="cartao-info">
+                <div class="cartao-info-cabecalho">
+                    <h3>Últimas Notificações</h3>
+                    <button class="botao-historico">Histórico de Notificações</button>
+                </div>
+                <div class="cartao-info-conteudo">
+                    <p class="titulo-conteudo">Agendamento</p>
+                    <p class="detalhe-conteudo">Lembrete: Consulta de rotina e Papanicolau agendados para 15/03/2026.</p>
+                    <p class="titulo-conteudo">Resultado Disponível</p>
+                    <p class="detalhe-conteudo">Os resultados do seu último Papanicolau estão disponíveis no portal.</p>
+                    <p class="titulo-conteudo">Orientações</p>
+                    <p class="detalhe-conteudo">Não se esqueça da importância do autoexame e das consultas regulares.</p>
+                </div>
+            </div>
+        </section>
+        
+    </main-frame>      
+
 </body>
 </html>

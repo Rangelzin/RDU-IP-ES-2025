@@ -5,7 +5,7 @@ class MainFrame extends HTMLElement {
     const hasAside = this.classList.contains('with-aside');
 
     const asideHTML = hasAside ? `
-      <aside class="flex w-20 h-full bg-[var(--color-secondary)] p-4">
+      <aside class="hidden lg:flex w-20 h-full bg-[var(--color-secondary)] p-4">
         <slot name="aside"></slot>
       </aside>
     ` : '';
