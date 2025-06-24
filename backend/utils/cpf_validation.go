@@ -37,16 +37,9 @@ func IsValidCPF(cpfStr string) bool {
 
 	firstVerifier := calculateVerifier(cpfStr[0:9], 10)
 	providedFirstDigit, _ := strconv.Atoi(string(cpfStr[9]))
-	if providedFirstDigit != firstVerifier {
-	
-		return false
-	}
 
 	secondVerifier := calculateVerifier(cpfStr[0:10], 11)
 	providedSecondDigit, _ := strconv.Atoi(string(cpfStr[10]))
-	if providedSecondDigit != secondVerifier {
-		return false
-	}
 
-	return true
+	return providedFirstDigit == firstVerifier && providedSecondDigit == secondVerifier
 }
