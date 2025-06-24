@@ -7,6 +7,7 @@
   <link href="/assets/css/output.css" rel="stylesheet" />
   <script src="../../../src/components/main-frame.js"></script>
   <script src="../../../src/components/siderbar-left.js"></script> 
+  <script src="/assets/js/main_geral.js"></script> 
   <script src="/src/utils/auth.js"></script>
 </head>
 <body class="w-screen h-screen flex flex-row">
@@ -17,7 +18,7 @@
 
       <div class=" mx-auto my-auto flex flex-col  gap-20 lg:gap-30 lg:flex-row">
         <!-- Card 1 -->
-        <div class="w-60 h-35 lg:w-75 lg:h-50 bg-[var(--color-quaternary)] rounded-xl hover:bg-[#bfb0d1] cursor-pointer">
+        <div id="buscarPaciente" class="w-60 h-35 lg:w-75 lg:h-50 bg-[var(--color-quaternary)] rounded-xl hover:bg-[#bfb0d1] cursor-pointer">
           <div class=" h-10 lg:h-12 bg-[var(--color-tertiary)] rounded-t-xl">
             <h3 class="text-xl pt-3 pl-5 font-semibold text-[var(--color-fifth)] ">Buscar paciente</h3>
           </div>
@@ -25,7 +26,7 @@
         </div>
 
         <!-- Card 2 -->
-        <div class="w-60 h-35 lg:w-75 lg:h-50 bg-[var(--color-quaternary)] rounded-xl hover:bg-[#bfb0d1] cursor-pointer">
+        <div id="cadastrarFicha" class="w-60 h-35 lg:w-75 lg:h-50 bg-[var(--color-quaternary)] rounded-xl hover:bg-[#bfb0d1] cursor-pointer">
           <div class=" h-10 lg:h-12 bg-[var(--color-tertiary)] rounded-t-xl">
               <h3 class="text-xl pt-3 pl-5 font-semibold text-[var(--color-fifth)] ">Cadastrar nova ficha</h3>
           </div>
@@ -33,7 +34,7 @@
         </div>
 
         <!-- Card 3 -->
-        <div class="w-60 h-35 lg:w-75 lg:h-50 bg-[var(--color-quaternary)] rounded-xl hover:bg-[#bfb0d1] cursor-pointer">
+        <div id="buscarExame" class="w-60 h-35 lg:w-75 lg:h-50 bg-[var(--color-quaternary)] rounded-xl hover:bg-[#bfb0d1] cursor-pointer">
           <div class=" h-10 lg:h-12 bg-[var(--color-tertiary)] rounded-t-xl ">
               <h3 class="text-xl pt-3 pl-5 font-semibold text-[var(--color-fifth)] ">Buscar exame</h3>
           </div>

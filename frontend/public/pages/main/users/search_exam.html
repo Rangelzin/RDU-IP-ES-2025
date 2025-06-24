@@ -1,42 +1,42 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pesquisa de exames - Agente Comunitário</title>
-    <link rel="stylesheet" href="/assets/css/output.css">
-    <script src="/assets/js/search-exam.js" defer></script>
+    <title>Busca de Exame</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="/assets/css/output.css" rel="stylesheet" />
+    <script type="module" src="/assets/js/search-exam.js"></script>
     <script src="/src/utils/auth.js"></script>
+    <script src="../../../src/components/main-frame.js"></script>
+    <script src="../../../src/components/siderbar-left.js"></script>
 </head>
-<body class="w-screen h-screen flex flex-col">
 
-    <header class="flex items-center bg-[var(--color-secondary)] h-20 px-4">
-        <img class="h-16 w-16 mr-4" src="/assets/img/Logo.svg" alt="Logo" />
-        <h1 class="text-xl lg:text-3xl font-sans text-[var(--color-fifth)]">Página de Visitas</h1>
-    </header>
+<body class="font-sans bg-white text-text-dark leading-normal  flex flex-row">
+    <sidebar-left></sidebar-left>
+    <main-frame id="Buscar Exame"> 
+        <main class="flex-row p-6 bg-white md:p-10">
 
-    <main class="flex flex-1">  
-        
-        <section class="flex flex-col flex-1 items-center px-4 md:px-10 lg:px-20 xl:px-30 overflow-auto">
-
-            <h2 class="text-3xl lg:text-4xl xl:text-5xl font-bold m-3 xl:m-12 text-center text-gray-800">Buscar Exames</h2>
-            <div class="flex flex-row mx-auto bg-[#D9D9D9] rounded-full w-full max-w-4xl h-12 xl:h-15 shadow-sm ">
-                <input class="pl-6 text-lg xl:text-xl w-full h-full bg-transparent outline-none focus:ring-0" type="text" name="nome" id="searchInput" autocomplete="off" placeholder="Digite o número do protocolo"/>
+            <div class="flex flex-row mx-auto bg-[#D9D9D9] rounded-full w-full max-w-4xl h-12 xl:h-15 shadow-sm mb-10 ">
+                <input class="pl-6 text-lg xl:text-xl w-full h-full bg-transparent outline-none focus:ring-0" type="text" name="nome" id="searchInput" autocomplete="off" placeholder="Digite o nome do paciente ou protocolo do exame"/>
                 <button type="submit" id="searchButton" class="flex items-center justify-center h-10%  w-16 xl:w-20 cursor-pointer text-gray-500 hover:text-[var(--color-primary)]">
                     <img src="/assets/img/search.svg" alt="Buscar" class="h-full w-full"/>
                 </button>
             </div>
-        
-                <div class="flex flex-col w-full h-full mt-6 rounded-t-2xl bg-[#F0EBF6] p-6">
-                <div id="cardsContainer" class="flex flex-col md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 w-full justify-items-center"> 
+
+            <div class="max-w-7xl mx-auto w-screen">
+                <div class=" bg-[var(--color-fifth)] border border-[var(--color-fifth)] rounded-xl p-6">
+                    <div id="lista-exames" class="flex flex-col space-y-3">
+
+                        </div>
+                        <div id="paginationControls" class="flex justify-center items-center space-x-4 mt-6">
+                        <button id="prevPageBtn" class="px-4 py-2 bg-[var(--color-primary)] text-white rounded-lg disabled:opacity-50 hover:bg-[var(--color-secondary)] transition-colors">Anterior</button>
+                        <span id="pageInfo" class="text-lg font-semibold text-[var(--color-secondary)]">Página 1 de 1</span>
+                        <button id="nextPageBtn" class="px-4 py-2 bg-[var(--color-primary)] text-white rounded-lg disabled:opacity-50 hover:bg-[var(--color-secondary)] transition-colors">Próxima</button>
+                    </div>
                 </div>
             </div>
-
-            </div>
-        </section>
-        
-        <aside class="hidden lg:flex w-20 h-full bg-[var(--color-secondary)]"></aside>
-    </main>
-
-     
+        </main>
+    </main-frame>
 </body>
+</html>
