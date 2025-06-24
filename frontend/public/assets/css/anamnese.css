@@ -1,0 +1,311 @@
+/* Definição de variáveis CSS - Mantendo o padrão */
+:host {
+    --prymari-font-color: #FFFFFF;
+    --input-font-color: #3f055a;
+    --prymari-color: #F867A0;
+    --secondary-color: #DF96BA;
+    --disabled-input-color: rgba(124, 118, 121, 0.15);
+    --background-color: #7D59AB; /* Não usado diretamente aqui, mas mantido para consistência */
+    --exame-background-color: #F9F4FF;
+    --btn-color: #563A94; /* Não usado diretamente aqui, mas mantido para consistência */
+
+    --border-size: 0.05vw;
+    
+    display: block; /* Garante que :host se comporte como um bloco */
+    font-family: 'Noto Sans', sans-serif;
+}
+
+/* Estilos da página principal */
+.exm-page {
+    background-color: var(--exame-background-color);
+    min-height: 98%;
+    margin: 0;
+    margin-top: 2%;
+    padding-bottom: 2%;
+    color: var(--prymari-color);
+    height: 100vh; /* Para garantir que o fundo ocupe a altura total */
+}
+
+/* Estilos do cabeçalho - Replicados da primeira etapa para consistência */
+.header {
+    width: 98%;
+    margin: 0 1%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.h-title {
+    margin-top: 1%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    color: var(--prymari-color);
+    font-size: 0.85vw;
+    font-weight: 900;
+
+    border: var(--border-size) solid var(--secondary-color);
+}
+.title {
+    margin: 0.1%;
+}
+.sub-title {
+    width: 100%;
+    font-size: 0.85vw;
+    text-align: end;
+}
+
+/* Estilos para a div de título de seção (Informações Complementares) */
+.box-div {
+    margin: 0.8%;
+    padding: 0;
+
+    font-size: 0.6vw;
+    font-weight: 600;
+    text-align: center;
+
+    border: var(--border-size) solid var(--secondary-color);
+}
+.box-div-title {
+    color: var(--prymari-color); /* Garante que a cor do título esteja correta */
+}
+
+/* --- Layout de Duas Colunas --- */
+.two-column-layout {
+    display: flex;
+    flex-wrap: wrap; /* Permite que as colunas quebrem para a próxima linha em telas menores */
+    width: 98%; /* Largura total das colunas, mantendo a margem da página */
+    margin: 0 1%;
+    justify-content: space-between; /* Distribui as colunas horizontalmente */
+    gap: 2%; /* Espaçamento entre as colunas */
+}
+
+.column-left,
+.column-right {
+    display: flex;
+    flex-direction: column;
+    width: 49%; /* Cada coluna ocupa quase metade do espaço disponível, considerando o gap */
+    /* Ajuste a largura para 100% em telas menores, se desejar responsividade total */
+    /* @media (max-width: 768px) {
+        width: 100%;
+    } */
+}
+
+/* Estilos para as linhas do formulário dentro das colunas - Mantendo o padrão .ln */
+.ln {
+    width: 100%; /* Ocupa a largura total da coluna */
+    margin: 0.3vw 0; /* Margem vertical entre os itens, sem margens laterais */
+    display: flex;
+    align-items: top;
+    justify-content: space-between;
+}
+
+/* Estilos gerais para labels e legends */
+label, legend {
+    margin: 0;
+    font-size: 0.85vw;
+    font-weight: 800;
+    color: var(--prymari-color);
+}
+
+/* Estilos gerais para fieldsets de perguntas (repetindo o padrão existente) */
+.fieldset-motivo-exame,
+.fieldset-fez-preventivo,
+.fieldset-usa-diu,
+.fieldset-gravida,
+.fieldset-usa-pilula,
+.fieldset-usa-hormonio,
+.fieldset-radioterapia,
+.fieldset-sangramento-relacao,
+.fieldset-sangramento-menopausa {
+    width: 100%; /* Ocupa toda a largura da div.ln */
+    border: none;
+    padding: 0;
+    margin: 0; /* Remove a margem horizontal extra, já que .ln gerencia isso */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.fieldset-motivo-exame legend,
+.fieldset-fez-preventivo legend,
+.fieldset-usa-diu legend,
+.fieldset-gravida legend,
+.fieldset-usa-pilula legend,
+.fieldset-usa-hormonio legend,
+.fieldset-radioterapia legend,
+.fieldset-sangramento-relacao legend,
+.fieldset-sangramento-menopausa legend {
+    margin-bottom: 0.5vw;
+    font-size: 0.85vw;
+    font-weight: 800;
+    color: var(--prymari-color);
+}
+
+/* Estilos para o contêiner das opções de radio/checkbox dentro do fieldset */
+.input-motivo-exame,
+.input-fez-preventivo,
+.input-usa-diu,
+.input-gravida,
+.input-usa-pilula,
+.input-usa-hormonio,
+.input-radioterapia,
+.input-sangramento-relacao,
+.input-sangramento-menopausa {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.5vw;
+    width: 100%;
+}
+
+/* Esconde o input de rádio/checkbox nativo */
+.input-motivo-exame > input[type="radio"],
+.input-fez-preventivo > input[type="radio"],
+.input-usa-diu > input[type="radio"],
+.input-gravida > input[type="radio"],
+.input-usa-pilula > input[type="radio"],
+.input-usa-hormonio > input[type="radio"],
+.input-radioterapia > input[type="radio"],
+.input-sangramento-relacao > input[type="radio"],
+.input-sangramento-menopausa > input[type="radio"],
+.checkbox-nao-sabe-nao-lembra > input[type="checkbox"] {
+    display: none;
+}
+
+/* Estilo do label para customizar o radio/checkbox */
+.input-motivo-exame > label,
+.input-fez-preventivo > label,
+.input-usa-diu > label,
+.input-gravida > label,
+.input-usa-pilula > label,
+.input-usa-hormonio > label,
+.input-radioterapia > label,
+.input-sangramento-relacao > label,
+.input-sangramento-menopausa > label,
+.checkbox-nao-sabe-nao-lembra > label {
+    position: relative;
+    padding-left: 2.2vw;
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    font-size: 0.8vw;
+    font-weight: 400;
+    color: var(--input-font-color);
+}
+
+/* Estilo do pseudo-elemento para o box do radio/checkbox */
+.input-motivo-exame > label::before,
+.input-fez-preventivo > label::before,
+.input-usa-diu > label::before,
+.input-gravida > label::before,
+.input-usa-pilula > label::before,
+.input-usa-hormonio > label::before,
+.input-radioterapia > label::before,
+.input-sangramento-relacao > label::before,
+.input-sangramento-menopausa > label::before,
+.checkbox-nao-sabe-nao-lembra > label::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1.4vw;
+    aspect-ratio: 1/1;
+    border: var(--border-size) solid var(--prymari-color);
+    background-color: transparent;
+    transition: 0.3s;
+    border-radius: 0; /* Para radio buttons */
+}
+
+/* Sobrescreve para checkboxes */
+.checkbox-nao-sabe-nao-lembra > label::before {
+    border-radius: 0; /* Quadrado para checkbox */
+}
+
+/* Estilo quando o radio/checkbox está marcado */
+.input-motivo-exame > input[type="radio"]:checked + label::before,
+.input-fez-preventivo > input[type="radio"]:checked + label::before,
+.input-usa-diu > input[type="radio"]:checked + label::before,
+.input-gravida > input[type="radio"]:checked + label::before,
+.input-usa-pilula > input[type="radio"]:checked + label::before,
+.input-usa-hormonio > input[type="radio"]:checked + label::before,
+.input-radioterapia > input[type="radio"]:checked + label::before,
+.input-sangramento-relacao > input[type="radio"]:checked + label::before,
+.input-sangramento-menopausa > input[type="radio"]:checked + label::before,
+.checkbox-nao-sabe-nao-lembra > input[type="checkbox"]:checked + label::before {
+    background-color: rgb(228, 133, 171);
+}
+
+/* Estilos específicos para o campo de ano do último exame */
+.input-fez-preventivo .input-ano-ultimo-exame {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-left: 2.2vw;
+    width: auto;
+}
+
+.input-fez-preventivo .input-ano-ultimo-exame label {
+    font-weight: 400;
+}
+
+.input-fez-preventivo .input-ano-ultimo-exame input {
+    border: none;
+    border-bottom: var(--border-size) solid var(--prymari-color);
+    outline: none;
+    font-size: 1vw;
+    color: var(--input-font-color);
+    width: 6vw;
+    height: 1.8vw;
+    border-top-left-radius: 0.2vw;
+    border-top-right-radius: 0.2vw;
+    box-sizing: border-box;
+    text-align: center;
+    background-color: transparent;
+}
+
+/* Estilos para o campo de Última Menstruação */
+.input-ultima-menstruacao {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%; /* Ocupa a largura da coluna */
+    margin: 0; /* Ajustado para 0, pois a .ln já tem margin vertical */
+}
+
+.input-ultima-menstruacao label {
+    font-weight: 800;
+    color: var(--prymari-color);
+    margin-bottom: 0.5vw;
+}
+
+.input-ultima-menstruacao input[type="text"] {
+    width: 100%;
+    text-align: center;
+    border: none;
+    border-bottom: var(--border-size) solid var(--prymari-color);
+    outline: none;
+    font-size: 1vw;
+    color: var(--input-font-color);
+    height: 1.8vw;
+    border-top-left-radius: 0.2vw;
+    border-top-right-radius: 0.2vw;
+    box-sizing: border-box;
+    background-color: transparent;
+}
+
+.input-ultima-menstruacao .checkbox-nao-sabe-nao-lembra {
+    display: flex;
+    align-items: center;
+    margin-top: 0.5vw;
+}
+
+.input-ultima-menstruacao .checkbox-nao-sabe-nao-lembra label {
+    font-weight: 400;
+    color: var(--input-font-color);
+    font-size: 0.8vw;
+}
