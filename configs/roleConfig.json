@@ -1,0 +1,16 @@
+{
+    "profissoes": {
+      "paciente": 0,
+      "admin": 1,
+      "medico": 2,
+      "enfermeiro": 3,
+      "outros": 4
+    },
+    "permissoes": {
+      "1": "gerar_relatorios",
+      "2": "gerenciar_pacientes",
+      "3": "gerenciar_agendamentos",
+      "4": "acessar_prontuarios",
+      "5": "configuracoes_sistema"
+    }
+  }
