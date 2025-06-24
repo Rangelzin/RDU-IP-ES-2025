@@ -1,21 +1,36 @@
 import { loginRequisicao } from "/app/authAPI.js";
 
-console.log("Script login.js carregado!");
-
 document.addEventListener('DOMContentLoaded', function () {
-    console.log("Script login.js carregado!2");
-
     const form = document.querySelector("#login-form");
+    if (!form) {
+        console.error("Formulário de login não encontrado!");
+        return;
+    }
 
-    form.addEventListener("submit", function (event) {
+    form.addEventListener("submit", async function (event) {
         event.preventDefault();
-        realizarLogin();
+        console.log("Formulário de login enviado. Chamando realizarLogin()...");
+        try {
+            await realizarLogin();
+        } catch (error) {
+            console.error("Erro pego no 'login.js':", error);
+            alert("Falha no login: " + error.message);
+        }
     });
 });
 
-function realizarLogin() {
-    const cpf = document.querySelector("#login").value
-    const senha = document.querySelector("#senha").value
+async function realizarLogin() {
+    const cpfInput = document.querySelector("#login");
+    const senhaInput = document.querySelector("#senha");
 
-    loginRequisicao(cpf, senha)
+    const cpf = cpfInput.value;
+    const senha = senhaInput.value;
+
+    if (!cpf || !senha) {
+        alert("Por favor, preencha o CPF e a senha.");
+        return;
+    }
+    
+    console.log("Iniciando requisição de login...");
+    await loginRequisicao(cpf, senha);
 }

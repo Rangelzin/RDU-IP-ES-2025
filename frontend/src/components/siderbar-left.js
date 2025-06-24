@@ -3,80 +3,26 @@ import { decodificarPermissoesStrToVet } from '/src/utils/roleCoderAndDecoder.js
 
 class Siderbar extends HTMLElement {
     async connectedCallback() {
-        // Grupo de itens de busca (search)
+        // PASSO 1: Definir os links (href) corretos para cada item e para cada role.
         const searchMenuItems = [
-            {
-                id: "search-exame-result",
-                text: "Buscar Resultados",
-                icon: "/assets/img/search2.svg",
-                requiredRole: ["paciente"],
-                group: 1
-            },
-            {
-                id: "search-admin-patient",
-                text: "Buscar Paciente",
-                icon: "/assets/img/pacient.svg",
-                requiredRole: ["admin"],
-                group: 1
-            },
-            {
-                id: "search-admin-user",
-                text: "Buscar Usuário",
-                icon: "/assets/img/user.svg",
-                requiredRole: ["admin"],
-                group: 1
-            },
-            {
-                id: "search-patient",
-                text: "Buscar Paciente",
-                icon: "/assets/img/pacient.svg",
-                requiredRole: ["medico", "enfermeiro"],
-                group: 1
-            },
-            {
-                id: "search-exame",
-                text: "Buscar Exame",
-                icon: "/assets/img/exam-seach.svg",
-                requiredRole: ["medico", "enfermeiro"],
-                group: 1
-            }
+            { id: "search-exame-result", text: "Buscar Resultados", icon: "/assets/img/search2.svg", href: "/main/usuario/exam_status", requiredRole: ["paciente"], group: 1 },
+            { id: "search-admin-patient", text: "Buscar Paciente", icon: "/assets/img/pacient.svg", href: "/admin/paciente", requiredRole: ["admin"], group: 1 },
+            { id: "search-admin-user", text: "Buscar Usuário", icon: "/assets/img/user.svg", href: "/admin/usuario", requiredRole: ["admin"], group: 1 },
+            { id: "search-patient", text: "Buscar Paciente", icon: "/assets/img/pacient.svg", href: "/main/ACS", requiredRole: ["medico", "enfermeiro", "outros"], group: 1 },
+            { id: "search-exame", text: "Buscar Exame", icon: "/assets/img/exam-seach.svg", href: "/main/usuario/search_exam", requiredRole: ["medico", "enfermeiro"], group: 1 }
         ];
 
-        // Todos os itens do menu
         const allMenuItems = [
-            {
-                id: "main-page",
-                text: "Página Principal",
-                icon: "/assets/img/dashbord.svg",
-                requiredRole: ["admin", "medico", "enfermeiro", "paciente", "outros"],
-                group: 1
-            },
-            {
-                id: "new-record",
-                text: "Nova Ficha",
-                icon: "/assets/img/Group 8.svg",
-                requiredRole: ["medico", "enfermeiro", "outros"],
-                group: 1
-            },
+            { id: "main-page-admin", text: "Página Principal", icon: "/assets/img/dashbord.svg", href: "/admin", requiredRole: ["admin"], group: 1 },
+            { id: "main-page-users", text: "Página Principal", icon: "/assets/img/dashbord.svg", href: "/main", requiredRole: ["medico", "enfermeiro", "outros"], group: 1 },
+            { id: "main-page-patient", text: "Página Principal", icon: "/assets/img/dashbord.svg", href: "/paciente", requiredRole: ["paciente"], group: 1 },
+            { id: "new-record", text: "Nova Ficha", icon: "/assets/img/Group 8.svg", href: "/main/usuario/exame", requiredRole: ["medico", "enfermeiro", "outros"], group: 1 },
             ...searchMenuItems,
-            {
-                id: "profile",
-                text: "Perfil",
-                icon: "/assets/img/defaulPerfil_IMG/perfil_02.svg",
-                requiredRole: ["admin", "medico", "enfermeiro", "paciente", "outros"],
-                group: 2
-            },
-            {
-                id: "settings",
-                text: "Configurações",
-                icon: "/assets/img/gear-fill.svg",
-                requiredRole: "configuracoes_sistema",
-                group: 2
-            }
+            { id: "profile", text: "Perfil", icon: "/assets/img/defaulPerfil_IMG/perfil_02.svg", href: "", requiredRole: ["admin", "medico", "enfermeiro", "paciente", "outros"], group: 2 },
+            { id: "settings", text: "Configurações", icon: "/assets/img/gear-fill.svg", href: "", requiredRole: "configuracoes_sistema", group: 2 }
         ];
 
-
-        
+        // Decodificação de roles e filtro dos itens autorizados (seu código aqui está perfeito)
         let userRolesArray = [];
         const token = localStorage.getItem('token');
         if (token) {
@@ -94,31 +40,32 @@ class Siderbar extends HTMLElement {
             return userRolesArray.includes(item.requiredRole);
         });
 
+        // PASSO 2: Gerar os itens como tags <a>, que são links funcionais por natureza.
         const generateHtml = (items) => {
             return items.map(item => `
-                <div id="${item.id}" class="js-menu-div flex flex-row hover:bg-[var(--color-secondary)] hover:rounded-4xl cursor-pointer items-center justify-center">
+                <a href="${item.href}" id="${item.id}" class="js-menu-div flex flex-row hover:bg-[var(--color-secondary)] hover:rounded-4xl cursor-pointer items-center justify-center no-underline">
                     <img src="${item.icon}" alt="${item.text}" class="w-10 h-10 m-2">
                     <p class="text-white text-2xl p-2 js-menu-label hidden">${item.text}</p>
-                </div>
+                </a>
             `).join('');
         };
 
         const menuItemsHtmlGroup1 = generateHtml(authorizedMenuItems.filter(item => item.group === 1));
         const menuItemsHtmlGroup2 = generateHtml(authorizedMenuItems.filter(item => item.group === 2));
 
+        // Renderização do HTML
         this.innerHTML = `
-            <div id="menu" class="hidden lg:flex flex-col justify-between bg-[var(--color-primary)] w-20 h-screen">   
+            <div id="menu" class="flex flex-col justify-between bg-[var(--color-primary)] w-20 h-screen">   
                 <div id="icons1" class="flex flex-col items-center justify-center">
-                    <div id="btn-abrir" class="js-menu-div flex flex-row hover:bg-[var(--color-secondary)] hover:rounded-4xl cursor-pointer items-center justify-center">
+                    <div id="btn-abrir" class="js-menu-div flex flex-row hover:bg-[var(--color-secondary)] hover:rounded-4xl cursor-pointer items-center justify-center no-underline">
                         <img src="/assets/img/menu.svg" alt="Menu" class="rotate-180 w-12 h-12 m-2">
                         <p class="text-white text-2xl p-2 js-menu-label hidden">Menu</p>
                     </div>
                     ${menuItemsHtmlGroup1}
                 </div>  
-                
                 <div id="icons2" class="flex flex-col items-center justify-center">
                     ${menuItemsHtmlGroup2}
-                    <div id="logout" class="js-menu-div flex flex-row hover:bg-[var(--color-secondary)] hover:rounded-4xl cursor-pointer items-center justify-center">
+                    <div id="logout" class="js-menu-div flex flex-row hover:bg-[var(--color-secondary)] hover:rounded-4xl cursor-pointer items-center justify-center no-underline">
                         <img src="/assets/img/logout.svg" alt="Sair" class="w-12 h-12 m-2">
                         <p class="text-white text-2xl p-2 js-menu-label hidden">Sair</p>
                     </div>
@@ -182,100 +129,7 @@ class Siderbar extends HTMLElement {
                 modal.addEventListener('click', (event) => { if (event.target === modal) closeModal(); });
             });
         }
-
-
-        const mainPage = this.querySelector('#main-page-admin, #main-page-users');
-        const newRecord = this.querySelector('#new-record');
-        const searchExameResult = this.querySelector('#search-exame-result');
-        const searchAdminPatient = this.querySelector('#search-admin-patient');
-        const searchAdminUser = this.querySelector('#search-admin-user'); // Este ID não existe na sua lista de itens
-        const searchPatient = this.querySelector('#search-patient');
-        const searchExame = this.querySelector('#search-exame');
-        const settings = this.querySelector('#settings');
-
-        switch (userRolesArray[0]) {
-            case 'paciente':
-                if (mainPage) {
-                    mainPage.addEventListener('click', () => {
-                        window.location.href = '/paciente';
-                    });
-                }
-                if (searchExameResult) {
-                    searchExameResult.addEventListener('click', () => {
-                        window.location.href = '/main/usuario/exam_status';
-                    });
-                }
-                break;
-            
-            case 'admin':
-                if (mainPage) {
-                    mainPage.addEventListener('click', () => {
-                        window.location.href = '/admin';
-                    });
-                }
-                if (searchAdminPatient) {
-                    searchAdminPatient.addEventListener('click', () => {
-                        window.location.href = '/admin/paciente';
-                    });
-                }
-                if (searchAdminUser) {
-
-                    searchAdminUser.addEventListener('click', () => {
-                        window.location.href = '/admin/usuario';
-                    });
-                }
-                if (settings) {
-                    settings.addEventListener('click', () => {
-                        // Rota para configurações ainda não existe.
-                        // window.location.href = '/admin/configuracoes';
-                        console.log('Navegação para Configurações (rota não implementada)');
-                    });
-                }
-                break;
-            
-            case 'medico':
-            case 'enfermeiro':
-                if (mainPage) {
-                    mainPage.addEventListener('click', () => {
-                        window.location.href = `/main`;
-                    });
-                }
-                if (newRecord) {
-                    newRecord.addEventListener('click', () => {
-                        window.location.href = `/main/usuario/exame`;
-                    });
-                }
-                if (searchPatient) {
-                    // Rota para '/main/pacientes' ainda não existe.
-                    searchPatient.addEventListener('click', () => {
-                        // window.location.href = `/main/pacientes`;
-                        console.log('Navegação para Buscar Pacientes (rota não implementada)');
-                    });
-                }
-                if (searchExame) {
-                    searchExame.addEventListener('click', () => {
-                        window.location.href = `/main/usuario/search_exam`;
-                    });
-                }
-                break;
-
-            case 'outros':
-                if (mainPage) {
-                    mainPage.addEventListener('click', () => {
-                        window.location.href = '/main/ACS';
-                    });
-                }
-                if (newRecord) {
-                    newRecord.addEventListener('click', () => {
-                         window.location.href = `/main/usuario/exame`;
-                    });
-                }
-                break;
-
-            default:
-                // Nenhuma ação para perfis não mapeados
-                break;
-        }
     }
 }
+
 customElements.define('sidebar-left', Siderbar);
