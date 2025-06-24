@@ -1,12 +1,13 @@
-const fs = require('fs').promises;
-
 async function getJson() {
-  const data = await fs.readFile('/configs/roleConfig.json', 'utf-8');
-  const dados = JSON.parse(data);
-  const profissoes = dados.profissoes; // objeto string→number
+ 
+  const response = await fetch('/configs/roleConfig.json');
+  
+  const dados = await response.json(); 
+
+  const profissoes = dados.profissoes;
   const permissoes = {};
   for (const [k, v] of Object.entries(dados.permissoes)) {
-    permissoes[Number(k)] = v; // converte chave string pra number
+    permissoes[Number(k)] = v;
   }
   return { profissoes, permissoes };
 }
