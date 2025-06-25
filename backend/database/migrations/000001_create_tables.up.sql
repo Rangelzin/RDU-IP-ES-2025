@@ -43,6 +43,7 @@ CREATE TABLE "pacientes" (
   "raca_cor" varchar,
   "nacionalidade" varchar,
   "ubs_id" integer NOT NULL,
+  "status" boolean DEFAULT TRUE,
   "created_at" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 

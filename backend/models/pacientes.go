@@ -27,5 +27,6 @@ type Paciente struct {
 	Raca_cor         string    `json:"raca_cor"`
 	Nacionalidade    string    `json:"nacionalidade"`
 	Ubs_id           int       `json:"ubs_id"`
+	Status			 bool      `json:"status"`
 	Created_at       time.Time `json:"created_at"`
 }
