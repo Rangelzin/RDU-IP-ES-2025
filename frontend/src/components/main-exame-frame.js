@@ -1,7 +1,6 @@
 class ExamLayout extends HTMLElement {
   connectedCallback() {
     const shadow = this.attachShadow({ mode: 'open' });
-    fillUbsInfo(shadow)
 
     // Define o conteúdo HTML do shadow DOM
     shadow.innerHTML = `
@@ -34,6 +33,8 @@ class ExamLayout extends HTMLElement {
             </div>
         </div>
     `;
+
+    fillUbsInfo(shadow)
 
     // Adiciona o script externo ao shadow DOM
     const script = document.createElement('script');

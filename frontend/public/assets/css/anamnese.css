@@ -24,6 +24,9 @@
     padding-bottom: 2%;
     color: var(--prymari-color);
     height: 100vh; /* Para garantir que o fundo ocupe a altura total */
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 /* Estilos do cabeçalho - Replicados da primeira etapa para consistência */
@@ -142,6 +145,29 @@ label, legend {
     font-size: 0.85vw;
     font-weight: 800;
     color: var(--prymari-color);
+}
+
+input {
+    border: none;
+    border-bottom: var(--border-size) solid var(--prymari-color);
+    outline: none;
+
+    font-size: 1vw;
+    color: var(--input-font-color);
+
+    width: 100%;
+    height: 1.8vw;
+    border-top-left-radius: 0.2vw;
+    border-top-right-radius: 0.2vw;
+    box-sizing: border-box;
+
+    margin: 0;
+}
+input[disabled] {
+    background-color: rgb(124, 118, 121, 15%);
+}
+input:not([disabled]) {
+    background-color: transparent;
 }
 
 /* Estilos para o contêiner das opções de radio/checkbox dentro do fieldset */

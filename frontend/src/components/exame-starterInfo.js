@@ -1,5 +1,6 @@
 import { registraPaciente } from "/app/creatPatient.js";
 import { buscarPacientePeloCPF } from "/app/getPatientCPF.js";
+import { buscarExamePeloProtocolo } from "/app/getExamByProtoc.js"
 import { registraExame } from "/app/creatExame.js";
 import { updatePatient } from "/app/putPatient.js";
 
@@ -361,6 +362,8 @@ class ExamLayoutStarterInfo extends HTMLElement {
                 composed: true
         });
         document.dispatchEvent(storageEvent);
+
+        sessionStorage.setItem("profile-name", inputs['nome-completo'].value)
     };
 
     // Função para lidar com o evento de 'blur' no campo CPF
@@ -640,11 +643,11 @@ class ExamLayoutStarterInfo extends HTMLElement {
                     return "Erro ao registrar paciente: " + e2.message;
                 }
         }
-        
+
         try {
-            const exame = componente.getExameData();
-            console.log("Registrando exame para o CPF:", Fcpf, "Dados do exame:", exame);
-            await registraExame(exame, Fcpf);
+            const exameData = componente.getExameData();
+            console.log("Registrando exame para o CPF:", Fcpf, "Dados do exame:", exameData);
+            await registraExame(exameData, Fcpf);
             console.log("Exame registrado com sucesso.");
         } catch (e) {
             console.error("Erro ao registrar exame:", e);

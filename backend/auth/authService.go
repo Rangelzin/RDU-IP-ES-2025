@@ -38,6 +38,7 @@ func (s *AuthService) GerarToken(user any) (string, error) {
 	switch u := user.(type) {
 	case *models.Paciente:
 		claim = &Claim{
+			ID: u.Id,
 			Nome: u.Nome_completo,
 			CPF:  u.Cpf,
 			Role: "000000",
@@ -48,6 +49,7 @@ func (s *AuthService) GerarToken(user any) (string, error) {
 		}
 	case *models.Users:
 		claim = &Claim{
+			ID: u.Id,
 			Nome: u.Nome,
 			CPF:  u.CPF,
 			Role: u.Role,
