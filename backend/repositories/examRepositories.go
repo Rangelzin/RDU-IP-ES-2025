@@ -264,9 +264,9 @@ func (r *ExamRepository) FindAnamneseByExamID(ctx context.Context, examID int) (
 	err := r.db.DB.QueryRowContext(ctx, query, examID).Scan(
 		&anamnese.Id, 
 		&anamnese.Exame_id,
+		&anamnese.Responsavel_id,
 		&anamnese.NomeResponsavel,
 		&anamnese.CpfResponsavel,
-		&anamnese.Responsavel_id,
 		&anamnese.Motivo_exame,
 		&anamnese.Fez_preventivo,
 		&anamnese.Ano_ultimo_exame,
@@ -289,7 +289,7 @@ func (r *ExamRepository) FindAnamneseByExamID(ctx context.Context, examID int) (
 func (r *ExamRepository) FindClinicoByExamID(ctx context.Context, examID int) (*models.Etapa02Clinico, error) {
 	query := `
 		SELECT 
-			c.id, c.exame_id, c.responsavel_id, u.nome, u.cpf, c.inspecao_colo, 
+			c.id, c.exame_id, c.responsavel_id, u.nome, u.cpf, c.inspeção_colo, 
 			c.sinais_dst, c.data_coleta, c.created_at
 		FROM etapa2_clinico c
 		INNER JOIN users u ON c.responsavel_id = u.id
