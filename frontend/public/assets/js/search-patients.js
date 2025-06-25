@@ -1,4 +1,6 @@
 // /assets/js/search-patients-visits.js
+import { updatePatientStatus } from "/app/putStatusPatient.js"; // Importa a função de atualização de status, com o caminho ajustado.
+
 import { buscarPacientes } from "/app/getPatients.js";
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -11,7 +13,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     let currentPage = 1;
     const itemsPerPage = 6;
 
-    // Funções de formatação de CPF e Cartão SUS
     function formatarCPF(cpf) {
         if (!cpf) return 'N/A';
         cpf = String(cpf).replace(/\D/g, ''); // Remove tudo que não é dígito
@@ -43,7 +44,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                     endereco: `${patient.logradouro}, ${patient.numero} ${patient.complemento || ''}, ${patient.bairro}, ${patient.municipio} - ${patient.uf}, CEP: ${patient.cep}`, //
                     cpf: patient.cpf, //
                     cartao_sus: patient.cartao_sus, //
-                    status: displayStatus
+                    status: displayStatus,
+                    rawStatus: patient.status // Guarda o status booleano original para a lógica do botão
                 };
             });
 
@@ -152,7 +154,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     function createPatientCard(patient) {
         const card = document.createElement('div');
-        // Padronização de estilos: usando variáveis CSS e classes Tailwind
         card.className = 'bg-[var(--color-quaternary)] p-4 rounded-lg shadow-md flex flex-col items-center cursor-pointer w-75 h-75 2xl:w-90 2xl:h-90';
 
         let statusColorClass = '';
@@ -166,18 +167,47 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         card.innerHTML = `
             <img src="/assets/img/defaulPerfil_IMG/perfil_02.svg" alt="Foto do Paciente" class="w-30 h-30 rounded-full mb-2 border-2 border-[var(--color-primary)] shadow-xl">
-            <h3 class="2xl:p-2 font-bold text-center text-2xl xl:text-3xl text-[var(--color-primary)]">${patient.nome}</h3>
+            <h3 class="2xl:p-2 font-bold text-center text-xl xl:text-2xl text-[var(--color-primary)]">${patient.nome}</h3>
             <p class="2xl:p-2 text-xl xl:text-2xl text-gray-600">${formatarCPF(patient.cpf)}</p>
-            <span class="mt-2 text-xl xl:text-2xl text-white font-bold py-1 px-4 rounded-full ${statusColorClass}">${patient.status}</span>
+            <span class="mt-2 text-sm xl:text-base text-white font-bold py-0.5 px-2 rounded-full ${statusColorClass}">${patient.status}</span>
+            <div class="flex mt-4 gap-2">
+                <button class="view-patient-btn bg-[var(--color-primary)] hover:bg-[var(--color-secondary)] text-white font-bold py-2.5 px-5 rounded-md text-sm shadow-md transition-colors duration-200">
+                    Visualizar
+                </button>
+                <button onclick="handleStatusChange(${patient.id}, ${patient.rawStatus})"
+                        class="status-toggle-btn ${patient.rawStatus ? 'bg-red-500 hover:bg-red-600' : 'bg-green-500 hover:bg-green-600'} text-white font-bold py-2.5 px-5 rounded-md text-sm shadow-md transition-colors duration-200">
+                    ${patient.rawStatus ? 'Inativar' : 'Ativar'}
+                </button>
+            </div>
         `;
 
-        card.addEventListener('click', () => {
-            console.log(`Card clicado! Abrindo overlay para o paciente: ${patient.nome}`);
-            openOverlay(patient);
-        });
+        const viewButton = card.querySelector('.view-patient-btn');
+        if (viewButton) {
+            viewButton.addEventListener('click', () => {
+                console.log(`Botão Visualizar clicado para o paciente: ${patient.nome}`);
+                openOverlay(patient); // Passa o objeto paciente completo
+            });
+        }
 
         return card;
     }
+
+    window.handleStatusChange = async (patientId, currentStatus) => {
+        const newStatus = !currentStatus;
+        const action = newStatus ? 'Ativar' : 'Inativar';
+        const confirmMessage = `Tem certeza que deseja ${action} o paciente com ID ${patientId}?`;
+
+        if (confirm(confirmMessage)) {
+            try {
+                await updatePatientStatus(patientId, newStatus);
+                alert(`Paciente ${action.toLowerCase()}do com sucesso!`);
+                await fetchAndRenderPatients();
+            } catch (error) {
+                console.error(`Erro ao ${action.toLowerCase()} o paciente:`, error);
+                alert(`Erro ao ${action.toLowerCase()} o paciente: ${error.message}`);
+            }
+        }
+    };
 
     function openOverlay(patient) {
         const overlay = document.createElement('div');
@@ -211,13 +241,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     function showPatientInfoState(overlay, patient) {
-        // Padronização de estilos: usando variáveis CSS e classes Tailwind
         overlay.innerHTML = `
-            <div class="flex-col rounded-2xl border-4 border-white xl:w-[500px] w-[350px] bg-[var(--color-quaternary)] flex items-center p-4 relative">
+            <div class="flex-col rounded-2xl xl:w-[500px] w-[350px] bg-[var(--color-quaternary)] flex items-center p-4 relative">
                 <button id="closeOverlayBtn" class="absolute top-4 right-4 text-gray-600 hover:text-gray-900 text-3xl font-bold">
                     &times;
                 </button>
-                <div class="rounded-full mt-2 xl:h-[150px] h-[120px] xl:w-[150px] w-[120px] bg-white flex-shrink-0">
+                <div class="rounded-full mt-2 xl:h-[150px] h-[120px] xl:w-[150px] w-[120px] bg-white flex-shrink-0 border-2 border-[var(--color-primary)]">
                     <img class="h-full w-full object-cover" src="/assets/img/defaulPerfil_IMG/perfil_02.svg" alt="Foto">
                 </div>
                 <div class="rounded-2xl flex flex-col bg-white h-auto w-full p-4 mt-4 text-sm xl:text-base text-gray-800">
@@ -226,8 +255,14 @@ document.addEventListener('DOMContentLoaded', async () => {
                     <p class="font-bold">CPF: <span class="font-normal">${formatarCPF(patient.cpf)}</span></p>
                     <p class="font-bold">Cartão SUS: <span class="font-normal">${formatarCartaoSus(patient.cartao_sus)}</span></p>
                     <p class="font-bold">Status: <span class="font-normal ${patient.status === 'Ativo' ? 'text-green-600' : 'text-red-600'}">${patient.status}</span></p>
+                    <div class="flex mt-4 gap-2 w-full justify-center">
+                        <button onclick="handleStatusChange(${patient.id}, ${patient.rawStatus})"
+                                class="status-toggle-btn w-full ${patient.rawStatus ? 'bg-red-500 hover:bg-red-600' : 'bg-green-500 hover:bg-green-600'} text-white font-bold py-2.5 px-5 rounded-md text-sm shadow-md transition-colors duration-200">
+                            ${patient.rawStatus ? 'Inativar Paciente' : 'Ativar Paciente'}
+                        </button>
+                    </div>
                 </div>
-                </div>
+            </div>
         `;
         overlay.querySelector('#closeOverlayBtn').onclick = closeOverlay;
     }
