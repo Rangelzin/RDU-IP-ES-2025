@@ -40,6 +40,6 @@ func SetupRouter(deps *Dependencies) *gin.Engine {
 	routes.RegisterAPIUserRoutes(rg, deps.UserHandler)
 	routes.RegisterAPIExamRoutes(rg, deps.ExamHandler)
 
-	r.NoRoute(func(c *gin.Context) { c.File("../frontend/public/pages/404.html") })
+	r.NoRoute(func(c *gin.Context) { c.File("../frontend/public/pages/ERRORS/404.html") })
 	return r
 }

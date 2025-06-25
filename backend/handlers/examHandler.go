@@ -142,21 +142,25 @@ func (h *ExamHandler) CreateLaboratorioHandler(c *gin.Context) {
 	protocolo := c.Param("id")
 	if protocolo == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"erro": "Protocolo do exame não fornecido na URL."})
+		log.Println("protocolo do exame não fornecido na URL")
 		return
 	}
 
 	var lab models.Etapa03Lab
 	if err := c.ShouldBindJSON(&lab); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"erro": "Dados de laboratório inválidos", "detalhes": err.Error()})
+		log.Println("dados de laboratório invalidos: ", err.Error())
 		return
 	}
 
 	if err := h.examServ.CadastraLaboratorio(c, protocolo, &lab); err != nil {
 		if strings.Contains(err.Error(), "exame não encontrado") || strings.Contains(err.Error(), "responsável não encontrado") {
 			c.JSON(http.StatusBadRequest, gin.H{"erro": err.Error()})
+			log.Println("exame não encontrado: ", err)
 		} else {
 			log.Printf("Erro ao cadastrar informações do laboratório: %v", err)
 			c.JSON(http.StatusInternalServerError, gin.H{"erro": "Erro ao cadastrar informações do laboratório", "detalhes": err.Error()})
+			log.Println("erro ao cadastrar informações do laboratório: ", err)
 		}
 		return
 	}

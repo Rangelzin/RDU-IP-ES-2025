@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultado-Exame Citopatológico</title>
+    <script src="/src/components/main-exame-frame.js" type="module"></script>
+    <script src="/src/components/siderbar-left.js" type="module"></script>
+    <SCript src="/src/components/exame-lab.js" type="module"></SCript>
+    <link rel="stylesheet" href="/assets/css/output.css">
+</head>
+<body>
+<style>
+    html, body {
+        margin: 0;
+        padding: 0;
+        width: 100vw;
+        height: 100%;
+        display: flex;
+        font-family: Arial, sans-serif; /* Fonte padrão */
+        box-sizing: border-box;
+    }
+</style>
+    <sidebar-left></sidebar-left>
+    <exam-layout>
+        <exam-lab slot="content"></exam-lab>
+    </exam-layout>
+</body>
+</html>
