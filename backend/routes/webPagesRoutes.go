@@ -7,7 +7,6 @@ import (
 func RegisterAdminPages(rg *gin.RouterGroup) {
 	rg.GET("/", func(c *gin.Context) { c.File("../frontend/public/pages/main/main_admin.html") })
 	rg.GET("/paciente", func(c *gin.Context) { c.File("../frontend/public/pages/main/admin/admin_paciente.html") })
-	rg.GET("/dashboard", func(c *gin.Context) { c.File("../frontend/public/pages/main/admin/dashboard_admin.html") })
 	rg.GET("/usuario", func(c *gin.Context) { c.File("../frontend/public/pages/main/admin/admin_usuario.html") })
 	rg.GET("/usuario/criar", func(c *gin.Context) { c.File("../frontend/public/pages/main/admin/criar_usuario.html") })
 	rg.GET("/usuario/editar", func(c *gin.Context) { c.File("../frontend/public/pages/main/admin/editar_usuario.html") })
