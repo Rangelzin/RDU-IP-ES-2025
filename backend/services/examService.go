@@ -166,3 +166,66 @@ func (s *ExamService) CadastraResultado(c *gin.Context, protocolo string, res *m
 
 	return nil
 }
+
+func (s *ExamService) GetFichaCompletaByProtocolo(c *gin.Context, protocolo string) (*models.FichaCompleta, error) {
+	ctx := c.Request.Context()
+
+	// Busca os dados do exame pelo protocolo
+	exame, err := s.examRepo.FindExamByPROTOCOLO(ctx, protocolo)
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			log.Printf("Nenhum exame encontrado com o protocolo: %s", protocolo)
+		}
+		return nil, err
+	}
+
+	// Busca os dados do paciente usando o CPF 
+	paciente, err := s.PacienteRepo.FindPatientByCPF(c, &exame.Cpf)
+	if err != nil {
+		log.Printf("Erro ao buscar paciente com CPF %s para o exame %s: %v", exame.Cpf, protocolo, err)
+		return nil, err
+	}
+
+	ficha := &models.FichaCompleta{
+		Paciente: paciente,
+		Exame:    exame,
+	}
+
+	anamnese, err := s.examRepo.FindAnamneseByExamID(ctx, exame.Id)
+	if err != nil {
+		if err != sql.ErrNoRows {
+			log.Printf("AVISO: Erro inesperado ao buscar anamnese para o exame ID %d: %v", exame.Id, err)
+		}
+	} else {
+		ficha.Anamnese = anamnese
+	}
+
+	clinico, err := s.examRepo.FindClinicoByExamID(ctx, exame.Id)
+	if err != nil {
+		if err != sql.ErrNoRows {
+			log.Printf("AVISO: Erro inesperado ao buscar etapa clínica para o exame ID %d: %v", exame.Id, err)
+		}
+	} else {
+		ficha.Clinico = clinico
+	}
+
+	laboratorio, err := s.examRepo.FindLaboratorioByExamID(ctx, exame.Id)
+	if err != nil {
+		if err != sql.ErrNoRows {
+			log.Printf("AVISO: Erro inesperado ao buscar etapa de laboratório para o exame ID %d: %v", exame.Id, err)
+		}
+	} else {
+		ficha.Laboratorio = laboratorio
+	}
+	
+	resultado, err := s.examRepo.FindResultadoByExamID(ctx, exame.Id)
+	if err != nil {
+		if err != sql.ErrNoRows {
+			log.Printf("AVISO: Erro inesperado ao buscar resultado para o exame ID %d: %v", exame.Id, err)
+		}
+	} else {
+		ficha.Resultado = resultado
+	}
+
+	return ficha, nil
+}

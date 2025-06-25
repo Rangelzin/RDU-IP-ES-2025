@@ -112,7 +112,7 @@ func (r *ExamRepository) InsertExam(c *gin.Context, exam *models.Exames) error {
 }
 
 func (r *ExamRepository) InsertAnamnese(c *gin.Context, anamnese *models.Etapa01Anamnese) error {
-	query := `INSERT INTO etapa01_anamnese (
+	query := `INSERT INTO etapa1_anamnese (
 		exame_id, responsavel_id, motivo_exame, fez_preventivo, ano_ultimo_exame,
 		usa_diu, gravida, usa_pilula, usa_hormonio, radioterapia,
 		ultima_menstruacao, sangramento_relacao, sangramento_menopausa
@@ -247,4 +247,145 @@ func (r *ExamRepository) InsertResultado(c *gin.Context, res *models.Etapa04Resu
 	}
 
 	return nil
+}
+
+func (r *ExamRepository) FindAnamneseByExamID(ctx context.Context, examID int) (*models.Etapa01Anamnese, error) {
+	query := `
+		SELECT 
+			a.id, a.exame_id, a.responsavel_id, u.nome, u.cpf, a.motivo_exame, 
+			a.fez_preventivo, a.ano_ultimo_exame, a.usa_diu, a.gravida, a.usa_pilula, 
+			a.usa_hormonio, a.radioterapia, a.ultima_menstruacao, a.sangramento_relacao, 
+			a.sangramento_menopausa, a.created_at
+		FROM etapa1_anamnese a
+		INNER JOIN users u ON a.responsavel_id = u.id
+		WHERE a.exame_id = $1`
+
+	var anamnese models.Etapa01Anamnese
+	err := r.db.DB.QueryRowContext(ctx, query, examID).Scan(
+		&anamnese.Id, 
+		&anamnese.Exame_id,
+		&anamnese.Responsavel_id,
+		&anamnese.NomeResponsavel,
+		&anamnese.CpfResponsavel,
+		&anamnese.Motivo_exame,
+		&anamnese.Fez_preventivo,
+		&anamnese.Ano_ultimo_exame,
+		&anamnese.Usa_diu,
+		&anamnese.Gravida,
+		&anamnese.Usa_pilula,
+		&anamnese.Usa_hormonio,
+		&anamnese.Radioterapia,
+		&anamnese.Ultima_menstruacao,
+		&anamnese.Sangramento_relacao,
+		&anamnese.Sangramento_menopausa,
+		&anamnese.Created_at,
+	)
+	if err != nil {
+		return nil, err
+	}
+	return &anamnese, nil
+}
+
+func (r *ExamRepository) FindClinicoByExamID(ctx context.Context, examID int) (*models.Etapa02Clinico, error) {
+	query := `
+		SELECT 
+			c.id, c.exame_id, c.responsavel_id, u.nome, u.cpf, c.inspeção_colo, 
+			c.sinais_dst, c.data_coleta, c.created_at
+		FROM etapa2_clinico c
+		INNER JOIN users u ON c.responsavel_id = u.id
+		WHERE c.exame_id = $1`
+
+
+	var clinico models.Etapa02Clinico
+	err := r.db.DB.QueryRowContext(ctx, query, examID).Scan(
+		&clinico.Id,
+		&clinico.Exame_id,
+		&clinico.Responsavel_id,
+		&clinico.NomeResponsavel,
+		&clinico.CpfResponsavel,
+		&clinico.Inspecao_colo,
+		&clinico.Sinais_dst,
+		&clinico.Data_coleta,
+		&clinico.Created_at,
+	)
+	if err != nil {
+		return nil, err
+	}
+	return &clinico, nil
+}
+
+func (r *ExamRepository) FindLaboratorioByExamID(ctx context.Context, examID int) (*models.Etapa03Lab, error) {
+	query := `
+		SELECT 
+			l.id, l.exame_id, l.responsavel_id, 
+			u.nome AS nome_responsavel, u.cpf AS cpf_responsavel, -- Renomeado com AS
+			l.laboratorio_nome, l.laboratorio_cnes, l.numero_exame, l.recebido_em, l.created_at
+		FROM etapa3_laboratorio l
+		INNER JOIN users u ON l.responsavel_id = u.id
+		WHERE l.exame_id = $1`
+
+
+	var lab models.Etapa03Lab
+	err := r.db.DB.QueryRowContext(ctx, query, examID).Scan(
+		&lab.Id,
+		&lab.Exame_id,
+		&lab.Responsavel_id,
+		&lab.NomeResponsavel,
+		&lab.CpfResponsavel,
+		&lab.Laboratorio_nome,
+		&lab.Laboratorio_cnes,
+		&lab.Numero_exame,
+		&lab.Recebido_em,
+		&lab.Created_at,
+	)
+	if err != nil {
+		return nil, err
+	}
+	return &lab, nil
+}
+
+func (r *ExamRepository) FindResultadoByExamID(ctx context.Context, examID int) (*models.Etapa04Resultado, error) {
+	query := `
+		SELECT 
+			r.id, r.exame_id, r.responsavel_id, 
+			u.nome AS nome_responsavel, u.cpf AS cpf_responsavel, -- Renomeado com AS
+			r.amostra_rejeitada, r.epitelios_representados, r.adequabilidade_material, 
+			r.insatisfatoria_por, r.dentro_limites_normalidade, r.alteracao_celulas_benignas, 
+			r.microbiologia, r.celulas_atipicas_significado_indeterminado, r.atipias_celulas_escamosas, 
+			r.atipias_celulas_glandulares, r.outras_neoplasias_malignas,
+			r.celulas_endometriais_pos_menopausa_ou_mais40, r.observacoes_gerais, 
+			r.screening_citotecnico, r.responsavel, r.data_resultado, r.created_at
+		FROM etapa4_resultado r
+		INNER JOIN users u ON r.responsavel_id = u.id
+		WHERE r.exame_id = $1`
+
+	var res models.Etapa04Resultado
+	err := r.db.DB.QueryRowContext(ctx, query, examID).Scan(
+		&res.Id,
+		&res.Exame_id,
+		&res.Responsavel_id,
+		&res.NomeResponsavel,
+		&res.CpfResponsavel,
+		&res.Amostra_rejeitada,
+		&res.Epitelios_representados,
+		&res.Adequabilidade_material,
+		&res.Insatisfatoria_por,
+		&res.Dentro_limites_normalidade,
+		&res.Alteracao_celulas_benignas,
+		&res.Microbiologia,
+		&res.Celulas_atipicas_significado_indeterminado,
+		&res.Atipias_celulas_escamosas,
+		&res.Atipias_celulas_glandulares,
+		&res.Outras_neoplasias_malignas,
+		&res.Celulas_endometriais_pos_menopausa_ou_mais40,
+		&res.Observacoes_gerais,
+		&res.Screening_citotecnico,
+		&res.Responsavel,
+		&res.Data_resultado,
+		&res.Created_at,
+	)
+	if err != nil {
+		return nil, err
+	}
+	return &res, nil
 }
