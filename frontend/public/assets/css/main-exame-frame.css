@@ -27,7 +27,7 @@
 
 /* left side */
 .body-left {
-    width: 20%;
+    width: 20vw;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -75,7 +75,7 @@
 }
 
 .body-mid {
-    width: 72%;
+    width: 72vw;
     height: 100%;
     flex-direction: column;
     align-items: center;
@@ -90,7 +90,7 @@
 
 /* right side */
 .body-right {
-    width: 8%;
+    width: 8vw;
     height: 100%;
     display: flex;
     flex-direction: column;
