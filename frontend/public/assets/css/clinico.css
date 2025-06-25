@@ -1,0 +1,253 @@
+/* Definição de variáveis CSS - Mantendo o padrão. 
+   É essencial que estas variáveis sejam definidas globalmente (ex: em output.css ou em :root)
+   para serem acessíveis aqui, já que :host não é usado. */
+
+/* Estilos da página principal que encapsula o formulário */
+.exm-page { 
+    background-color: var(--exame-background-color);
+    min-height: auto; 
+    margin: 0 auto; /* Centraliza a div na horizontal e remove margens laterais */
+    margin-top: 2%; /* Mantém a margem superior */
+    padding-bottom: 2%;
+    color: var(--prymari-color);
+    height: auto;
+    width: 98%; /* Ocupa 98% da largura do pai (slot="content") */
+    box-sizing: border-box; /* Importante para incluir padding/border no width */
+    height: 100vh;
+}
+
+/* Estilos para a div de título de seção (EXAME CLÍNICO) */
+.box-div {
+    width: 100%; /* Ocupa 100% do .exm-page */
+    margin: 0.8% 0; /* Margem vertical, sem margem lateral já que o pai já tem */
+    padding: 0;
+    font-size: 0.6vw;
+    font-weight: 600;
+    text-align: center;
+    border: var(--border-size) solid var(--secondary-color);
+    box-sizing: border-box;
+}
+.box-div-title {
+    color: var(--prymari-color);
+}
+
+/* --- Estilos para o Fieldset e Legend PRINCIPAL do Exame Clínico --- */
+.fieldset-exame-clinico {
+    padding: 1vw; /* Espaçamento interno */
+    margin: 0.8% 0; /* Margem vertical, sem margem lateral (o .exm-page já gerencia) */
+    width: 100%; /* Ocupa 100% da largura do .exm-page */
+    box-sizing: border-box;
+}
+
+
+/* --- Layout de Duas Colunas para Exame Clínico (dentro do fieldset) --- */
+/* Esta div agora é filha do fieldset, e ocupa 100% da largura interna do fieldset */
+.two-column-layout-clinical {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%; /* Ocupa 100% da largura do fieldset pai */
+    margin: 0; /* Removendo margens extras, o gap já cuida */
+    justify-content: space-between;
+    gap: 2%; /* Espaçamento ENTRE as colunas */
+    box-sizing: border-box;
+}
+
+.column-left-clinical,
+.column-right-clinical {
+    display: flex;
+    flex-direction: column;
+    width: 49%; /* Cada coluna ocupa 49% da largura do contêiner flexível, com 2% de gap total */
+    box-sizing: border-box;
+}
+
+/* Estilos para as linhas do formulário dentro das colunas */
+.ln {
+    width: 100%; /* Ocupa a largura total da sua coluna parente */
+    margin: 0.3vw 0; /* Margem vertical, sem margens laterais */
+    display: flex;
+    align-items: top;
+    justify-content: space-between;
+    gap: 0.5vw; /* Pequeno gap para itens DENTRO de um .ln (se houver mais de um) */
+    box-sizing: border-box;
+}
+
+/* Estilos gerais para labels e legends */
+label, legend { /* O legend aqui se aplica aos legends DOS FIELDSETS INTERNOS */
+    margin: 0;
+    font-size: 0.85vw;
+    font-weight: 800;
+    color: var(--prymari-color);
+}
+
+/* --- Estilos Específicos da Seção Clínica --- */
+
+/* Fieldsets de perguntas (fieldset-inspecao-colo, fieldset-sinais-dst) */
+/* Estes devem ser apenas os estilos das 'caixas' das perguntas internas, não o fieldset principal */
+.fieldset-inspecao-colo,
+.fieldset-sinais-dst {
+    width: 100%; /* Ocupa toda a largura da div.ln */
+    border: none; /* Remove a borda padrão do fieldset para esses grupos internos */
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+/* Legendas dos fieldsets internos */
+.fieldset-inspecao-colo legend,
+.fieldset-sinais-dst legend {
+    margin-bottom: 0.5vw;
+    font-size: 0.85vw;
+    font-weight: 800;
+    color: var(--prymari-color);
+}
+
+/* Contêiner das opções de radio/checkbox */
+.input-inspecao-colo,
+.input-sinais-dst {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.5vw;
+    width: 100%;
+}
+
+/* Esconde o input de rádio nativo */
+.input-inspecao-colo > input,
+.input-sinais-dst > input {
+    display: none;
+}
+
+/* Estilo do label para customizar o radio button (quadrados) */
+.input-inspecao-colo > label,
+.input-sinais-dst > label {
+    position: relative;
+    padding-left: 2.2vw;
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    font-size: 0.8vw;
+    font-weight: 400;
+    color: var(--input-font-color);
+}
+
+/* Estilo do pseudo-elemento para o box do radio button (QUADRADO) */
+.input-inspecao-colo > label::before,
+.input-sinais-dst > label::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1.4vw;
+    aspect-ratio: 1/1;
+    border: var(--border-size) solid var(--prymari-color);
+    background-color: transparent;
+    transition: 0.3s;
+    border-radius: 0; /* Torna o pseudo-elemento QUADRADO */
+}
+
+/* Estilo quando o radio button está marcado */
+.input-inspecao-colo > input:checked + label::before,
+.input-sinais-dst > input:checked + label::before {
+    background-color: rgb(228, 133, 171);
+}
+
+/* --- Estilos para a NOTA --- */
+.note-box {
+    width: 100%; /* Ocupa a largura total da column-right-clinical */
+    margin: 0.8vw 0; /* Margem vertical, sem margem lateral dentro da coluna */
+    padding: 1vw;
+    background-color: var(--note-background-color);
+    border: var(--border-size) solid var(--secondary-color);
+    border-radius: 0.3vw;
+    box-sizing: border-box;
+}
+
+.note-text {
+    margin: 0;
+    font-size: 0.75vw;
+    color: var(--input-font-color);
+    line-height: 1.4;
+}
+
+/* --- Estilos para Data da Coleta e Responsável --- */
+.input-data-coleta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%; /* Ocupa a largura total da column-left-clinical */
+    margin: 0; /* A .ln já gerencia a margem */
+}
+
+.input-data-coleta label {
+    margin-bottom: 0.3vw;
+    color: var(--prymari-color);
+}
+
+.input-data-coleta .date-inputs {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: 0.2vw; /* Pequeno gap entre os inputs de data */
+}
+
+.input-data-coleta .date-inputs input {
+    border: none;
+    border-bottom: var(--border-size) solid var(--prymari-color);
+    outline: none;
+    font-size: 0.8vw; /* Fonte ajustada para ser menor */
+    color: var(--input-font-color);
+    height: 1.5vw; /* Altura ajustada para ser menor */
+    border-top-left-radius: 0.2vw;
+    border-top-right-radius: 0.2vw;
+    box-sizing: border-box;
+    background-color: transparent;
+    text-align: center;
+    flex-grow: 0; /* Não permite que cresçam indefinidamente */
+    flex-shrink: 0; /* Não permite que encolham */
+    padding: 0; /* Remove padding extra para data inputs */
+}
+/* Estilos específicos para o input do dia e mês */
+.input-data-coleta .date-inputs input[name="data_coleta_dia"],
+.input-data-coleta .date-inputs input[name="data_coleta_mes"] {
+    width: 3vw;
+}
+/* Estilos específicos para o input do ano */
+.input-data-coleta .date-inputs input[name="data_coleta_ano"] {
+    width: 4.5vw;
+}
+
+.input-data-coleta .date-separator {
+    font-size: 1.2vw;
+    color: var(--prymari-color);
+    margin: 0 0.2vw;
+    font-weight: bold;
+}
+
+.input-responsavel {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%; /* Ocupa a largura total da column-right-clinical */
+    margin: 0; /* A .ln já gerencia a margem */
+}
+
+.input-responsavel label {
+    margin-bottom: 0.3vw;
+    color: var(--prymari-color);
+}
+
+.input-responsavel input {
+    border: none;
+    border-bottom: var(--border-size) solid var(--prymari-color);
+    outline: none;
+    font-size: 1vw;
+    color: var(--input-font-color);
+    width: 100%;
+    height: 1.8vw;
+    box-sizing: border-box;
+    background-color: transparent;
+}

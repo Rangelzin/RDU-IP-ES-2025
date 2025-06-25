@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clinico-Exame Citopatológico</title>
+    <link rel="stylesheet" href="/assets/css/clinico.css">
+    <script src="/src/components/main-exame-frame.js" type="module"></script>
+    <script src="/src/components/siderbar-left.js" type="module"></script>
+    <link rel="stylesheet" href="/assets/css/output.css">
+</head>
+<body>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            height: 100%;
+            /* overflow: hidden; */
+            display: flex;
+        }
+    </style>
+<sidebar-left></sidebar-left>
+<exam-layout>
+    <div slot="content" class="exm-page">
+        <form action="" method="post">
+            <div class="box-div">
+                <h2 class="box-div-title">EXAME CLÍNICO</h2>
+            </div>
+
+            <fieldset class="fieldset-exame-clinico">
+                 <div class="two-column-layout-clinical">
+                    <div class="column-left-clinical">
+                        <div class="ln">
+                            <div class="fieldset-inspecao-colo">
+                                <legend>11. Inspeção do colo</legend>
+                                <div class="input-inspecao-colo">
+                                    <input autocomplete="off" id="inspecao-colo-normal" name="inspecao_colo" type="radio" value="normal">
+                                    <label for="inspecao-colo-normal">Normal</label>
+
+                                    <input autocomplete="off" id="inspecao-colo-ausente" name="inspecao_colo" type="radio" value="ausente">
+                                    <label for="inspecao-colo-ausente">Ausente (anomalias congênitas ou retirado cirurgicamente)</label>
+
+                                    <input autocomplete="off" id="inspecao-colo-alterado" name="inspecao_colo" type="radio" value="alterado">
+                                    <label for="inspecao-colo-alterado">Alterado</label>
+
+                                    <input autocomplete="off" id="inspecao-colo-nao-visualizado" name="inspecao_colo" type="radio" value="nao_visualizado">
+                                    <label for="inspecao-colo-nao-visualizado">Colo não visualizado</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="ln">
+                            <div class="input-data-coleta">
+                                <label for="data-coleta-dia">Data da coleta</label>
+                                <div class="date-inputs">
+                                    <input autocomplete="off" name="data_coleta_dia" id="data-coleta-dia" type="text" maxlength="2" placeholder="DD">
+                                    <span class="date-separator">/</span>
+                                    <input autocomplete="off" name="data_coleta_mes" id="data-coleta-mes" type="text" maxlength="2" placeholder="MM">
+                                    <span class="date-separator">/</span>
+                                    <input autocomplete="off" name="data_coleta_ano" id="data-coleta-ano" type="text" maxlength="4" placeholder="AAAA">
+                                </div>
+                            </div>
+                        </div>
+                    </div><div class="column-right-clinical">
+                        <div class="ln">
+                            <div class="fieldset-sinais-dst">
+                                <legend>12. Sinais sugestivos de doenças sexualmente transmissíveis?</legend>
+                                <div class="input-sinais-dst">
+                                    <input autocomplete="off" id="sinais-dst-sim" name="sinais_dst" type="radio" value="true">
+                                    <label for="sinais-dst-sim">Sim</label>
+
+                                    <input autocomplete="off" id="sinais-dst-nao" name="sinais_dst" type="radio" value="false">
+                                    <label for="sinais-dst-nao">Não</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="note-box">
+                            <p class="note-text">
+                                **NOTA:** Na presença de colo alterado, com lesão sugestiva de câncer, não aguardar o resultado do exame citopatológico para encaminhar a mulher para colposcopia.
+                            </p>
+                        </div>
+
+                        <div class="ln">
+                            <div class="input-responsavel">
+                                <label for="responsavel">Responsável</label>
+                                <input autocomplete="off" name="responsavel" id="responsavel" type="text" maxlength="20">
+                            </div>
+                        </div>
+                    </div></div></fieldset> </form>
+    </div>
+</exam-layout>
+</body>
+</html>
