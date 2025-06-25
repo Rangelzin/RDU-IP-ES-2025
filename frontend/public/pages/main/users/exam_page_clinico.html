@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clinico-Exame Citopatológico</title>
+    <script src="/src/components/main-exame-frame.js" type="module"></script>
+    <script src="/src/components/siderbar-left.js" type="module"></script>
+    <script src="/src/components/exame-clinico.js" type="module"></script>
+    <link rel="stylesheet" href="/assets/css/output.css">
+</head>
+<body>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            height: 100vh;
+            /* overflow: hidden; */
+            display: flex;
+        }
+    </style>
+    <sidebar-left></sidebar-left>
+    <exam-layout>
+        <exam-clinico slot="content"></exam-clinico>
+    </exam-layout>
+</body>
+</html>

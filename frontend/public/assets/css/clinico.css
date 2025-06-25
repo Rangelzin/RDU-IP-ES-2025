@@ -5,22 +5,21 @@
 /* Estilos da página principal que encapsula o formulário */
 .exm-page { 
     background-color: var(--exame-background-color);
-    min-height: auto; 
     margin: 0 auto; /* Centraliza a div na horizontal e remove margens laterais */
-    margin-top: 2%; /* Mantém a margem superior */
-    padding-bottom: 2%;
     color: var(--prymari-color);
-    height: auto;
-    width: 98%; /* Ocupa 98% da largura do pai (slot="content") */
+    width: 97%; /* Ocupa 98% da largura do pai (slot="content") */
     box-sizing: border-box; /* Importante para incluir padding/border no width */
+    height: auto;
     height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 /* Estilos para a div de título de seção (EXAME CLÍNICO) */
 .box-div {
-    width: 100%; /* Ocupa 100% do .exm-page */
-    margin: 0.8% 0; /* Margem vertical, sem margem lateral já que o pai já tem */
-    padding: 0;
+    width: 98%; /* Ocupa 100% do .exm-page */
+    margin: 1%; /* Margem vertical, sem margem lateral já que o pai já tem */
     font-size: 0.6vw;
     font-weight: 600;
     text-align: center;
@@ -33,9 +32,8 @@
 
 /* --- Estilos para o Fieldset e Legend PRINCIPAL do Exame Clínico --- */
 .fieldset-exame-clinico {
-    padding: 1vw; /* Espaçamento interno */
-    margin: 0.8% 0; /* Margem vertical, sem margem lateral (o .exm-page já gerencia) */
-    width: 100%; /* Ocupa 100% da largura do .exm-page */
+    margin: 1%; /* Margem vertical, sem margem lateral (o .exm-page já gerencia) */
+    width: 98%; /* Ocupa 100% da largura do .exm-page */
     box-sizing: border-box;
 }
 
@@ -107,8 +105,8 @@ label, legend { /* O legend aqui se aplica aos legends DOS FIELDSETS INTERNOS */
 .input-inspecao-colo,
 .input-sinais-dst {
     display: flex;
-    flex-wrap: wrap;
-    align-items: center;
+    flex-direction: column;
+    align-items: start;
     gap: 1.5vw;
     width: 100%;
 }
