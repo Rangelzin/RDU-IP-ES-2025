@@ -6,81 +6,46 @@
   <title>Central Administrativa - Sistema de Rastreamento</title>
   <link href="/assets/css/output.css" rel="stylesheet" />
   <script src="/src/components/main-frame.js" type="module"></script>
-  <script src="/src/components/siderbar-left.js" type="module"></script> 
+  <script src="/src/components/siderbar-left.js" type="module"></script>
   <script src="/src/utils/auth.js"></script>
 </head>
 <body class="w-screen h-screen flex flex-row">
-   <sidebar-left></sidebar-left>
-   <main-frame id="Central Administrativa" class="with-aside">
-      <div class="flex flex-col items-center justify-between p-6 h-full w-full box-border">
-        <h2 class="text-2xl font-bold text-[var(--color-tertiary)] mb-6">Funções Administrativas</h2>
-
-        <div class="flex-1 flex flex-col justify-center w-full">
-          <!-- Linha 1 -->
-          <div class="flex flex-row flex-wrap gap-6 justify-center w-full mb-20 lg:gap-32 lg:flex-nowrap">
-            <!-- Card 1 - Paciente -->
-            <div id="paciente" class="w-60 h-35 lg:w-75 lg:h-50 bg-[var(--color-quaternary)] rounded-xl hover:bg-[#bfb0d1] cursor-pointer">
-              <div class="h-10 lg:h-12 bg-[var(--color-tertiary)] rounded-t-xl">
-                <h3 class="text-xl pt-3 pl-5 font-semibold text-[var(--color-fifth)]">Paciente</h3>
-              </div>
-              <img class="h-15 w-15 lg:h-25 lg:w-25 mt-4 mx-auto" src="/assets/img/woman2.svg" alt="Paciente">
-              <p class="text-center text-sm mt-2 font-semibold text-[var(--color-primary)]">Visualizar, adicionar e excluir pacientes</p>
+  <sidebar-left></sidebar-left>
+  <main-frame id="Central Administrativa" class="with-aside">
+    <div class="flex flex-col items-center justify-between p-6 h-full w-full box-border">
+      <h2 class="text-2xl font-bold text-[var(--color-tertiary)] mb-6">Funções Administrativas</h2>
+      <div class="flex-1 flex flex-row items-center justify-center w-full">
+        <div class="flex flex-row flex-wrap justify-center w-full gap-10 lg:gap-32 lg:flex-nowrap">
+          <!-- Card 1 - Paciente -->
+          <div id="paciente" class="w-60 h-60 lg:w-75 lg:h-50 bg-[var(--color-quaternary)] rounded-xl hover:bg-[#bfb0d1] cursor-pointer">
+            <div class="h-10 lg:h-12 bg-[var(--color-tertiary)] rounded-t-xl">
+              <h3 class="text-xl pt-3 pl-5 font-semibold text-[var(--color-fifth)]">Paciente</h3>
             </div>
-
-            <!-- Card 2 - Dashboard -->
-            <div id="dashboard" class="w-60 h-35 lg:w-75 lg:h-50 bg-[var(--color-quaternary)] rounded-xl hover:bg-[#bfb0d1] cursor-pointer">
-              <div class="h-10 lg:h-12 bg-[var(--color-tertiary)] rounded-t-xl">
-                <h3 class="text-xl pt-3 pl-5 font-semibold text-[var(--color-fifth)]">Dashboard Admin</h3>
-              </div>
-              <img class="h-15 w-15 lg:h-25 lg:w-25 mt-4 mx-auto" src="/assets/img/tabela.svg" alt="Dashboard">
-              <p class="text-center text-sm mt-2 font-semibold text-[var(--color-primary)]">Visualizar estatísticas e relatórios</p>
-            </div>
+            <img class="h-15 w-15 lg:h-25 lg:w-25 mt-4 mx-auto" src="/assets/img/woman2.svg" alt="Paciente">
+            <p class="text-center text-sm mt-2 font-semibold text-[var(--color-primary)]">Visualizar, adicionar e excluir pacientes</p>
           </div>
-
-          <!-- Linha 2 -->
-          <div class="flex flex-row flex-wrap gap-6 justify-center w-full mb-20 lg:gap-32 lg:flex-nowrap">
-            <!-- Card 3 - Usuário -->
-            <div id="usuario" class="w-60 h-35 lg:w-75 lg:h-50 bg-[var(--color-quaternary)] rounded-xl hover:bg-[#bfb0d1] cursor-pointer">
-              <div class="h-10 lg:h-12 bg-[var(--color-tertiary)] rounded-t-xl">
-                <h3 class="text-xl pt-3 pl-5 font-semibold text-[var(--color-fifth)]">Usuário</h3>
-              </div>
-              <img class="h-15 w-15 lg:h-25 lg:w-20 mt-4 mx-auto" src="/assets/img/Magnifyingglass.svg" alt="Usuário">
-              <p class="text-center text-sm mt-2 font-semibold text-[var(--color-primary)]">Visualizar, adicionar e excluir usuários</p>
+          <!-- Card 2 - Usuário -->
+          <div id="usuario" class="w-60 h-60 lg:w-75 lg:h-50 bg-[var(--color-quaternary)] rounded-xl hover:bg-[#bfb0d1] cursor-pointer">
+            <div class="h-10 lg:h-12 bg-[var(--color-tertiary)] rounded-t-xl">
+              <h3 class="text-xl pt-3 pl-5 font-semibold text-[var(--color-fifth)]">Usuário</h3>
             </div>
-
-            <!-- Card 4 - Cadastrar Usuário -->
-            <div id="usuario-criar" class="w-60 h-35 lg:w-75 lg:h-50 bg-[var(--color-quaternary)] rounded-xl hover:bg-[#bfb0d1] cursor-pointer">
-              <div class="h-10 lg:h-12 bg-[var(--color-tertiary)] rounded-t-xl">
-                <h3 class="text-xl pt-3 pl-5 font-semibold text-[var(--color-fifth)]">Cadastrar</h3>
-              </div>
-              <img class="h-15 w-15 lg:h-25 lg:w-20 mt-4 mx-auto" src="/assets/img/adição.svg" alt="Cadastrar">
-              <p class="text-center text-sm mt-2 font-semibold text-[var(--color-primary)]">Criar Novo Usuário</p>
-            </div>
+            <img class="h-15 w-15 lg:h-25 lg:w-20 mt-4 mx-auto" src="/assets/img/Magnifyingglass.svg" alt="Usuário">
+            <p class="text-center text-sm mt-2 font-semibold text-[var(--color-primary)]">Visualizar, adicionar e excluir usuários</p>
           </div>
         </div>
-
-        <div class="mt-10 text-center text-sm text-gray-500 w-full">© 2025 Aplicativo de Saúde. Todos os direitos reservados.</div>
       </div>
-   </main-frame>
-    
+      <div class="mt-10 text-center text-sm text-gray-500 w-full">© 2025 Aplicativo de Saúde. Todos os direitos reservados.</div>
+    </div>
+  </main-frame>
   <script>
     document.getElementById("paciente").addEventListener("click", () => {
       window.location.href = "/admin/paciente";
-    });
-
-    document.getElementById("dashboard").addEventListener("click", () => {
-      window.location.href = "/admin/dashboard";
     });
 
     document.getElementById("usuario").addEventListener("click", () => {
       window.location.href = "/admin/usuario";
     });
 
-    document.getElementById("usuario-criar").addEventListener("click", () => {
-      window.location.href = "/admin/usuario/criar";
-    });
   </script>
 </body>
 </html>
-
-
