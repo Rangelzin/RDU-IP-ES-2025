@@ -8,6 +8,8 @@ type Etapa04Resultado struct {
 	Id                                           int       `json:"id"`
 	Exame_id                                     int       `json:"exame_id"`
 	Responsavel_id                               int       `json:"responsavel_id"`
+	NomeResponsavel 							 string    `json:"nome_responsavel"`
+	CpfResponsavel								 string    `json:"cpf_responsavel"`
 	Amostra_rejeitada                            string    `json:"amostra_rejeitada"`
 	Epitelios_representados                      string    `json:"epitelios_representados"`
 	Adequabilidade_material                      bool      `json:"adequabilidade_material"`

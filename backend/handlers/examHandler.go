@@ -194,3 +194,24 @@ func (h *ExamHandler) CreateResultadoHandler(c *gin.Context) {
 	})
 }
 
+func (h *ExamHandler) GetFichaCompletaHandler(c *gin.Context) {
+	protocolo := c.Param("protocolo")
+	if protocolo == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"erro": "O protocolo do exame é obrigatório"})
+		return
+	}
+
+	ficha, err := h.examServ.GetFichaCompletaByProtocolo(c, protocolo)
+	if err != nil {
+		
+		if err == sql.ErrNoRows {
+			c.JSON(http.StatusNotFound, gin.H{"erro": "Exame não encontrado"})
+			return
+		}
+		log.Printf("Erro ao processar a requisição da ficha completa para o protocolo %s: %v", protocolo, err)
+		c.JSON(http.StatusInternalServerError, gin.H{"erro": "Erro ao buscar a ficha completa do exame"})
+		return
+	}
+
+	c.JSON(http.StatusOK, ficha)
+}
