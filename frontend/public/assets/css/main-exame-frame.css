@@ -27,8 +27,8 @@
 
 /* left side */
 .body-left {
-    width: 20vw;
-    height: 100%;
+    width: 20%;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -75,8 +75,8 @@
 }
 
 .body-mid {
-    width: 72vw;
-    height: 100%;
+    width: 72%;
+    height: 100vh;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
@@ -90,8 +90,8 @@
 
 /* right side */
 .body-right {
-    width: 8vw;
-    height: 100%;
+    width: 8%;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
