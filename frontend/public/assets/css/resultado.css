@@ -1,0 +1,324 @@
+/* Definição de variáveis CSS - Mantendo o padrão.
+   É essencial que estas variáveis sejam definidas globalmente (ex: em output.css ou em :root)
+   para serem acessíveis aqui, já que este CSS será usado no Light DOM. */
+
+/* Estilos da página principal que encapsula o formulário */
+.exm-page {
+    background-color: var(--exame-background-color);
+    min-height: auto;
+    margin: 0 auto; /* Centraliza a div na horizontal e remove margens laterais */
+    margin-top: 2%; /* Mantém a margem superior */
+    padding-bottom: 2%;
+    color: var(--prymari-color);
+    height: auto;
+    width: 98%; /* Ocupa 98% da largura do pai (div slot="content") */
+    box-sizing: border-box; /* Importante para incluir padding/border no width */
+}
+
+/* Estilos para a div de título de seção */
+.box-div {
+    width: 100%; /* Ocupa 100% do .exm-page */
+    margin: 0.8% 0; /* Margem vertical, sem margem lateral já que o pai já tem */
+    padding: 0;
+    font-size: 0.6vw;
+    font-weight: 600;
+    text-align: center;
+    border: var(--border-size) solid var(--secondary-color);
+    box-sizing: border-box;
+}
+.box-div-title {
+    color: var(--prymari-color);
+}
+
+/* Estilos gerais para labels, legends e h4 */
+label, legend, h4 {
+    margin: 0;
+    font-size: 0.85vw;
+    font-weight: 800;
+    color: var(--prymari-color);
+}
+h4 { /* Subtítulos internos como "Escamosas:", "Glandulares:" */
+    font-size: 0.8vw;
+    font-weight: 700;
+    margin-top: 0.8vw;
+    margin-bottom: 0.4vw;
+    color: var(--input-font-color);
+}
+
+/* Estilo genérico para inputs de texto (aplicável a todos, a menos que sobrescrito) */
+input[type="text"] {
+    border: none;
+    border-bottom: var(--border-size) solid var(--prymari-color);
+    outline: none;
+    font-size: 1vw;
+    color: var(--input-font-color);
+    width: 100%;
+    height: 1.8vw;
+    border-top-left-radius: 0.2vw;
+    border-top-right-radius: 0.2vw;
+    box-sizing: border-box;
+    background-color: transparent;
+    padding: 0 0.2vw;
+}
+
+/* --- ESTILOS DOS FIELDSETS E LAYOUT GERAL --- */
+
+/* Fieldset principal da seção Resultado do Exame */
+.fieldset-resultado-exame {
+    border: var(--border-size) solid var(--secondary-color);
+    padding: 1vw;
+    margin: 0.8% auto;
+    width: 98%; /* Ocupa 98% da largura do .exm-page */
+    box-sizing: border-box;
+}
+
+.fieldset-resultado-exame legend {
+    font-size: 0.95vw;
+    font-weight: 900;
+    color: var(--prymari-color);
+    padding: 0 0.5vw;
+    margin-left: -0.5vw;
+}
+
+/* Estilo para fieldsets que representam grandes grupos/seções (ex: Avaliação Pré-analítica, Diagnóstico Descritivo) */
+.fieldset-group-section {
+    border: none; /* Não tem borda padrão de fieldset */
+    padding: 0;
+    margin: 0;
+    width: 100%; /* Ocupa a largura total da sua coluna */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 1.5vw; /* Espaçamento entre os grupos principais */
+}
+/* A última seção (OUTRAS INFORMAÇÕES) pode precisar de margem superior se não for a primeira */
+.fieldset-group-section.fieldset-final-section {
+    margin-top: 1.5vw; /* Garante espaçamento se for um grupo 'final' em uma coluna abaixo */
+}
+.fieldset-group-section legend {
+    font-size: 0.9vw;
+    font-weight: 800;
+    color: var(--prymari-color);
+    margin-bottom: 1vw; /* Espaçamento entre a legenda do grupo e o conteúdo */
+    padding: 0;
+    margin-left: 0;
+}
+
+/* NOVO: Container principal de colunas para os GRANDES GRUPOS (AVALIAÇÃO, DIAGNÓSTICO) */
+.main-two-column-layout {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%; /* Ocupa 100% do fieldset-resultado-exame pai */
+    justify-content: space-between;
+    gap: 2%; /* Espaçamento ENTRE as duas grandes colunas */
+    box-sizing: border-box;
+}
+
+.main-column-left,
+.main-column-right {
+    display: flex;
+    flex-direction: column;
+    width: 49%; /* Cada coluna principal ocupa 49% da largura do contêiner flex, com 2% de gap */
+    box-sizing: border-box;
+}
+
+/* Container para colunas INTERNAS de cada subgrupo (ex: dentro de Avaliação Pré-analítica) */
+/* Este é o .group-content-two-columns que já tínhamos para colunas internas */
+.group-content-two-columns {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%; /* Ocupa 100% do fieldset-group-section pai */
+    justify-content: space-between;
+    gap: 2%; /* Espaçamento entre as colunas INTERNAS */
+    box-sizing: border-box;
+}
+
+.group-column-left,
+.group-column-right {
+    display: flex;
+    flex-direction: column;
+    width: 49%; /* Cada coluna interna ocupa 49% da largura do contêiner flex, com 2% de gap */
+    box-sizing: border-box;
+}
+
+
+/* Estilos para as "linhas" do formulário */
+.ln {
+    width: 100%; /* Ocupa a largura total da sua coluna parente */
+    margin: 0.3vw 0; /* Margem vertical, sem margens laterais */
+    display: flex;
+    flex-direction: column; /* Força os itens dentro de um .ln a ficarem em coluna */
+    align-items: flex-start; /* Alinha o conteúdo à esquerda */
+    gap: 0.5vw; /* Espaçamento vertical entre os itens dentro de um .ln */
+    box-sizing: border-box;
+}
+
+/* Estilos dos fieldsets internos (para subgrupos como AMOSTRA REJEITADA, EPITÉLIOS, etc.) */
+.fieldset-subgroup { /* Nova classe genérica para fieldsets internos */
+    width: 100%;
+    border: none; /* Remove a borda padrão do fieldset para esses grupos internos */
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+/* Legendas dos fieldsets internos */
+.fieldset-subgroup legend {
+    font-size: 0.85vw;
+    font-weight: 800;
+    color: var(--prymari-color);
+    margin-bottom: 0.5vw;
+}
+
+/* Estilo para inputs de especificar (campos de texto) */
+.input-especificar {
+    margin-top: 0.5vw;
+    margin-left: 1.5vw;
+    width: calc(100% - 1.5vw);
+}
+
+/* --- ESTILOS DE CHECKBOXES E RADIO BUTTONS (QUADRADOS E ALINHADOS) --- */
+
+/* Estilo base para cada grupo de opções (input-amostra-rejeitada, input-epitelios-representados, etc.) */
+.input-option-group { /* Nova classe genérica para divs que contêm input+label agrupados */
+    display: flex;
+    flex-direction: column; /* Organiza os pares input+label em coluna */
+    align-items: flex-start;
+    gap: 0.5vw; /* Espaçamento vertical entre os pares input+label */
+    width: 100%;
+}
+
+/* Estilo para subgrupos de Escamosas, Glandulares, Indefinidas, e Adenocarcinoma invasor */
+.sub-group-field, .sub-sub-group-field {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 0.5vw; /* Espaço entre subgrupos */
+}
+.sub-sub-group-field {
+    margin-left: 1vw; /* Recuo adicional para sub-sub-grupo */
+}
+
+
+/* Estilo para cada PAR input+label dentro de um .input-option-group ou sub-group-field */
+/* Garante que o input e seu label fiquem lado a lado */
+.input-option-group > div {
+    display: flex;
+    align-items: center; /* Alinha verticalmente o checkbox/radio e o texto */
+    gap: 0.5vw; /* Espaçamento entre o checkbox/radio e o texto */
+    width: 100%; /* Garante que cada par ocupe a largura completa da sua linha */
+}
+
+
+/* Esconde o input de rádio/checkbox nativo */
+/* Seletores mais específicos para evitar conflitos e garantir que apenas o input seja escondido */
+.input-option-group input[type="radio"],
+.input-option-group input[type="checkbox"] {
+    display: none;
+}
+
+/* Estilo do pseudo-elemento para o box do radio/checkbox (QUADRADO) */
+/* Seletores mais específicos para o LABEL dentro da div do grupo de opções */
+.input-option-group > div > label::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1.4vw;
+    aspect-ratio: 1/1;
+    border: var(--border-size) solid var(--prymari-color);
+    background-color: transparent;
+    transition: 0.3s;
+    border-radius: 0; /* QUADRADO para todos */
+}
+
+/* Estilo quando o radio/checkbox está marcado */
+/* Seletores mais específicos para o LABEL do input marcado dentro da div do grupo de opções */
+.input-option-group > div > input:checked + label::before {
+    background-color: rgb(228, 133, 171);
+}
+
+/* Estilo do label para customizar o radio/checkbox (texto e padding) */
+/* Seletores mais específicos */
+.input-option-group > div > label {
+    position: relative; /* Para posicionar o ::before */
+    padding-left: 2.2vw; /* Espaço para o pseudo-elemento */
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    font-size: 0.8vw;
+    font-weight: 400;
+    color: var(--input-font-color);
+    flex-grow: 1; /* Permite que o label se estenda e o texto não quebre */
+}
+
+/* --- Removidas todas as regras para .horizontal-separator e .major-horizontal-separator --- */
+/* O espaçamento agora é controlado por margin-bottom em .fieldset-group-section e outros elementos */
+
+/* Estilos para os campos de observação/escrita final */
+.input-outras-neoplasias-malignas,
+.input-observacoes-gerais,
+.input-screening-citotecnico,
+.input-responsavel-resultado {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    margin: 0;
+}
+
+/* Estilos para Data do Resultado */
+.input-data-resultado {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: auto;
+}
+
+.input-data-resultado label {
+    margin-bottom: 0.3vw;
+    color: var(--prymari-color);
+}
+
+.input-data-resultado .date-inputs {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: 0.2vw;
+}
+
+.input-data-resultado .date-inputs input {
+    border: none;
+    border-bottom: var(--border-size) solid var(--prymari-color);
+    outline: none;
+    font-size: 0.8vw;
+    color: var(--input-font-color);
+    height: 1.5vw;
+    border-top-left-radius: 0.2vw;
+    border-top-right-radius: 0.2vw;
+    box-sizing: border-box;
+    background-color: transparent;
+    text-align: center;
+    flex-grow: 0;
+    flex-shrink: 0;
+    padding: 0;
+}
+/* Estilos específicos para o input do dia e mês */
+.input-data-resultado .date-inputs input[name="data_resultado_dia"],
+.input-data-resultado .date-inputs input[name="data_resultado_mes"] {
+    width: 3vw;
+}
+/* Estilos específicos para o input do ano */
+.input-data-resultado .date-inputs input[name="data_resultado_ano"] {
+    width: 4.5vw;
+}
+
+.input-data-resultado .date-separator {
+    font-size: 1.2vw;
+    color: var(--prymari-color);
+    margin: 0 0.2vw;
+    font-weight: bold;
+}
