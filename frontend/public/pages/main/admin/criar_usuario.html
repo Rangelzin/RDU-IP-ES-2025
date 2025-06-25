@@ -80,10 +80,10 @@
                 <select id="role" name="role"
                   class="w-full text-lg py-3 bg-transparent placeholder:text-base outline-none focus:ring-0" required>
                   <option value="">Selecione a profissão</option>
-                  <option value="Admin">Admin</option>
-                  <option value="Enfermeiro(a)">Enfermeiro(a)</option>
-                  <option value="agente">Agente Comunitário</option>
-                  <option value="medico_ginecologista">Médico(a) Ginecologista</option>
+                  <option value="paciente">Paciente</option>
+                  <option value="admin">Administrador</option>
+                  <option value="medico">Médico(a)</option>
+                  <option value="enfermeiro">Enfermeiro(a)</option>
                   <option value="outros">Outros</option>
                 </select>
               </div>
@@ -120,24 +120,24 @@
             <h2 class="text-lg font-extrabold text-[var(--color-primary)] mb-2">Permissões de Acesso</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               <label class="flex items-center gap-4 p-2 rounded-lg hover:bg-gray-100">
-                <input type="checkbox" name="permissoes" value="gerar_relatorios" class="accent-[var(--color-primary)] w-5 h-5" />
-                <span class="font-semibold text-[var(--color-tertiary)]">Gerar Relatórios</span>
+                <input type="checkbox" name="permissoes" value="consultar_exames" class="accent-[var(--color-primary)] w-5 h-5" />
+                <span class="font-semibold text-[var(--color-tertiary)]">Consultar Exames</span>
               </label>
               <label class="flex items-center gap-4 p-2 rounded-lg hover:bg-gray-100">
                 <input type="checkbox" name="permissoes" value="gerenciar_pacientes" class="accent-[var(--color-primary)] w-5 h-5" />
-                <span class="font-semibold text-[var(--color-tertiary)]">Editar Pacientes</span>
+                <span class="font-semibold text-[var(--color-tertiary)]">Gerenciar Pacientes</span>
               </label>
               <label class="flex items-center gap-4 p-2 rounded-lg hover:bg-gray-100">
-                <input type="checkbox" name="permissoes" value="gerenciar_agendamentos" class="accent-[var(--color-primary)] w-5 h-5" />
-                <span class="font-semibold text-[var(--color-tertiary)]">Gerenciar Agendamentos</span>
+                <input type="checkbox" name="permissoes" value="realizar_coleta_exame" class="accent-[var(--color-primary)] w-5 h-5" />
+                <span class="font-semibold text-[var(--color-tertiary)]">Realizar Coleta de Exame</span>
               </label>
               <label class="flex items-center gap-4 p-2 rounded-lg hover:bg-gray-100">
-                <input type="checkbox" name="permissoes" value="acessar_prontuarios" class="accent-[var(--color-primary)] w-5 h-5" />
-                <span class="font-semibold text-[var(--color-tertiary)]">Acessar Prontuários</span>
+                <input type="checkbox" name="permissoes" value="realizar_analise_clinica" class="accent-[var(--color-primary)] w-5 h-5" />
+                <span class="font-semibold text-[var(--color-tertiary)]">Realizar Análise Clínica</span>
               </label>
               <label class="flex items-center gap-4 p-2 rounded-lg hover:bg-gray-100">
-                <input type="checkbox" name="permissoes" value="configuracoes_sistema" class="accent-[var(--color-primary)] w-5 h-5" />
-                <span class="font-semibold text-[var(--color-tertiary)]">Configurações do Sistema</span>
+                <input type="checkbox" name="permissoes" value="laudar_resultados" class="accent-[var(--color-primary)] w-5 h-5" />
+                <span class="font-semibold text-[var(--color-tertiary)]">Laudar Resultados</span>
               </label>
             </div>
           </div>

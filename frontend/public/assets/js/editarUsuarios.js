@@ -22,7 +22,6 @@ function desformatarCPF(cpfFormatado) {
     return String(cpfFormatado).replace(/\D/g, ''); 
 }
 
-
 document.addEventListener("DOMContentLoaded", async () => {
     const form = document.getElementById("formEditarUsuario");
     const nomeInput = document.getElementById("nome");
@@ -33,17 +32,46 @@ document.addEventListener("DOMContentLoaded", async () => {
     const novaSenhaInput = document.getElementById("novaSenha");
     const confirmarSenhaInput = document.getElementById("confirmarSenha");
 
-    const crmGroup = crmInput.closest('.input-group') || crmInput.closest('div'); 
+    // Mapeamento de profissão para o dígito (para enviar no payload)
+    const professionToDigit = {
+      "paciente": "0",
+      "admin": "1",
+      "medico": "2",
+      "enfermeiro": "3",
+      "outros": "4"
+    };
+
+    // Mapeamento de dígito para profissão (para preencher o select ao carregar)
+    const digitToProfession = {
+      "0": "paciente",
+      "1": "admin",
+      "2": "medico",
+      "3": "enfermeiro",
+      "4": "outros"
+    };
+
+    // Define a ordem das permissões (para construir/desconstruir a string binária)
+    const permissionOrder = [
+        "consultar_exames",
+        "gerenciar_pacientes",
+        "realizar_coleta_exame",
+        "realizar_analise_clinica",
+        "laudar_resultados"
+    ];
+
+    // Campo CRM precisa ser ajustado com base na sua nova estrutura (não tem mais um 'crmGroup' específico)
+    // O CRM está dentro de uma div padrão, então podemos manipular diretamente o input e seu pai para esconder/mostrar
+    const crmInputParent = crmInput.parentElement;
     
     const toggleCrmField = (roleValue) => {
-        if (roleValue === "medico_ginecologista") { 
-            crmGroup.style.display = 'block'; 
+        if (roleValue === "medico") { // Atualizado para "medico"
+            crmInputParent.style.display = 'block'; // Mostra o campo CRM
             crmInput.required = true; 
             crmInput.disabled = false; 
             crmInput.classList.remove('bg-red-100', 'cursor-not-allowed'); 
             crmInput.classList.add('bg-white'); 
         } else {
-            crmGroup.style.display = 'none'; 
+            crmInputParent.style.display = 'none'; // Esconde o campo CRM
             crmInput.required = false; 
             crmInput.value = ''; 
             crmInput.disabled = true; 
@@ -63,7 +91,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         if (usuarioOriginalCpf) {
             try {
-
                 const todosUsuarios = await buscarUsuarios(); 
                 usuarioOriginal = todosUsuarios.find(u => u.cpf === desformatarCPF(usuarioOriginalCpf));
 
@@ -75,11 +102,32 @@ document.addEventListener("DOMContentLoaded", async () => {
                 emailInput.value = usuarioOriginal.email; 
                 cpfInput.value = formatarCPF(usuarioOriginal.cpf); 
                 
+                // Extrair e preencher profissão e permissões do campo 'role' (6 caracteres)
+                if (usuarioOriginal.role && usuarioOriginal.role.length === 6) {
+                    const professionDigit = usuarioOriginal.role[0];
+                    const permissionsBinary = usuarioOriginal.role.substring(1);
+
+                    // Preenche o select de profissão
+                    roleSelect.value = digitToProfession[professionDigit] || '';
+
+                    // Preenche os checkboxes de permissão
+                    permissionOrder.forEach((permissionName, index) => {
+                        const checkbox = document.getElementById(`perm_${permissionName}`);
+                        if (checkbox) {
+                            checkbox.checked = permissionsBinary[index] === '1';
+                        }
+                    });
+                } else {
+                    // Lidar com 'role' inválido ou ausente, talvez definir padrões
+                    roleSelect.value = ''; // Nenhuma profissão selecionada
+                    permissionOrder.forEach(permissionName => { // Desmarca todas as permissões
+                        const checkbox = document.getElementById(`perm_${permissionName}`);
+                        if (checkbox) checkbox.checked = false;
+                    });
+                }
+
                 crmInput.value = usuarioOriginal.crm || ''; 
                 
-                // Preenche a profissão
-                roleSelect.value = usuarioOriginal.role;
-
                 // Chama a função para ajustar o CRM com base na role carregada
                 toggleCrmField(roleSelect.value);
 
@@ -104,13 +152,25 @@ document.addEventListener("DOMContentLoaded", async () => {
             return; 
         }
 
+        // Construir a string 'role' de 6 caracteres para o payload
+        const selectedProfession = roleSelect.value;
+        const professionDigit = professionToDigit[selectedProfession] || "0";
+
+        let permissionBinaryString = '';
+        permissionOrder.forEach(permissionName => {
+            const checkbox = document.getElementById(`perm_${permissionName}`);
+            permissionBinaryString += (checkbox && checkbox.checked) ? '1' : '0';
+        });
+
+        const finalRoleString = professionDigit + permissionBinaryString;
+
         const payload = {
             id: usuarioOriginal.id, 
             nome: nomeInput.value,
             email: emailInput.value, 
             cpf: cpfParaEnviar, 
-            role: roleSelect.value, 
-            crm: roleSelect.value === "medico_ginecologista" ? (crmInput.value || null) : null, 
+            role: finalRoleString, // 'role' agora é a string de 6 caracteres
+            crm: roleSelect.value === "medico" ? (crmInput.value || null) : null, // Atualizado para "medico"
             ubs_id: usuarioOriginal.ubs_id 
         };
 

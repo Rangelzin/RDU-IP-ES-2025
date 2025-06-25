@@ -5,23 +5,40 @@ document.addEventListener("DOMContentLoaded", () => {
   const crmInput = document.getElementById("crm");
   const roleSelect = document.getElementById("role");
 
+  // Mapeamento de profissão para o dígito inicial da string 'role' conforme o JSON fornecido
+  const professionToDigit = {
+    "paciente": "0",
+    "admin": "1",
+    "medico": "2",
+    "enfermeiro": "3",
+    "outros": "4"
+  };
+
+  // Define a ordem das permissões conforme o JSON fornecido
+  const permissionOrder = [
+    "consultar_exames",
+    "gerenciar_pacientes",
+    "realizar_coleta_exame",
+    "realizar_analise_clinica",
+    "laudar_resultados"
+  ];
+
   roleSelect.addEventListener("change", () => {
     console.log("DEBUG: Evento 'change' disparado para Profissão. Valor selecionado:", roleSelect.value);
 
-    if (roleSelect.value === "medico_ginecologista") {
+    // O campo CRM é habilitado apenas para a profissão 'medico'
+    if (roleSelect.value === "medico") {
       crmInput.disabled = false;
-      // Remove bg-red-100 e adiciona bg-transparent para usar o fundo da div pai
       crmInput.classList.remove("bg-red-100", "cursor-not-allowed");
-      crmInput.classList.add("cursor-text", "bg-transparent"); 
+      crmInput.classList.add("cursor-text", "bg-transparent");
       crmInput.placeholder = "Digite o CRM (apenas para médicos)";
 
-      console.log("DEBUG: 'medico_ginecologista' selecionado.");
+      console.log("DEBUG: 'medico' selecionado.");
       console.log("DEBUG: crmInput.disabled após alteração:", crmInput.disabled);
       console.log("DEBUG: crmInput.className após alteração:", crmInput.className);
     } else {
       crmInput.disabled = true;
       crmInput.value = "";
-      // Remove bg-transparent e adiciona bg-red-100 quando desabilitado
       crmInput.classList.remove("cursor-text", "bg-transparent");
       crmInput.classList.add("bg-red-100", "cursor-not-allowed");
       crmInput.placeholder = "Campo disponível apenas para médicos";
@@ -42,19 +59,35 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
+    // Pega o dígito da profissão
+    const selectedProfession = roleSelect.value;
+    const professionDigit = professionToDigit[selectedProfession] || "0"; // Padrão '0' se não mapeado
+
+    // Pega todos os checkboxes de permissão no formulário
+    const permissionCheckboxes = Array.from(document.querySelectorAll('input[name="permissoes"]'));
+
+    // Cria a string binária de permissões (5 caracteres)
+    let permissionBinaryString = '';
+    permissionOrder.forEach(permissionValue => {
+      const checkbox = permissionCheckboxes.find(cb => cb.value === permissionValue);
+      permissionBinaryString += (checkbox && checkbox.checked) ? '1' : '0';
+    });
+
+    // Combina o dígito da profissão com a string de permissões para formar o 'role' final
+    const finalRoleString = professionDigit + permissionBinaryString;
+
     const payload = {
       nome: document.getElementById("nome").value,
       cpf,
       email: document.getElementById("email").value,
-      role: roleSelect.value,
-      crm: roleSelect.value === "medico_ginecologista" ? crmInput.value : null,
+      role: finalRoleString, // O campo 'role' agora é a string de 6 caracteres
+      crm: roleSelect.value === "medico" ? crmInput.value : null, // CRM condicional à profissão 'medico'
       senha: document.getElementById("senha").value,
-      permissoes: Array.from(document.querySelectorAll('input[name="permissoes"]:checked')).map(el => el.value),
       ubs_id: 1,
       status: true
     };
 
-
+    // Remove campos nulos/vazios do payload
     for (const key in payload) {
       if (payload[key] === null || payload[key] === undefined || payload[key] === '') {
         delete payload[key];
@@ -66,7 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
       alert("Usuário criado com sucesso!");
       form.reset();
       // Redefine o estado do campo CRM para desabilitado e vermelho após o envio
-      crmInput.disabled = true; 
+      crmInput.disabled = true;
       crmInput.classList.remove("cursor-text", "bg-transparent");
       crmInput.classList.add("bg-red-100", "cursor-not-allowed");
       crmInput.placeholder = "Campo disponível apenas para médicos";
