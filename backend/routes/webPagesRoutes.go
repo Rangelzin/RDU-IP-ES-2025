@@ -16,6 +16,7 @@ func RegisterUserPages(rg *gin.RouterGroup) {
 	rg.GET("/", func(c *gin.Context) {c.File("../frontend/public/pages/main/main_geral.html")})
 	rg.GET("/usuario/search_exam", func(c *gin.Context) {c.File("../frontend/public/pages/main/users/search_exam.html")})
 	rg.GET("/usuario/exam_status", func(c *gin.Context) {c.File("../frontend/public/pages/main/paciente/examStatus.html")})
+	rg.GET("/usuario/search_patient",func(c *gin.Context) {c.File("../frontend/public/pages/main/users/search_patients.html")} )
 	//Etapas do exame
 	rg.GET("/usuario/exame", func(c *gin.Context) {c.File("../frontend/public/pages/main/users/exam_page_starterInfo.html")})
 	rg.GET("/usuario/exame/1", func(c *gin.Context) {c.File("../frontend/public/pages/main/users/exam_page_anamnese.html")})
