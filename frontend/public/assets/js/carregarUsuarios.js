@@ -1,119 +1,119 @@
-// frontend/public/assets/js/carregarPacientes.js
-import { buscarPacientes } from "/app/getPatients.js";
+// frontend/public/assets/js/carregarUsuarios.js
+import { buscarUsuarios } from "/app/getUsers.js";
+import { deleteUser } from "/app/putUsers.js"; 
 
-// Variáveis globais
 const statusMessage = document.getElementById("statusMessage");
-const buscaNomeCpf = document.getElementById("buscaNomeCpf");
-const filtroIdade = document.getElementById("filtroIdade");
-const tabelaPacientes = document.getElementById("tabelaPacientes");
+const buscaNome = document.getElementById("buscaNome");
+const filtroCargo = document.getElementById("filtroCargo"); // Este select precisa ser atualizado no HTML correspondente.
+const tabela = document.getElementById("tabelaUsuarios");
+const btnNovoUsuario = document.getElementById("btnNovoUsuario");
 
-let pacientesAtuais = [];
+let usuariosAtuais = [];
 let paginaAtual = 1;
-const pacientesPorPagina = 6;
+const usuariosPorPagina = 6;
 
-function calcularIdade(dataNascimento) {
-    if (!dataNascimento) return null;
-    const nascimento = new Date(dataNascimento);
-    const hoje = new Date();
-    let idade = hoje.getFullYear() - nascimento.getFullYear();
-    const mes = hoje.getMonth() - nascimento.getMonth();
-    if (mes < 0 || (mes === 0 && hoje.getDate() < nascimento.getDate())) {
-        idade--;
-    }
-    return idade;
-}
+// Explicação: Mapeamento de dígito para o nome interno da profissão.
+// Este objeto é necessário para converter o primeiro dígito do campo 'role' (string de 6 caracteres)
+// para o nome da profissão que será usado tanto na exibição quanto na filtragem.
+const digitToProfession = {
+    "0": "paciente",
+    "1": "admin",
+    "2": "medico",
+    "3": "enfermeiro",
+    "4": "outros"
+};
 
-async function carregarPacientes() {
-    console.log("Iniciando carregamento de pacientes...");
-    if (statusMessage) statusMessage.textContent = "Carregando pacientes...";
+async function carregarUsuarios() {
+    statusMessage.textContent = "Carregando usuários...";
     try {
-        pacientesAtuais = await buscarPacientes();
-        console.log("Pacientes carregados:", pacientesAtuais);
-        if (statusMessage) statusMessage.textContent = "";
+        usuariosAtuais = await buscarUsuarios();
+        statusMessage.textContent = "";
         paginaAtual = 1;
-        renderizarTabelaPacientes();
+        renderTabela();
     } catch (error) {
-        console.error("Erro ao carregar pacientes:", error);
-        if (statusMessage) statusMessage.textContent = `Erro ao carregar pacientes: ${error.message}`;
-        if (tabelaPacientes) tabelaPacientes.innerHTML = `<tr><td colspan="7" class="px-6 py-4 text-center text-red-500">Erro ao carregar pacientes.</td></tr>`;
+        console.error("Erro ao carregar usuários:", error);
+        statusMessage.textContent = `Erro ao carregar usuários: ${error.message}`;
+        tabela.innerHTML = `<tr><td colspan="6" class="px-6 py-4 text-center text-red-500">Erro ao carregar usuários.</td></tr>`;
     }
 }
 
-function renderizarTabelaPacientes() {
-    console.log("Renderizando tabela de pacientes...");
-    if (!tabelaPacientes) {
-        console.error("Elemento 'tabelaPacientes' não encontrado. Não é possível renderizar.");
-        return;
+// Explicação: Função atualizada para formatar o cargo para exibição.
+// Agora, ela espera a string 'role' de 6 caracteres.
+// Primeiro, extrai o dígito da profissão e usa 'digitToProfession' para obter o nome interno (ex: "medico").
+// Em seguida, usa um switch para converter esse nome interno para um formato de exibição amigável (ex: "Médico(a)").
+function formatarCargoParaExibicao(roleString) {
+    if (!roleString || roleString.length !== 6) return ''; // Garante que é uma string de 6 caracteres
+    const professionDigit = roleString[0]; // Pega o primeiro dígito
+    const internalProfessionName = digitToProfession[professionDigit]; // Converte para o nome interno
+
+    switch (internalProfessionName) {
+        case 'paciente':
+            return 'Paciente';
+        case 'admin':
+            return 'Administrador';
+        case 'medico':
+            return 'Médico(a)';
+        case 'enfermeiro': 
+            return 'Enfermeiro(a)';
+        case 'outros':
+            return 'Outros';
+        default:
+            return 'Desconhecido'; // Para casos onde o dígito não está mapeado
     }
+}
 
-    const termoBusca = (buscaNomeCpf ? buscaNomeCpf.value : '').toLowerCase().trim();
-    const faixaEtaria = (filtroIdade ? filtroIdade.value : 'todos').toLowerCase();
+function renderTabela() {
+    const nomeBusca = buscaNome.value.toLowerCase().trim();
+    // Explicação: O valor de `filtroCargo.value` agora deve ser os nomes internos (ex: "medico").
+    const cargoFiltro = filtroCargo.value.toLowerCase(); 
 
-    tabelaPacientes.innerHTML = "";
+    tabela.innerHTML = "";
 
-    const filtrados = pacientesAtuais.filter(paciente => {
-        const nomePaciente = (paciente.nome_completo || paciente.nome || '').toLowerCase();
-        const nomeMatch = nomePaciente.includes(termoBusca);
-        const cpfMatch = (paciente.cpf || '').toLowerCase().includes(termoBusca);
-
-        // Filtro por faixa etária
-        let idadeMatch = true;
-        if (faixaEtaria !== 'todos') {
-            const idade = calcularIdade(paciente.data_nascimento);
-            if (idade !== null) {
-                switch(faixaEtaria) {
-                    case 'crianca': idadeMatch = idade >= 0 && idade <= 12; break;
-                    case 'adolescente': idadeMatch = idade >= 13 && idade <= 19; break;
-                    case 'adulto': idadeMatch = idade >= 20 && idade <= 59; break;
-                    case 'idoso': idadeMatch = idade >= 60; break;
-                    default: idadeMatch = true;
-                }
-            } else {
-                idadeMatch = false;
-            }
+    const filtrados = usuariosAtuais.filter(usuario => {
+        const nomeMatch = (usuario.nome || '').toLowerCase().includes(nomeBusca);
+        
+        // Explicação: Lógica de filtro de cargo atualizada.
+        // Extrai o nome da profissão da string 'role' do usuário para comparar com o filtro.
+        let usuarioProfessionName = '';
+        if (usuario.role && usuario.role.length === 6) {
+            const professionDigit = usuario.role[0];
+            usuarioProfessionName = digitToProfession[professionDigit] || '';
         }
 
-        return (nomeMatch || cpfMatch) && idadeMatch;
+        const cargoMatch = cargoFiltro === "todos" || (usuarioProfessionName && usuarioProfessionName === cargoFiltro);
+
+        return nomeMatch && cargoMatch; 
     });
 
-    const totalPaginas = Math.ceil(filtrados.length / pacientesPorPagina);
+    const totalPaginas = Math.ceil(filtrados.length / usuariosPorPagina);
     if (paginaAtual > totalPaginas) paginaAtual = totalPaginas || 1;
 
     if (filtrados.length === 0) {
-        tabelaPacientes.innerHTML = `<tr><td colspan="7" class="px-6 py-6 text-center text-gray-500 text-lg font-semibold bg-gray-50">Nenhum paciente encontrado.</td></tr>`;
-        if (statusMessage) statusMessage.innerHTML = "";
+        tabela.innerHTML = `<tr><td colspan="6" class="px-6 py-6 text-center text-gray-500 text-lg font-semibold bg-gray-50">Nenhum usuário encontrado.</td></tr>`;
+        statusMessage.innerHTML = "";
         return;
     }
 
-    const inicio = (paginaAtual - 1) * pacientesPorPagina;
-    const fim = inicio + pacientesPorPagina;
-    const pacientesPagina = filtrados.slice(inicio, fim);
+    const inicio = (paginaAtual - 1) * usuariosPorPagina;
+    const fim = inicio + usuariosPorPagina;
+    const usuariosPagina = filtrados.slice(inicio, fim);
 
-    const formatarData = (dataString) => {
-        if (!dataString) return 'N/A';
-        const data = new Date(dataString);
-        if (isNaN(data)) return 'Data Inválida';
-        return data.toLocaleDateString("pt-BR");
-    };
-
-    pacientesPagina.forEach((paciente, index) => {
+    usuariosPagina.forEach((usuario, index) => {
         const tr = document.createElement("tr");
         tr.className = `hover:bg-gray-100 ${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}`;
 
-        const pacienteCpfParaVisualizar = paciente.cpf ? `'${paciente.cpf}'` : `''`;
-
         tr.innerHTML = `
-            <td class="px-6 py-3 whitespace-nowrap font-medium text-gray-900">${paciente.nome_completo || paciente.nome || ''}</td>
-            <td class="px-6 py-3 whitespace-nowrap text-gray-700">${paciente.cpf || ''}</td>
-            <td class="px-6 py-3 whitespace-nowrap text-gray-700">${paciente.telefone || 'N/A'}</td>
-            <td class="px-6 py-3 whitespace-nowrap text-gray-700">${formatarData(paciente.data_nascimento)}</td>
-            <td class="px-6 py-3 whitespace-nowrap text-gray-700">${paciente.cep || 'N/A'}</td>
-            <td class="px-6 py-3 whitespace-nowrap text-gray-700">${paciente.cartao_sus || 'N/A'}</td>
+            <td class="px-6 py-3 whitespace-nowrap font-medium text-gray-900">${usuario.nome || ''}</td>
+            <td class="px-6 py-3 whitespace-nowrap text-gray-700">${usuario.email || ''}</td>
+            <td class="px-6 py-3 whitespace-nowrap text-gray-700">${usuario.cpf || ''}</td>
+            <td class="px-6 py-3 whitespace-nowrap text-gray-700">${usuario.crm || ''}</td>
+            <td class="px-6 py-3 whitespace-nowrap text-gray-700">${formatarCargoParaExibicao(usuario.role)}</td>
             <td class="px-6 py-3 whitespace-nowrap text-center text-sm font-medium">
-                <a href="#" onclick="visualizarPaciente(${pacienteCpfParaVisualizar})" class="text-blue-600 hover:text-blue-900 font-medium">Visualizar</a>
+                <button onclick="editarUsuario('${usuario.cpf}')" class="text-indigo-600 hover:text-indigo-900 font-medium">Editar</button>
+                <button onclick="deletarUsuarioFront('${usuario.id}')" class="text-red-600 hover:text-red-900 ml-3">Deletar</button>
             </td>
         `;
-        tabelaPacientes.appendChild(tr);
+        tabela.appendChild(tr);
     });
 
     const nav = document.createElement("div");
@@ -125,7 +125,7 @@ function renderizarTabelaPacientes() {
     btnAnterior.className = "px-4 py-2 rounded bg-gray-200 hover:bg-gray-300 disabled:opacity-50";
     btnAnterior.onclick = () => {
         paginaAtual--;
-        renderizarTabelaPacientes();
+        renderTabela();
     };
 
     const btnProxima = document.createElement("button");
@@ -134,23 +134,39 @@ function renderizarTabelaPacientes() {
     btnProxima.className = "px-4 py-2 rounded bg-gray-200 hover:bg-gray-300 disabled:opacity-50";
     btnProxima.onclick = () => {
         paginaAtual++;
-        renderizarTabelaPacientes();
+        renderTabela();
     };
 
     nav.appendChild(btnAnterior);
-    nav.appendChild(document.createTextNode(`Página ${paginaAtual} de ${totalPaginas || 1}`));
+    nav.appendChild(document.createTextNode(`Página ${paginaAtual} de ${totalPaginas}`));
     nav.appendChild(btnProxima);
 
-    if (statusMessage) {
-        statusMessage.innerHTML = "";
-        statusMessage.appendChild(nav);
-    }
+    statusMessage.innerHTML = "";
+    statusMessage.appendChild(nav);
 }
 
-// Event listeners
-if (buscaNomeCpf) buscaNomeCpf.addEventListener("input", () => { paginaAtual = 1; renderizarTabelaPacientes(); });
-if (filtroIdade) filtroIdade.addEventListener("change", () => { paginaAtual = 1; renderizarTabelaPacientes(); });
+window.abrirNovoUsuario = function() {
+    window.location.href = `/admin/usuario/criar`; 
+};
 
-document.addEventListener('DOMContentLoaded', carregarPacientes);
+window.editarUsuario = function(cpf) { 
+    window.location.href = `/admin/usuario/editar?cpf=${cpf}`; 
+};
+window.deletarUsuarioFront = async function(id) { 
+    if (confirm("Tem certeza que deseja deletar este usuário?")) {
+        try {
+            await deleteUser(id);
+            alert("Usuário deletado com sucesso!");
+            carregarUsuarios();
+        } catch (error) {
+            console.error("Erro ao deletar usuário:", error);
+            alert("Erro ao deletar usuário: " + error.message);
+        }
+    }
+};
 
-window.carregarPacientes = carregarPacientes;
+buscaNome.addEventListener("input", () => { paginaAtual = 1; renderTabela(); });
+filtroCargo.addEventListener("change", () => { paginaAtual = 1; renderTabela(); });
+btnNovoUsuario.addEventListener("click", window.abrirNovoUsuario);
+
+document.addEventListener('DOMContentLoaded', carregarUsuarios);
