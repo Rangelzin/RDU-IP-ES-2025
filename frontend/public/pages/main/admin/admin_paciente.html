@@ -104,14 +104,13 @@
     <main-frame id="Administração de Pacientes">
         <div class="flex flex-wrap items-center gap-4 mb-6 w-full">
             <input type="text" id="buscaNomeCpf" placeholder="Buscar por nome ou CPF..." class="bg-white border border-gray-300 text-sm rounded px-3 py-2 w-72" />
-            <select id="filtroStatusSaude" class="bg-white border border-gray-300 text-sm rounded px-3 py-2">
-                <option value="todos">Status de Saúde (Todos)</option>
-                <option value="estavel">Estável</option>
-                <option value="critico">Crítico</option>
-                <option value="emergencia">Emergência</option>
+            <select id="filtroIdade" class="bg-white border border-gray-300 text-sm rounded px-3 py-2">
+                <option value="todos">Faixa Etária (Todos)</option>
+                <option value="crianca">Criança (0-12 anos)</option>
+                <option value="adolescente">Adolescente (13-19 anos)</option>
+                <option value="adulto">Adulto (20-59 anos)</option>
+                <option value="idoso">Idoso (60+ anos)</option>
             </select>
-            <input type="date" id="filtroDataConsulta" class="bg-white border border-gray-300 text-sm rounded px-3 py-2" />
-            <button id="btnNovoPaciente" class="bg-purple-600 hover:bg-purple-700 text-white px-5 py-2.5 rounded-lg text-sm font-semibold shadow-md ml-auto transition duration-300 ease-in-out transform hover:scale-105">+ Novo Paciente</button>
         </div>
         <div class="bg-white rounded-md overflow-hidden shadow w-full">
             <div class="overflow-x-auto">
