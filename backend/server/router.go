@@ -17,7 +17,7 @@ func SetupRouter(deps *Dependencies) *gin.Engine {
 	
 	r.Use(middleware.CORSMiddleware())
 	r.Use(middleware.TimingMiddleware())
-	// authMiddleware := deps.Middleware.AuthenticatorMiddleware()
+	authMiddleware := deps.Middleware.AuthenticatorMiddleware()
 
 	rg := r.Group("/")
 	routes.RegisterAuthPages(rg)
@@ -35,7 +35,7 @@ func SetupRouter(deps *Dependencies) *gin.Engine {
 	routes.RegisterPatientPages(rg)
 
 	rg = r.Group("/api")
-	// rg.Use(authMiddleware)
+	rg.Use(authMiddleware)
 	routes.RegisterAPIPacienteRoutes(rg, deps.PacienteHandler)
 	routes.RegisterAPIUserRoutes(rg, deps.UserHandler)
 	routes.RegisterAPIExamRoutes(rg, deps.ExamHandler)

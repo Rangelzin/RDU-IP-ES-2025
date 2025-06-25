@@ -121,3 +121,36 @@ func (h *PacienteHandler) DeletePatientHandler(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"message": fmt.Sprintf("Paciente com ID %d deletado com sucesso", id)})
 }
+
+func (h *PacienteHandler) UpdatePatientStatusHandler(c *gin.Context) {
+	idStr := c.Param("id")
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "ID inválido"})
+		return
+	}
+
+	var payload struct {
+		Status bool `json:"status"`
+	}
+
+	if err := c.ShouldBindJSON(&payload); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Payload inválido, 'status' (boolean) é necessário"})
+		return
+	}
+
+    ctx := c.Request.Context()
+	
+	err = h.pacienteService.UpdatePatientStatus(ctx, id, payload.Status)
+	if err != nil {
+		if strings.Contains(err.Error(), "não encontrado") {
+			c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
+		} else {
+			log.Printf("Erro ao atualizar status do paciente: %v", err)
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Erro ao atualizar status do paciente"})
+		}
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": fmt.Sprintf("Status do paciente com ID %d atualizado com sucesso", id)})
+}

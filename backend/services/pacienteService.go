@@ -82,3 +82,15 @@ func (s *PacienteService) UptadePatientService(id int, paciente models.Paciente,
 	}
 	return nil
 }
+
+func (s *PacienteService) UpdatePatientStatus(ctx context.Context, id int, status bool) error {
+	rowsAffected, err := s.pacienteRepository.UpdateStatus(ctx, id, status)
+	if err != nil {
+		return err
+	}
+
+	if rowsAffected == 0 {
+		return fmt.Errorf("paciente com id %d não encontrado", id)
+	}
+	return nil
+}

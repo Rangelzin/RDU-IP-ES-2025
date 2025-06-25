@@ -4,11 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Administração de Pacientes - Sistema de Rastreamento</title>
-
     <link href="/assets/css/output.css" rel="stylesheet" />
     <script src="/src/utils/auth.js" defer></script>
-    <script src="/src/components/siderbar-left.js" defer></script> 
+    <script src="/src/components/main-frame.js" type="module"></script>
+    <script src="/src/components/siderbar-left.js" type="module"></script>
     <script type="module" src="/assets/js/carregarPacientes.js" defer></script>
+    <script type="module" src="/assets/js/visualizarPaciente.js" defer></script>
 
     <style>
         .content-area.expanded-sidebar {
@@ -39,69 +40,218 @@
         .min-w-full th:nth-child(5), .min-w-full td:nth-child(5) { width: 10%; }
         .min-w-full th:nth-child(6), .min-w-full td:nth-child(6) { width: 14%; }
         .min-w-full th:nth-child(7), .min-w-full td:nth-child(7) { width: 20%; text-align: center; }
+
+        /* ESTILOS PARA A MODAL - AJUSTADOS PARA MANTER A IDENTIDADE VISUAL DO CONTEÚDO */
+        .modal {
+            display: none; /* Escondido por padrão */
+            position: fixed; /* Fixo na tela */
+            z-index: 1000; /* Acima de todo o resto */
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto; /* Habilita scroll se conteúdo for muito grande */
+            background-color: rgba(0,0,0,0.6); /* Fundo semi-transparente, um pouco mais escuro para destaque */
+            justify-content: center; /* Centraliza horizontalmente */
+            align-items: flex-start; /* Alinha o conteúdo ao topo da modal */
+            padding-top: 40px; /* Espaçamento do topo da tela */
+            padding-bottom: 40px; /* Espaçamento do fundo da tela */
+        }
+        .modal-content {
+            background-color: white; /* Mantém fundo branco para o conteúdo interno */
+            padding: 24px; /* Adiciona um padding interno para o conteúdo da modal */
+            border-radius: 8px; /* Mantém um leve arredondamento */
+            box-shadow: 0 8px 16px rgba(0,0,0,0.3); /* Uma sombra mais suave */
+            width: 90%; /* Largura um pouco maior para a modal */
+            max-width: 1000px; /* Aumenta a largura máxima para se assemelhar ao layout principal */
+            position: relative;
+            animation-name: animatetop;
+            animation-duration: 0.4s;
+            /* Flexbox para o conteúdo interno, se necessário para centralizar o cabeçalho/botão fechar */
+            display: flex;
+            flex-direction: column;
+        }
+        @keyframes animatetop {
+            from {top: -300px; opacity: 0}
+            to {top: 0; opacity: 1}
+        }
+        .close-button {
+            color: #aaa;
+            align-self: flex-end; /* Alinha o botão de fechar à direita */
+            font-size: 28px;
+            font-weight: bold;
+            line-height: 1; /* Garante que o X esteja bem alinhado */
+            cursor: pointer;
+            padding: 0 5px; /* Adiciona um pouco de padding para facilitar o clique */
+        }
+        .close-button:hover,
+        .close-button:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        /* Estilos adicionais para o cabeçalho dentro da modal, se necessário */
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
     </style>
 </head>
 <body class="w-screen h-screen flex flex-row font-sans">
-    <sidebar-left class="flex flex-col h-screen"></sidebar-left>
+    <sidebar-left></sidebar-left>
+    <main-frame id="Administração de Pacientes">
+        <div class="flex flex-wrap items-center gap-4 mb-6 w-full">
+            <input type="text" id="buscaNomeCpf" placeholder="Buscar por nome ou CPF..." class="bg-white border border-gray-300 text-sm rounded px-3 py-2 w-72" />
+            <select id="filtroStatusSaude" class="bg-white border border-gray-300 text-sm rounded px-3 py-2">
+                <option value="todos">Status de Saúde (Todos)</option>
+                <option value="estavel">Estável</option>
+                <option value="critico">Crítico</option>
+                <option value="emergencia">Emergência</option>
+            </select>
+            <input type="date" id="filtroDataConsulta" class="bg-white border border-gray-300 text-sm rounded px-3 py-2" />
+            <button id="btnNovoPaciente" class="bg-purple-600 hover:bg-purple-700 text-white px-5 py-2.5 rounded-lg text-sm font-semibold shadow-md ml-auto transition duration-300 ease-in-out transform hover:scale-105">+ Novo Paciente</button>
+        </div>
+        <div class="bg-white rounded-md overflow-hidden shadow w-full">
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-[var(--color-primary)]">
+                        <tr>
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">Nome</th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">CPF</th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">Telefone</th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">Data de Nasc.</th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">CEP</th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">Cartão do SUS</th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabelaPacientes" class="bg-white divide-y divide-gray-200"></tbody>
+                </table>
+            </div>
+        </div>
+        <div id="statusMessage" class="mt-4 text-center text-gray-600"></div>
+    </main-frame>
+    
+    <div id="visualizarPacienteModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="text-2xl font-bold text-[var(--color-primary)]">Detalhes do Paciente</h2>
+                <span class="close-button">&times;</span>
+            </div>
 
-    <div class="content-area flex flex-col flex-1">
-        <header class="flex items-center bg-[var(--color-primary)] h-20 px-4">
-            <img class="h-18 w-18 mr-4" src="/assets/img/Logo.svg" alt="Logo" />
-            <h1 class="text-3xl font-sans text-[var(--color-fifth)]">Administração de Pacientes</h1>
-        </header>
-
-        <main class="flex flex-1">
-            <section class="flex-1 bg-gray-100 p-6 overflow-auto">
-                <div class="flex flex-wrap items-center gap-4 mb-6">
-                    <input type="text" id="buscaNomeCpf" placeholder="Buscar por nome ou CPF..." class="bg-white border border-gray-300 text-sm rounded px-3 py-2 w-72" />
-                    <select id="filtroStatusSaude" class="bg-white border border-gray-300 text-sm rounded px-3 py-2">
-                        <option value="todos">Status de Saúde (Todos)</option>
-                        <option value="estavel">Estável</option>
-                        <option value="critico">Crítico</option>
-                        <option value="emergencia">Emergência</option>
-                    </select>
-                    <input type="date" id="filtroDataConsulta" class="bg-white border border-gray-300 text-sm rounded px-3 py-2" />
-                    <button id="btnNovoPaciente" class="bg-purple-600 hover:bg-purple-700 text-white px-5 py-2.5 rounded-lg text-sm font-semibold shadow-md ml-auto transition duration-300 ease-in-out transform hover:scale-105">+ Novo Paciente</button>
-                </div>
-
-                <div class="bg-white rounded-md overflow-hidden shadow">
-                    <div class="overflow-x-auto">
-                        <table class="min-w-full divide-y divide-gray-200">
-                            <thead class="bg-[var(--color-primary)]">
-                                <tr>
-                                    <th class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">Nome</th>
-                                    <th class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">CPF</th>
-                                    <th class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">Telefone</th>
-                                    <th class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">Data de Nasc.</th>
-                                    <th class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">CEP</th>
-                                    <th class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">Cartão do SUS</th>
-                                    <th class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">Ações</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tabelaPacientes" class="bg-white divide-y divide-gray-200"></tbody>
-                        </table>
+            <section class="space-y-6" id="modalPatientDetailsContainer">
+                <div class="bg-white rounded-md shadow p-6">
+                    <h2 class="text-2xl font-bold text-[var(--color-primary)] mb-4">Informações Pessoais</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Nome Completo:</label>
+                            <p id="nomeCompletoModal" class="mt-1 text-gray-900"></p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">CPF:</label>
+                            <p id="cpfModal" class="mt-1 text-gray-900"></p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Telefone:</label>
+                            <p id="telefoneModal" class="mt-1 text-gray-900"></p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Data de Nascimento:</label>
+                            <p id="dataNascimentoModal" class="mt-1 text-gray-900"></p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Status de Saúde:</label>
+                            <p id="statusSaudeModal" class="mt-1 text-gray-900"></p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Cartão do SUS:</label>
+                            <p id="cartaoSusModal" class="mt-1 text-gray-900"></p>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Adicionado para paginação -->
-                <div id="statusMessage" class="mt-4 text-center text-gray-600"></div>
+                <div class="bg-white rounded-md shadow p-6">
+                    <h2 class="text-2xl font-bold text-[var(--color-primary)] mb-4">Endereço</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">CEP:</label>
+                            <p id="cepModal" class="mt-1 text-gray-900"></p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Rua:</label>
+                            <p id="ruaModal" class="mt-1 text-gray-900"></p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Número:</label>
+                            <p id="numeroModal" class="mt-1 text-gray-900"></p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Complemento:</label>
+                            <p id="complementoModal" class="mt-1 text-gray-900"></p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Bairro:</label>
+                            <p id="bairroModal" class="mt-1 text-gray-900"></p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Cidade:</label>
+                            <p id="cidadeModal" class="mt-1 text-gray-900"></p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Estado:</label>
+                            <p id="estadoModal" class="mt-1 text-gray-900"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-md shadow p-6">
+                    <h2 class="text-2xl font-bold text-[var(--color-primary)] mb-4">Exames</h2>
+                    <div id="examesContainerModal" class="space-y-4">
+                        <p id="noExamsMessageModal" class="text-gray-500 hidden">Nenhum exame encontrado para este paciente.</p>
+                    </div>
+                </div>
+
+                <div id="statusMessageModal" class="mt-4 text-center text-red-600 font-semibold"></div>
             </section>
-        </main>
+        </div>
     </div>
 
-    <script>
+    <script type="module">
+        import { exibirDetalhesPacienteNaModal } from '/assets/js/visualizarPaciente.js';
+
         window.visualizarPaciente = function(id) {
-            window.location.href = `/admin/paciente/visualizar?id=${id}`;
+            const modal = document.getElementById('visualizarPacienteModal');
+            modal.style.display = 'flex'; // Exibe a modal (usando flex para centralizar)
+
+            exibirDetalhesPacienteNaModal(id);
         };
+
         window.editarPaciente = function(id) {
             window.location.href = `/admin/paciente/editar?id=${id}`;
         };
         window.excluirPaciente = function(id) {
             if (confirm(`Tem certeza que deseja excluir o paciente com ID ${id}?`)) {
                 alert(`Paciente ${id} excluído (simulado).`);
-                carregarPacientes();
+                if (typeof carregarPacientes !== 'undefined') {
+                    carregarPacientes();
+                } else {
+                    console.warn("carregarPacientes() não está definida globalmente. Recarregue a página manualmente para ver as alterações.");
+                }
             }
         };
+
+        document.querySelector('#visualizarPacienteModal .close-button').onclick = function() {
+            document.getElementById('visualizarPacienteModal').style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('visualizarPacienteModal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
     </script>
 </body>
 </html>

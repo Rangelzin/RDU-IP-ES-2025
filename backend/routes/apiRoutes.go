@@ -11,6 +11,7 @@ func RegisterAPIPacienteRoutes(rg *gin.RouterGroup, pacienteHandler *handlers.Pa
 	rg.POST("/patients", pacienteHandler.CreatePaciente)
 	rg.PUT("/patients/:id", pacienteHandler.UpdatePatientHandler)
 	rg.DELETE("/patients/:id", pacienteHandler.DeletePatientHandler)
+	rg.PUT("/patients/status/:id", pacienteHandler.UpdatePatientStatusHandler)
 }
 
 func RegisterAPIUserRoutes(rg *gin.RouterGroup, userHandler *handlers.UserHandler) {

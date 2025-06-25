@@ -5,91 +5,117 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Editar Usuário</title>
   <link href="/assets/css/output.css" rel="stylesheet" />
+  <!-- Adicionando Font Awesome para os ícones -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
-<body class="bg-[var(--color-fifth)] min-h-screen overflow-y-hidden flex items-center justify-center p-4">
-  <div class="bg-[var(--color-fifth)] shadow-[0_0px_40px_rgba(0,0,0,0.10)] lg:shadow-[0_0px_40px_rgba(0,0,0,0.25)] rounded-2xl p-6 rounded-2xl w-full max-w-4xl p-6">
-    <div class="flex items-center justify-between mb-5">
-      <h1 class="text-xl sm:text-2xl font-bold text-gray-800">Administrativo - Editar Usuário</h1>
-      <a href="/admin/usuario" class="text-sm text-pink-600 font-semibold hover:underline">&larr; Voltar</a>
+<body class="bg-[var(--color-quaternary)] min-h-screen flex items-center justify-center p-4">
+  <div class="bg-[var(--color-fifth)] shadow-2xl rounded-2xl p-6 md:p-8 w-full max-w-4xl">
+    <div class="flex items-center justify-between mb-6 pb-4">
+      <h1 class="text-2xl font-bold text-[var(--color-primary)]">Administrativo - Editar Usuário</h1>
+      <a href="/admin/usuario" class="text-sm font-semibold text-pink-600 hover:underline flex items-center gap-1">
+        <i class="fas fa-arrow-left"></i> Voltar
+      </a>
     </div>
 
-    <form id="formEditarUsuario" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <div class="space-y-3">
+    <form id="formEditarUsuario" class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+      <!-- Coluna da Esquerda: Dados Principais -->
+      <div class="space-y-4">
         <div>
-          <label for="nome" class="block text-sm font-semibold text-gray-700">Nome:</label>
-          <input type="text" id="nome" name="nome" class="w-full px-4 py-3 rounded-md border border-gray-300" required />
+          <label for="nome" class="block text-sm font-semibold text-gray-700 mb-1">Nome Completo</label>
+          <div class="relative">
+            <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
+              <i class="fas fa-user"></i>
+            </span>
+            <input type="text" id="nome" name="nome" class="w-full pl-10 pr-4 py-3 rounded-md border border-gray-300 focus:outline-none" required />
+          </div>
         </div>
+
         <div>
-          <label for="email" class="block text-sm font-semibold text-gray-700">Email:</label>
-          <input type="email" id="email" name="email" class="w-full px-4 py-3 rounded-md border border-gray-300" required />
+          <label for="email" class="block text-sm font-semibold text-gray-700 mb-1">Email</label>
+          <div class="relative">
+            <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
+              <i class="fas fa-envelope"></i>
+            </span>
+            <input type="email" id="email" name="email" class="w-full pl-10 pr-4 py-3 rounded-md border border-gray-300 focus:outline-none" required />
+          </div>
         </div>
+
         <div>
-        <label for="cpf" class="block text-sm font-semibold text-gray-700">CPF:</label>
-          <input type="text" id="cpf" name="cpf" class="w-full px-4 py-3 rounded-md border border-gray-300" required maxlength="14" placeholder="000.000.000-00" />
+          <label for="cpf" class="block text-sm font-semibold text-gray-700 mb-1">CPF</label>
+          <div class="relative">
+             <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
+              <i class="fas fa-id-card"></i>
+            </span>
+            <input type="text" id="cpf" name="cpf" class="w-full pl-10 pr-4 py-3 rounded-md border border-gray-300 focus:outline-none" required maxlength="14" placeholder="000.000.000-00" />
+          </div>
         </div>
+
         <div>
-            <label for="role" class="block text-sm font-semibold text-gray-700">Profissão:</label>
-            <select id="role" name="role" class="w-full px-4 py-3 rounded-md border border-gray-300 bg-white" required>
-                <option value="">Selecione uma profissão</option>
+            <label for="role" class="block text-sm font-semibold text-gray-700 mb-1">Profissão</label>
+            <select id="role" name="role" class="w-full px-4 py-3 rounded-md border border-gray-300 bg-white focus:outline-none" required>
+                <option value="" disabled>Selecione uma profissão</option>
+                <option value="Admin">Admin</option>
                 <option value="medico_ginecologista">Médico Ginecologista</option>
                 <option value="agente_comunitario">Agente Comunitário</option>
-                <option value="enfermeira">Enfermeira</option>
+                <option value="enfermeira">Enfermeiro(a)</option>
                 <option value="outros">Outros</option>
             </select>
         </div>
+
+        <!-- O JS controla a visibilidade deste campo, então a estrutura permanece -->
         <div>
-            <label for="crm" class="block text-sm font-semibold text-gray-700">CRM:</label>
-            <input type="text" id="crm" name="crm" class="w-full px-4 py-3 rounded-md border border-gray-300 bg-red-100 cursor-not-allowed" placeholder="Campo disponível apenas para médicos" disabled />
-        </div>
-        <div class="hidden"> <label for="status" class="block text-sm font-semibold text-gray-700">Status:</label>
-            <select id="status" name="status" class="w-full px-4 py-3 rounded-md border border-gray-300 bg-white" required>
-                <option value="ativo">Ativo</option>
-                <option value="inativo">Inativo</option>
-            </select>
+            <label for="crm" class="block text-sm font-semibold text-gray-700 mb-1">CRM</label>
+            <input type="text" id="crm" name="crm" class="w-full px-4 py-3 rounded-md border border-gray-300 bg-gray-100 cursor-not-allowed focus:outline-none" placeholder="Apenas para médicos" disabled />
         </div>
       </div>
 
-      <div class="space-y-3">
-        <div class="border-b pb-5 space-y-3">
-          <h2 class="font-bold text-lg text-gray-800">Permissões:</h2>
-          <label class="flex items-center gap-3 text-base py-1">
-            <input type="checkbox" name="permissoes" value="gerenciar_usuarios" id="perm_gerenciar_usuarios" class="accent-green-600 w-5 h-5" />
-            <span>Gerenciar Usuários</span>
-          </label>
-          <label class="flex items-center gap-3 text-base py-1">
-            <input type="checkbox" name="permissoes" value="cadastrar_pacientes" id="perm_cadastrar_pacientes" class="accent-green-600 w-5 h-5" />
-            <span>Cadastrar Pacientes</span>
-          </label>
-          <label class="flex items-center gap-3 text-base py-1">
-            <input type="checkbox" name="permissoes" value="editar_pacientes" id="perm_editar_pacientes" class="accent-green-600 w-5 h-5" />
-            <span>Editar Pacientes</span>
-          </label>
-          <label class="flex items-center gap-3 text-base py-1">
-            <input type="checkbox" name="permissoes" value="gerenciar_agendamentos" id="perm_gerenciar_agendamentos" class="accent-green-600 w-5 h-5" />
-            <span>Gerenciar Agendamentos</span>
-          </label>
-          <label class="flex items-center gap-3 text-base py-1">
-            <input type="checkbox" name="permissoes" value="acessar_prontuarios" id="perm_acessar_prontuarios" class="accent-green-600 w-5 h-5" />
-            <span>Acessar Prontuários</span>
-          </label>
-          <label class="flex items-center gap-3 text-base py-1">
-            <input type="checkbox" name="permissoes" value="configuracoes_sistema" id="perm_configuracoes_sistema" class="accent-green-600 w-5 h-5" />
-            <span>Configurações do Sistema</span>
-          </label>
+      <!-- Coluna da Direita: Permissões e Senha -->
+      <div class="space-y-6">
+        <!-- Seção de Permissões -->
+        <div class="rounded-lg p-4">
+          <h2 class="font-bold text-lg text-gray-800 mb-3">Permissões de Acesso</h2>
+          <div class="space-y-2">
+            <label class="flex items-center gap-3 text-base">
+              <input type="checkbox" name="permissoes" value="gerenciar_usuarios" id="perm_gerenciar_usuarios" class="accent-[var(--color-primary)] w-5 h-5 rounded" />
+              <span>Gerenciar Usuários</span>
+            </label>
+            <label class="flex items-center gap-3 text-base">
+              <input type="checkbox" name="permissoes" value="cadastrar_pacientes" id="perm_cadastrar_pacientes" class="accent-[var(--color-primary)] w-5 h-5 rounded" />
+              <span>Cadastrar Pacientes</span>
+            </label>
+            <label class="flex items-center gap-3 text-base">
+              <input type="checkbox" name="permissoes" value="editar_pacientes" id="perm_editar_pacientes" class="accent-[var(--color-primary)] w-5 h-5 rounded" />
+              <span>Editar Pacientes</span>
+            </label>
+            <label class="flex items-center gap-3 text-base">
+              <input type="checkbox" name="permissoes" value="gerenciar_agendamentos" id="perm_gerenciar_agendamentos" class="accent-[var(--color-primary)] w-5 h-5 rounded" />
+              <span>Gerenciar Agendamentos</span>
+            </label>
+            <label class="flex items-center gap-3 text-base">
+              <input type="checkbox" name="permissoes" value="acessar_prontuarios" id="perm_acessar_prontuarios" class="accent-[var(--color-primary)] w-5 h-5 rounded" />
+              <span>Acessar Prontuários</span>
+            </label>
+            <label class="flex items-center gap-3 text-base">
+              <input type="checkbox" name="permissoes" value="configuracoes_sistema" id="perm_configuracoes_sistema" class="accent-[var(--color-primary)] w-5 h-5 rounded" />
+              <span>Configurações do Sistema</span>
+            </label>
+          </div>
         </div>
 
-        <div class="border-t pt-5 space-y-3">
-          <h2 class="font-bold text-lg text-gray-800">Alterar Senha (opcional):</h2>
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <input type="password" id="novaSenha" name="novaSenha" placeholder="Nova senha" class="px-4 py-3 rounded-md border border-gray-300" />
-            <input type="password" id="confirmarSenha" name="confirmarSenha" placeholder="Confirmar nova senha" class="px-4 py-3 rounded-md border border-gray-300" />
+        <!-- Seção de Senha -->
+        <div class="rounded-lg p-4">
+          <h2 class="font-bold text-lg text-gray-800">Alterar Senha <span class="text-sm font-normal text-gray-500">(opcional)</span></h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-3">
+            <input type="password" id="novaSenha" name="novaSenha" placeholder="Nova senha" class="px-4 py-3 rounded-md border border-gray-300 focus:outline-none" />
+            <input type="password" id="confirmarSenha" name="confirmarSenha" placeholder="Confirmar nova senha" class="px-4 py-3 rounded-md border border-gray-300 focus:outline-none" />
           </div>
         </div>
       </div>
 
-      <div class="md:col-span-2 flex justify-end gap-4 pt-5">
-        <button type="button" onclick="window.location.href='/admin/usuario'" class="bg-gray-300 text-gray-800 font-semibold px-5 py-2 rounded-lg hover:bg-gray-400 transition-colors">Cancelar</button>
-        <button type="submit" class="bg-purple-600 text-white font-semibold px-5 py-2 rounded-lg hover:bg-purple-700 transition-colors">Salvar Alterações</button>
+      <!-- Botões de Ação -->
+      <div class="md:col-span-2 flex justify-end gap-4 pt-4 mt-4">
+        <button type="button" onclick="window.location.href='/admin/usuario'" class="bg-gray-200 text-gray-800 font-semibold px-6 py-2.5 rounded-lg hover:bg-gray-300 transition-transform transform hover:scale-105">Cancelar</button>
+        <button type="submit" class="bg-purple-600 text-white font-semibold px-6 py-2.5 rounded-lg hover:bg-purple-700 transition-transform transform hover:scale-105 shadow-lg">Salvar Alterações</button>
       </div>
     </form>
   </div>

@@ -50,6 +50,7 @@ func (r *PacienteRepository) FindAllPatients() (*[]models.Paciente, error) {
 			&p.Raca_cor,
 			&p.Nacionalidade,
 			&p.Ubs_id,
+			&p.Status,
 			&p.Created_at); err != nil {
 			return nil, err
 		}
@@ -86,6 +87,7 @@ func (r *PacienteRepository) FindPatientByCPF(c *gin.Context, cpf *string) (*mod
 		&p.Raca_cor,
 		&p.Nacionalidade,
 		&p.Ubs_id,
+		&p.Status,
 		&p.Created_at)
 
 	switch {
@@ -200,4 +202,24 @@ func (r *PacienteRepository) UptadePatient(id int, ctx context.Context, p models
 
     log.Printf("Paciente ID %d atualizado com sucesso. Linhas afetadas: %d", id, rowsAffected)
     return nil
+}
+
+func(r *PacienteRepository) UpdateStatus(ctx context.Context, id int, status bool) (int64, error) {
+
+	query := `UPDATE pacientes SET status = $1 WHERE id = $2`
+
+	res, err := r.db.DB.ExecContext(ctx, query, status, id)
+	
+	if err != nil {
+		log.Printf("Erro ao executar o update de status para o id %d: %v", id, err)
+		return 0, err
+	}
+
+	rowsAffected, err := res.RowsAffected()
+	if err != nil {
+		log.Printf("Erro ao obter linhas afetadas: %v", err)
+		return 0, err
+	}
+	
+	return rowsAffected, nil
 }
