@@ -4,10 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Administração de Pacientes - Sistema de Rastreamento</title>
-
     <link href="/assets/css/output.css" rel="stylesheet" />
     <script src="/src/utils/auth.js" defer></script>
-    <script type="module" src="/src/components/siderbar-left.js" defer></script> 
+    <script src="/src/components/main-frame.js" type="module"></script>
+    <script src="/src/components/siderbar-left.js" type="module"></script>
     <script type="module" src="/assets/js/carregarPacientes.js" defer></script>
     <script type="module" src="/assets/js/visualizarPaciente.js" defer></script>
 
@@ -100,51 +100,40 @@
     </style>
 </head>
 <body class="w-screen h-screen flex flex-row font-sans">
-    <sidebar-left class="flex flex-col h-screen"></sidebar-left>
-
-    <div class="content-area flex flex-col flex-1">
-        <header class="flex items-center bg-[var(--color-primary)] h-20 px-4">
-            <img class="h-18 w-18 mr-4" src="/assets/img/Logo.svg" alt="Logo" />
-            <h1 class="text-3xl font-sans text-[var(--color-fifth)]">Administração de Pacientes</h1>
-        </header>
-
-        <main class="flex flex-1">
-            <section class="flex-1 bg-gray-100 p-6 overflow-auto">
-                <div class="flex flex-wrap items-center gap-4 mb-6">
-                    <input type="text" id="buscaNomeCpf" placeholder="Buscar por nome ou CPF..." class="bg-white border border-gray-300 text-sm rounded px-3 py-2 w-72" />
-                    <select id="filtroIdade" class="bg-white border border-gray-300 text-sm rounded px-3 py-2">
-                        <option value="todos">Faixa etária (Todos)</option>
-                        <option value="crianca">Criança (0-12 anos)</option>
-                        <option value="adolescente">Adolescente (13-19 anos)</option>
-                        <option value="adulto">Adulto (20-59 anos)</option>
-                        <option value="idoso">Idoso (60+ anos)</option>
-                    </select>
-                </div>
-
-                <div class="bg-white rounded-md overflow-hidden shadow">
-                    <div class="overflow-x-auto">
-                        <table class="min-w-full divide-y divide-gray-200">
-                            <thead class="bg-[var(--color-primary)]">
-                                <tr>
-                                    <th class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">Nome</th>
-                                    <th class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">CPF</th>
-                                    <th class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">Telefone</th>
-                                    <th class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">Data de Nasc.</th>
-                                    <th class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">CEP</th>
-                                    <th class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">Cartão do SUS</th>
-                                    <th class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">Ações</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tabelaPacientes" class="bg-white divide-y divide-gray-200"></tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <div id="statusMessage" class="mt-4 text-center text-gray-600"></div>
-            </section>
-        </main>
-    </div>
-
+    <sidebar-left></sidebar-left>
+    <main-frame id="Administração de Pacientes">
+        <div class="flex flex-wrap items-center gap-4 mb-6 w-full">
+            <input type="text" id="buscaNomeCpf" placeholder="Buscar por nome ou CPF..." class="bg-white border border-gray-300 text-sm rounded px-3 py-2 w-72" />
+            <select id="filtroStatusSaude" class="bg-white border border-gray-300 text-sm rounded px-3 py-2">
+                <option value="todos">Status de Saúde (Todos)</option>
+                <option value="estavel">Estável</option>
+                <option value="critico">Crítico</option>
+                <option value="emergencia">Emergência</option>
+            </select>
+            <input type="date" id="filtroDataConsulta" class="bg-white border border-gray-300 text-sm rounded px-3 py-2" />
+            <button id="btnNovoPaciente" class="bg-purple-600 hover:bg-purple-700 text-white px-5 py-2.5 rounded-lg text-sm font-semibold shadow-md ml-auto transition duration-300 ease-in-out transform hover:scale-105">+ Novo Paciente</button>
+        </div>
+        <div class="bg-white rounded-md overflow-hidden shadow w-full">
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-[var(--color-primary)]">
+                        <tr>
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">Nome</th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">CPF</th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">Telefone</th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">Data de Nasc.</th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">CEP</th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">Cartão do SUS</th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabelaPacientes" class="bg-white divide-y divide-gray-200"></tbody>
+                </table>
+            </div>
+        </div>
+        <div id="statusMessage" class="mt-4 text-center text-gray-600"></div>
+    </main-frame>
+    
     <div id="visualizarPacienteModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
