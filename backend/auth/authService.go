@@ -110,9 +110,9 @@ func (s *AuthService) UserAuth(c *gin.Context, credentials dto.UserCredentials) 
 
 		switch i {
 		case 1:
-			user, err = s.userRepository.GetUserbyCPF(c, FCredentials)
-		case 2:
 			user, err = s.pacienteRepository.FindPatientByCPF(c, &FCredentials)
+		case 2:
+			user, err = s.userRepository.GetUserbyCPF(c, FCredentials)
 		}
 
 		if err != nil {
