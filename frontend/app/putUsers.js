@@ -18,6 +18,8 @@ export async function getUserByCpf(cpf) {
 
 
 export async function updateUser(originalCpf, userData) {
+    userData.ubs_id = 1
+
     const response = await fetchComToken(`${window.API_ENDERECO}users/${originalCpf}`, { 
         method: "PUT",
         headers: {
